@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-main',
+  selector: 'security-main',
   standalone: true,
   imports: [],
   templateUrl: './main.component.html',

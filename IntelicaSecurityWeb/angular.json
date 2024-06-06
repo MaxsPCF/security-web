@@ -3,19 +3,18 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "IntelicaSecurityweb": {
+    "IntelicaSecurityWeb": {
       "projectType": "application",
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "security",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
-            "outputPath": "dist/intelica-securityweb",
+            "outputPath": "dist/intelica-security-web",
             "index": "src/index.html",
-            "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -28,18 +27,13 @@
               "src/styles.css"
             ],
             "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            },
             "main": "src/main.single-spa.ts",
             "customWebpackConfig": {
               "path": "extra-webpack.config.js",
-              "libraryName": "IntelicaSecurityweb",
+              "libraryName": "IntelicaSecurityWeb",
               "libraryTarget": "umd"
             },
-            "deployUrl": "http://localhost:4200/"
+            "deployUrl": "http://localhost:4203/"
           },
           "configurations": {
             "production": {
@@ -68,12 +62,15 @@
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
+          "options": {
+						"port": 4203
+					},
           "configurations": {
             "production": {
-              "buildTarget": "IntelicaSecurityweb:build:production"
+              "buildTarget": "IntelicaSecurityWeb:build:production"
             },
             "development": {
-              "buildTarget": "IntelicaSecurityweb:build:development"
+              "buildTarget": "IntelicaSecurityWeb:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "IntelicaSecurityweb:build"
+            "buildTarget": "IntelicaSecurityWeb:build"
           }
         },
         "test": {
@@ -106,6 +103,6 @@
     }
   },
   "cli": {
-    "analytics": "86f1ace5-c94f-4f94-a8ab-a7d08fd5d446"
+    "analytics": false
   }
 }
