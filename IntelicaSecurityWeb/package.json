@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run serve:single-spa:IntelicaMenuWeb",
-    "build": "ng build", 
+    "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:single-spa:IntelicaSecurityWeb": "ng build IntelicaSecurityWeb --configuration production",
@@ -20,9 +20,13 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@ng-bootstrap/ng-bootstrap": "^16.0.0",
+    "@ng-select/ng-select": "^12.0.7",
+    "guid-typescript": "^1.0.9",
     "rxjs": "~7.8.0",
     "single-spa": ">=4.0.0",
     "single-spa-angular": "^9.1.2",
+    "sweetalert2": "^11.11.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
   },

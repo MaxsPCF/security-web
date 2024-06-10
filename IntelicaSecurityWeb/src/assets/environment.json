@@ -1,0 +1,7 @@
+{
+	"apiPath": "http://localhost:5180",
+	"authServer": "http://localhost:8080",
+	"authRealm": "IntelicaLocal",
+	"authClientId": "security",
+	"environment": "development"
+}
