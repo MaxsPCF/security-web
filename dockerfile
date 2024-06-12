@@ -1,4 +1,4 @@
-FROM node:21-alpine3.18 AS node
+FROM node:22-alpine3.19 AS node
 WORKDIR /app
 COPY ./IntelicaSecurityWeb .
 RUN npm install -g @angular/cli
