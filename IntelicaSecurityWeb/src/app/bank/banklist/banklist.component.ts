@@ -40,28 +40,20 @@ export class BanklistComponent implements OnInit {
     Swal.fire({
       title: 'Esta seguro quen desea eliminar este registro?',
       showDenyButton: true,
-      // showCancelButton: true,
-      confirmButtonText: 'SÃ­',
-
-      // denyButtonText: `Don't save`
+      confirmButtonText: 'Sí',
+      denyButtonText: 'No',
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.bankService.Delete(row.bankID).subscribe((response2) => {
           Swal.fire(
-            'InformaciÃ³n',
+            'Información',
             `Banco con codigo <br/> <b> ${row.bankID}</b>  <br/> ha sido eliminado correctamente`,
             'success'
           );
           this.Search();
         });
       } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info');
       }
     });
-  }
-  SelectRow(row: BankSimpleResponse) {
-    this.BankCode = row.bankID;
-    this.BankName = row.bankName;
   }
 }

@@ -62,13 +62,14 @@
         </div>
         <div class="col-md-4 col-sm-12">
           <label class="label-form-enazul text-primary mt-1">Country</label>
-          <input
+          <ng-select
             name="bankCountry"
-            class="form-control form-control-sm"
-            type="text"
-            maxlength="100"
+            [items]="Countries"
+            bindLabel="countryName"
+            bindValue="countryID"
             [(ngModel)]="Bank.countryID"
-          />
+          >
+          </ng-select>
         </div>
         <div class="col-md-4 col-sm-12">
           <label class="label-form-enazul text-primary mt-1">Database</label>

@@ -5,6 +5,8 @@ import { Bank } from '../bank';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { BankService } from '../bank.service';
+import { CountrySimpleResponse } from '../../country/dto/countryResponses';
+import { CountryService } from '../../country/country.service';
 
 @Component({
   selector: 'security-bankmaintenance',
@@ -13,21 +15,28 @@ import { BankService } from '../bank.service';
   templateUrl: './bankmaintenance.component.html',
 })
 export class BankmaintenanceComponent implements OnInit {
-  ngOnInit(): void {
-    this.bankid = this.activatedRoute.snapshot.params['id'];
-    if (this.bankid != undefined && this.bankid != null) {
-      this.bankService.Find(this.bankid).subscribe((response) => {
-        this.Bank = response;
-      });
-    }
-  }
   private readonly bankService = inject(BankService);
+  private readonly countryService = inject(CountryService);
+
   private readonly router = inject(Router);
   Bank: Bank = new Bank();
   @ViewChild('bankForm', { read: NgForm }) bankForm: any;
   bankid: string = '';
+  Countries: CountrySimpleResponse[] = [];
 
   private activatedRoute = inject(ActivatedRoute);
+
+  ngOnInit(): void {
+    this.countryService.GetByAll().subscribe((response1) => {
+      this.Countries = response1;
+      this.bankid = this.activatedRoute.snapshot.params['id'];
+      if (this.bankid != undefined && this.bankid != null) {
+        this.bankService.Find(this.bankid).subscribe((response) => {
+          this.Bank = response;
+        });
+      }
+    });
+  }
 
   GetRows() {}
   Home() {}
@@ -36,13 +45,13 @@ export class BankmaintenanceComponent implements OnInit {
   }
   Submit() {
     if (!this.bankForm.valid) {
-      Swal.fire('InformaciÃ³n', 'Complete los campos necesarios', 'error');
+      Swal.fire('Información', 'Complete los campos necesarios', 'error');
       return;
     }
     if (this.bankid != undefined && this.bankid != null) {
       this.bankService.Update(this.Bank).subscribe((response) => {
         Swal.fire(
-          'InformaciÃ³n',
+          'Información',
           `Banco con codigo <br/> <b> ${response.bankID}</b>  <br/> ha sido actualizado correctamente`,
           'success'
         );
@@ -52,7 +61,7 @@ export class BankmaintenanceComponent implements OnInit {
     } else {
       this.bankService.Create(this.Bank).subscribe((response) => {
         Swal.fire(
-          'InformaciÃ³n',
+          'Información',
           `Banco con codigo <br/> <b> ${response.bankID}</b>  <br/> ha sido registrada correctamente`,
           'success'
         );

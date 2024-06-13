@@ -34,11 +34,16 @@ export class CountryService {
       `${this._configService.environment?.apiPath}/Country/${CountryId}`
     );
   }
+  GetByAll(): Observable<CountrySimpleResponse[]> {
+    return this._http.get<CountrySimpleResponse[]>(
+      `${this._configService.environment?.apiPath}/Country/`
+    );
+  }
   GetByFilter(
     CountryCode: string,
     CountryName: string
   ): Observable<CountrySimpleResponse[]> {
-    if (CountryCode == '') CountryCode = Guid.EMPTY;
+    if (CountryCode == '') CountryCode = '-';
     if (CountryName == '') CountryName = '-';
     return this._http.get<CountrySimpleResponse[]>(
       `${this._configService.environment?.apiPath}/Country/GetByFilter/${CountryCode}/${CountryName}`
