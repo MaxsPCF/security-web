@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RealmComponent } from './realm.component';
+import { ClientlistComponent } from './clientlist.component';
 
-describe('RealmComponent', () => {
-  let component: RealmComponent;
-  let fixture: ComponentFixture<RealmComponent>;
+describe('ClientlistComponent', () => {
+  let component: ClientlistComponent;
+  let fixture: ComponentFixture<ClientlistComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RealmComponent]
+      imports: [ClientlistComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(RealmComponent);
+    fixture = TestBed.createComponent(ClientlistComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

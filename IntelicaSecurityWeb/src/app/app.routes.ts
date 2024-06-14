@@ -10,6 +10,8 @@ import { CountrylistComponent } from './country/countrylist/countrylist.componen
 import { CountrymaintenanceComponent } from './country/countrymaintenance/countrymaintenance.component';
 import { PagelistComponent } from './page/pagelist/pagelist.component';
 import { PagemaintenanceComponent } from './page/pagemaintenance/pagemaintenance.component';
+import { ClientlistComponent } from './client/clientlist/clientlist.component';
+import { ClientmaintenanceComponent } from './client/clientmaintenance/clientmaintenance.component';
 
 export const routes: Routes = [
 	{
@@ -20,10 +22,18 @@ export const routes: Routes = [
 				path: 'realm',
 				children: [
 					{ path: 'list', component: RealmlistComponent },
-					{ path: 'maintenance', component: RealmmaintenanceComponent }
+					{ path: 'maintenance', component: RealmmaintenanceComponent },
+					{ path: 'maintenance/:id', component: RealmmaintenanceComponent }
 				]
 			},
-			{ path: 'client', component: ClientComponent },
+			{
+				path: 'client',
+				children: [
+					{ path: 'list', component: ClientlistComponent },
+					{ path: 'maintenance', component: ClientmaintenanceComponent },
+					{ path: 'maintenance/:id', component: ClientmaintenanceComponent }
+				]
+			},
 			{
 				path: 'bank',
 				children: [

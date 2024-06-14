@@ -19,24 +19,27 @@
 		<div class="row">
 			<div class="col-md-4">
 				<label class="label-form-enazul text-primary mt-1">Realm code</label>
+				<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="RealmCode"> </ng-select>
+			</div>
+			<div class="col-md-4">
+				<label class="label-form-enazul text-primary mt-1">Client id</label>
 				<input
 					name="realmCode"
 					class="form-control form-control-sm"
 					type="text"
 					maxlength="100"
-					[(ngModel)]="RealmCode"
+					[(ngModel)]="ClientId"
 					(keyup.enter)="Search()"
-					autofocus
 				/>
 			</div>
 			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Realm name</label>
+				<label class="label-form-enazul text-primary mt-1">Client name</label>
 				<input
 					name="realmCode"
 					class="form-control form-control-sm"
 					type="text"
 					maxlength="100"
-					[(ngModel)]="RealmName"
+					[(ngModel)]="ClientName"
 					(keyup.enter)="Search()"
 				/>
 			</div>
@@ -104,18 +107,22 @@
 			<table class="int-table">
 				<thead>
 					<tr>
-						<th scope="col">Realm Code</th>
+						<th scope="col">Client Code</th>
 						<th scope="col">Realm Name</th>
+						<th scope="col">Client Id</th>
+						<th scope="col">Client Name</th>
 						<th scope="col">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					@for ( realm of Realms ; track realm.realmCode){
+					@for ( realm of Clients ; track realm.clientCode){
 					<tr>
-						<td>{{ realm.realmCode }}</td>
+						<td>{{ realm.clientCode }}</td>
 						<td>{{ realm.realmName }}</td>
+						<td>{{ realm.clientId }}</td>
+						<td>{{ realm.clientName }}</td>
 						<th scope="row">
-							<div class="btn-group">
+							<div class="btm-group">
 								<!-- <button class="btn btn-secondary" (click)="SelectRow(realm)">
 									<i class="icon-export"></i>
 									Select

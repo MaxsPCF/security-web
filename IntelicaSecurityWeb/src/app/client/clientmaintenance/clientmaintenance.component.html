@@ -1,4 +1,4 @@
-<form #realmForm="ngForm">
+<form #clientForm="ngForm">
 	<div class="row mt-5">
 		<div class="col-12">
 			<div class="d-flex align-items-center flex-wrap">
@@ -8,7 +8,7 @@
 							<a routerLink="/dashboard" class="text-muted">Home</a>
 						</li>
 						<li class="text-muted not-allowed">
-							<a class="text-muted">Realm maintenance</a>
+							<a class="text-muted">Client maintenance</a>
 						</li>
 					</ul>
 				</div>
@@ -33,12 +33,16 @@
 		<div class="card-body">
 			<div class="row mt-2">
 				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Realm code</label>
-					<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Realm.realmCode" disabled />
+					<label class="label-form-enazul text-primary mt-1">Realm</label>
+					<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="Client.realmCode"> </ng-select>
 				</div>
 				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Realm Name</label>
-					<input name="realmName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Realm.realmName" required="" />
+					<label class="label-form-enazul text-primary mt-1">Client Id</label>
+					<input name="clientId" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Client.clientId" required />
+				</div>
+				<div class="col-md-6 col-sm-12">
+					<label class="label-form-enazul text-primary mt-1">Client Name</label>
+					<input name="clientName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Client.clientName" required />
 				</div>
 			</div>
 		</div>
