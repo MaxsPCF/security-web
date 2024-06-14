@@ -12,42 +12,42 @@ import { PagelistComponent } from './page/pagelist/pagelist.component';
 import { PagemaintenanceComponent } from './page/pagemaintenance/pagemaintenance.component';
 
 export const routes: Routes = [
-  {
-    path: 'security',
-    children: [
-      { path: 'main', component: MainComponent },
-      {
-        path: 'realm',
-        children: [
-          { path: 'list', component: RealmlistComponent },
-          { path: 'maintenance', component: RealmmaintenanceComponent },
-        ],
-      },
-      { path: 'client', component: ClientComponent },
-      {
-        path: 'bank',
-        children: [
-          { path: 'list', component: BanklistComponent },
-          { path: 'maintenance', component: BankmaintenanceComponent },
-          { path: 'maintenance/:id', component: BankmaintenanceComponent },
-        ],
-      },
-      {
-        path: 'country',
-        children: [
-          { path: 'list', component: CountrylistComponent },
-          { path: 'maintenance', component: CountrymaintenanceComponent },
-          { path: 'maintenance/:id', component: CountrymaintenanceComponent },
-        ],
-      },
-		{
-			path: 'page',
-			children: [
-				{ path: 'list', component: PagelistComponent },
-				{ path: 'maintenance', component: PagemaintenanceComponent }
-			]
-		},
-    ],
-  },
-  { path: '**', component: EmptyRouteComponent },
+	{
+		path: 'security',
+		children: [
+			{ path: 'main', component: MainComponent },
+			{
+				path: 'realm',
+				children: [
+					{ path: 'list', component: RealmlistComponent },
+					{ path: 'maintenance', component: RealmmaintenanceComponent }
+				]
+			},
+			{ path: 'client', component: ClientComponent },
+			{
+				path: 'bank',
+				children: [
+					{ path: 'list', component: BanklistComponent },
+					{ path: 'maintenance', component: BankmaintenanceComponent },
+					{ path: 'maintenance/:id', component: BankmaintenanceComponent }
+				]
+			},
+			{
+				path: 'country',
+				children: [
+					{ path: 'list', component: CountrylistComponent },
+					{ path: 'maintenance', component: CountrymaintenanceComponent },
+					{ path: 'maintenance/:id', component: CountrymaintenanceComponent }
+				]
+			},
+			{
+				path: 'page',
+				children: [
+					{ path: 'list', component: PagelistComponent },
+					{ path: 'maintenance', component: PagemaintenanceComponent }
+				]
+			}
+		]
+	},
+	{ path: '**', component: EmptyRouteComponent }
 ];
