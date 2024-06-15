@@ -1,9 +1,17 @@
 export interface ProfileSimpleResponses {
-	pageId: string;
-	pageName: string;
-	pageUrl: string;
+	profileID: string;
+	profileName: string;
+	profileDescription: string;
+	active: boolean;
+}
+
+export interface ProfilePageSimpleResponses {
+	profilePageID: string;
+	profileID: string;
+	pageID: string;
+	active: boolean;
 }
 
 export interface ProfileCreateResponses {
-	pageId: string;
+	profileID: string;
 }
