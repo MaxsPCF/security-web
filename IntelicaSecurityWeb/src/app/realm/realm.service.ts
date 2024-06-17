@@ -9,10 +9,9 @@ import { Guid } from 'guid-typescript';
 export class RealmService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	GetByFilter(realmCode: string, realmName: string): Observable<RealmSimpleResponse[]> {
-		if (realmCode == '') realmCode = Guid.EMPTY;
+	GetByFilter(realmName: string): Observable<RealmSimpleResponse[]> {
 		if (realmName == '') realmName = '-';
-		return this._http.get<RealmSimpleResponse[]>(`${this._configService.environment?.apiPath}/Realm/GetByFilter/${realmCode}/${realmName}`);
+		return this._http.get<RealmSimpleResponse[]>(`${this._configService.environment?.apiPath}/Realm/GetByFilter/${realmName}`);
 	}
 	Find(realmCode: string): Observable<Realm> {
 		return this._http.get<Realm>(`${this._configService.environment?.apiPath}/Realm/Find/${realmCode}`);

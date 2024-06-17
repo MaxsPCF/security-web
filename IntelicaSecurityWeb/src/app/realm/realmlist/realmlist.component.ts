@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 	templateUrl: './realmlist.component.html'
 })
 export class RealmlistComponent {
-	RealmCode: string = '';
 	RealmName: string = '';
 	Realms: RealmSimpleResponse[] = [];
 	private readonly realmService = inject(RealmService);
@@ -24,7 +23,7 @@ export class RealmlistComponent {
 	}
 	Home() {}
 	Search() {
-		this.realmService.GetByFilter(this.RealmCode, this.RealmName).subscribe((response) => {
+		this.realmService.GetByFilter(this.RealmName).subscribe((response) => {
 			this.Realms = response;
 		});
 	}
