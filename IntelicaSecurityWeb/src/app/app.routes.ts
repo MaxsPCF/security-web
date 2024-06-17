@@ -13,8 +13,11 @@ import { ClientlistComponent } from './client/clientlist/clientlist.component';
 import { ClientmaintenanceComponent } from './client/clientmaintenance/clientmaintenance.component';
 import { ProfilelistComponent } from './profile/profilelist/profilelist.component';
 import { ProfilemaintenanceComponent } from './profile/profilemaintenance/profilemaintenance.component';
+import { GouplistComponent } from './group/gouplist/gouplist.component';
+import { GoupmaintenanceComponent } from './group/goupmaintenance/goupmaintenance.component';
 import { TemplatelistComponent } from './template/templatelist/templatelist.component';
 import { TemplatemaintenanceComponent } from './template/templatemaintenance/templatemaintenance.component';
+
 export const routes: Routes = [
 	{
 		path: 'security',
@@ -64,6 +67,14 @@ export const routes: Routes = [
 				children: [
 					{ path: 'list', component: ProfilelistComponent },
 					{ path: 'maintenance', component: ProfilemaintenanceComponent }
+				]
+			},
+			{
+				path: 'group',
+				children: [
+					{ path: 'list', component: GouplistComponent },
+					{ path: 'maintenance', component: GoupmaintenanceComponent },
+					{ path: 'maintenance/:id', component: GoupmaintenanceComponent }
 				]
 			},
 			{
