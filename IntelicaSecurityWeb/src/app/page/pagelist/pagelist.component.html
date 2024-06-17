@@ -62,7 +62,7 @@
 						<th style="width: 5%">N°</th>
 						<th>Page name</th>
 						<th>Page url</th>
-						<th style="width: 20%">Actions</th>
+						<th style="width: 5%">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -72,9 +72,8 @@
 						<td class="text-start">{{ page.pageName }}</td>
 						<td class="text-start">{{ page.pageUrl }}</td>
 						<td>
-							<button class="btn btn-secondary" (click)="EditRow(page)">Edit</button>
-
-							<button class="btn btn-secondary" (click)="DeleteRow(page)">Delete</button>
+							<button class="int-iconBtn" (click)="EditRow(page)"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteRow(page)"><i class="icon-trash"></i></button>
 						</td>
 					</tr>
 					}

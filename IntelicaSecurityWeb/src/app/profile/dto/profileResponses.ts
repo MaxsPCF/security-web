@@ -3,6 +3,7 @@ export interface ProfileSimpleResponses {
 	profileName: string;
 	profileDescription: string;
 	active: boolean;
+	profilePages: ProfilePageSimpleResponses[];
 }
 
 export interface ProfilePageSimpleResponses {

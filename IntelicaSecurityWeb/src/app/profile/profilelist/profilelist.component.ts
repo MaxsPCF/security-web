@@ -5,6 +5,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SweetAlertService } from '../../common/services/sweet-alert.service';
 import { ProfileService } from '../profile.service';
 import { ProfileSimpleResponses } from '../dto/profileResponses';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ViewDetailsProfileComponent } from '../modals/view-details-profile/view-details-profile.component';
 
 @Component({
 	selector: 'security-profilelist',
@@ -17,14 +19,13 @@ export class ProfilelistComponent implements OnInit {
 	private readonly profileService = inject(ProfileService);
 	private readonly router = inject(Router);
 	private readonly sweetAlertService = inject(SweetAlertService);
+	private readonly modalService = inject(NgbModal);
 
 	profileList: ProfileSimpleResponses[] = [];
 
 	ngOnInit(): void {
 		this.GetAll();
 	}
-
-	Home() {}
 
 	GetAll() {
 		this.profileService.GetAll().subscribe((response) => {
@@ -59,5 +60,10 @@ export class ProfilelistComponent implements OnInit {
 				});
 			}
 		});
+	}
+
+	viewDetail(row: ProfileSimpleResponses) {
+		const modal = this.modalService.open(ViewDetailsProfileComponent, { size: 'xl' });
+		modal.componentInstance.listpage = row.profilePages;
 	}
 }

@@ -1,0 +1,31 @@
+<div class="modalHeader">
+	<h2><span>Details profile</span></h2>
+	<button type="button" (click)="activeModal.close()" class="btn-close" aria-label="Close"></button>
+</div>
+<div class="modalContentBorder">
+	<div class="modalContent">
+		<table class="int-table">
+			<thead>
+				<tr>
+					<th style="width: 5%">N°</th>
+					<th>Page name</th>
+					<th>Page url</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for ( page of pageListAll; track page.pageId; let index = $index){
+				<tr>
+					<td>{{ (index + 1) }}</td>
+					<td class="text-start">{{ page.pageName }}</td>
+					<td class="text-start">{{ page.pageUrl }}</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	<div class="modalFooter">
+		<!-- <div class="actionBtnArea">
+			<button class="btn btn-secondary" (click)="activeModal.close();">Close</button>
+		</div> -->
+	</div>
+</div>
