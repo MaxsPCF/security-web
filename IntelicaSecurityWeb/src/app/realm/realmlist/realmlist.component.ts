@@ -14,7 +14,15 @@ import Swal from 'sweetalert2';
 })
 export class RealmlistComponent {
 	RealmName: string = '';
+	RealmCode: string = '';
 	Realms: RealmSimpleResponse[] = [];
+	selectedCar: number=1;
+    cars = [
+        { id: 1, name: 'Volvo' },
+        { id: 2, name: 'Saab' },
+        { id: 3, name: 'Opel' },
+        { id: 4, name: 'Audi' },
+    ];
 	private readonly realmService = inject(RealmService);
 	private readonly router = inject(Router);
 
