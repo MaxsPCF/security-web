@@ -14,17 +14,17 @@ export class TemplateService {
 		if (templateName == "") templateName = "-";
 		return this._http.get<TemplateSimpleResponse[]>(`${this._configService.environment?.apiPath}/Template/GetByFilter/${templateCode}/${templateName}`);
 	}
-	Find(realmCode: string): Observable<Template> {
-		return this._http.get<Template>(`${this._configService.environment?.apiPath}/Template/Find/${realmCode}`);
+	Find(templateCode: string): Observable<Template> {
+		return this._http.get<Template>(`${this._configService.environment?.apiPath}/Template/Find/${templateCode}`);
 	}
-	Create(realm: Template): Observable<TemplateMaintenanceResponse> {
-		return this._http.post<TemplateMaintenanceResponse>(`${this._configService.environment?.apiPath}/Template`, realm);
+	Create(template: Template): Observable<TemplateMaintenanceResponse> {
+		return this._http.post<TemplateMaintenanceResponse>(`${this._configService.environment?.apiPath}/Template`, template);
 	}
-	Update(realm: Template): Observable<TemplateMaintenanceResponse> {
-		return this._http.put<TemplateMaintenanceResponse>(`${this._configService.environment?.apiPath}/Template`, realm);
+	Update(template: Template): Observable<TemplateMaintenanceResponse> {
+		return this._http.put<TemplateMaintenanceResponse>(`${this._configService.environment?.apiPath}/Template`, template);
 	}
-	Delete(realmCode: string): Observable<boolean> {
-		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/Template/${realmCode}`);
+	Delete(templateCode: string): Observable<boolean> {
+		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/Template/${templateCode}`);
 	}
 	GetAll(): Observable<TemplateSimpleResponse[]> {
 		return this._http.get<TemplateSimpleResponse[]>(`${this._configService.environment?.apiPath}/Template/GetAll`);

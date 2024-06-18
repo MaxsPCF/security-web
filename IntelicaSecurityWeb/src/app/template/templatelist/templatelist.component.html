@@ -14,7 +14,7 @@
 					<label class="label-form-enazul text-primary mt-1">Created Date</label>
 					<input name="TemplateCode" class="form-control form-control-sm" type="date" maxlength="100" [(ngModel)]="TemplateCreationDate" (keyup.enter)="Search()" />
 				</div>
-				<div class="col-md-2 center-div" >
+				<div class="col-md-2 div-center-right" (click)="Search()">
 					<button class="btn btn-primary">
 						Search
 						<i class="icon-save-white"></i>
@@ -28,7 +28,7 @@
 			<ul class="nav">
 				<button type="button" class="btn-toolbar" (click)="Add()">
 					<a class="nav-link text-toolbar">
-						<i class="icon-new"></i>
+						<i class="icon-add"></i>
 						Add
 					</a>
 				</button>
@@ -45,37 +45,36 @@
 				<table class="int-table">
 					<thead>
 						<tr>
-							<th scope="col" style="width: 40%;">Template Code</th>
-							<th scope="col" style="width: 50%;">Template Name</th>
-							<th scope="col" style="width: 10%;">Actions</th>
+							<th scope="col" style="width: 35%">Template Code</th>
+							<th scope="col" style="width: 45%">Template Name</th>
+							<th scope="col" style="width: 15%">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						@for ( Template of Templates ; track Template.templateCode){
+						@for ( template of TemplatesFiler ; track template.templateCode){
 						<tr>
-							<td>{{ Template.templateCode }}</td>
-							<td>{{ Template.templateName }}</td>
+							<td>{{ template.templateCode }}</td>
+							<td>{{ template.templateName }}</td>
 							<th scope="row">
-								<ul class="nav">
-									<button type="button" class="btn-toolbar" (click)="EditRow(Template)">
-										<a class="nav-link text-toolbar">
-											<i class="icon-edit"></i>
-										</a>
-									</button>
-									<button type="button" class="btn-toolbar" (click)="DeleteRow(Template)">
-										<a class="nav-link text-toolbar">
-											<i class="icon-trash"></i>
-										</a>
-									</button>
-								</ul>
+								<div class="row">
+									<div class="col-lg-4 col-md-12 pl-10">
+										<button class="int-iconBtn" (click)="EditRow(template)"><i class="icon-edit"></i></button>
+									</div>
+									<div class="col-lg-4 col-md-12">
+										<button class="int-iconBtn" (click)="DeleteRow(template)"><i class="icon-trash"></i></button>
+									</div>
+									<div class="col-lg-4 col-md-12 pr-10">
+										<button class="int-iconBtn" (click)="ViewDetail(template)"><i class="icon-eye"></i></button>
+									</div>
+								</div>
 							</th>
 						</tr>
 						}
 					</tbody>
 				</table>
-				<!-- <ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="100" [(page)]="Page" (pageChange)="RefreshList()"  /> -->
+				<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Templates.length" [(page)]="Page" (pageChange)="RefreshList()" />
 			</div>
 		</div>
 	</div>
 </div>
-Cantidad: {{Templates.length}}
+<table id="TableExport" style="display: none"></table>
