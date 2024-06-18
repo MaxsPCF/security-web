@@ -54,7 +54,7 @@ export class GouplistComponent implements OnInit {
 		}).then((result) => {
 			if (result.isConfirmed) {
 				this.realmGroupService.Delete(row.realmGroupCode).subscribe((response) => {
-					Swal.fire('Informacion', `Groupo con codigo <br/> <b> ${row.realmGroupCode}</b>  <br/> ha sido eliminado correctamente`, 'success');
+					Swal.fire('Informacion', `Grupo con codigo <br/> <b> ${row.realmGroupCode}</b>  <br/> ha sido eliminado correctamente`, 'success');
 					this.Search();
 				});
 			} else if (result.isDenied) {

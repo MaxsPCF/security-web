@@ -17,6 +17,8 @@ import { GouplistComponent } from './group/gouplist/gouplist.component';
 import { GoupmaintenanceComponent } from './group/goupmaintenance/goupmaintenance.component';
 import { TemplatelistComponent } from './template/templatelist/templatelist.component';
 import { TemplatemaintenanceComponent } from './template/templatemaintenance/templatemaintenance.component';
+import { RollistComponent } from './rol/rollist/rollist.component';
+import { RolmaintenanceComponent } from './rol/rolmaintenance/rolmaintenance.component';
 
 export const routes: Routes = [
 	{
@@ -82,6 +84,14 @@ export const routes: Routes = [
 				children: [
 					{ path: 'list', component: TemplatelistComponent },
 					{ path: 'maintenance', component: TemplatemaintenanceComponent }
+				]
+			},
+			{
+				path: 'rol',
+				children: [
+					{ path: 'list', component: RollistComponent },
+					{ path: 'maintenance', component: RolmaintenanceComponent },
+					{ path: 'maintenance/:id', component: RolmaintenanceComponent }
 				]
 			}
 		]
