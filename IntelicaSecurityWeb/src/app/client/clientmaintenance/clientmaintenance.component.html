@@ -34,7 +34,8 @@
 			<div class="row mt-2">
 				<div class="col-md-6 col-sm-12">
 					<label class="label-form-enazul text-primary mt-1">Realm</label>
-					<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="Client.realmCode"> </ng-select>
+					<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="Client.realmCode" required>
+					</ng-select>
 				</div>
 				<div class="col-md-6 col-sm-12">
 					<label class="label-form-enazul text-primary mt-1">Client Id</label>
@@ -43,6 +44,42 @@
 				<div class="col-md-6 col-sm-12">
 					<label class="label-form-enazul text-primary mt-1">Client Name</label>
 					<input name="clientName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Client.clientName" required />
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<label class="label-form-enazul text-primary mt-1">Client Root URL</label>
+					<input
+						name="clientRootUrl"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="Client.clientRootUrl"
+						required
+					/>
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<label class="label-form-enazul text-primary mt-1">Client Valid redirect URIs</label>
+					<input
+						name="clientRedirectUrl"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="Client.clientRedirectUrl"
+						required
+					/>
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<label class="label-form-enazul text-primary mt-1">Client Web origins</label>
+					<input
+						name="clientWebOrigin"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="Client.clientWebOrigin"
+						required
+					/>
 				</div>
 			</div>
 		</div>

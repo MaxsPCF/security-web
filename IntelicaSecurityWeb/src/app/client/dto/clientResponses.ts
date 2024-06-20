@@ -3,6 +3,9 @@ export interface ClientSimpleResponse {
 	realmName: string;
 	clientId: string;
 	clientName: string;
+	clientRootUrl: string;
+	clientRedirectUrl: string;
+	clientWebOrigin: string;
 }
 
 export interface ClientMaintenanceResponse {

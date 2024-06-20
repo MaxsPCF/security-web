@@ -2,6 +2,9 @@ export interface ClientCreateCommand {
 	realmCode: string;
 	clientId: string;
 	clientName: string;
+	clientRootUrl: string;
+	clientRedirectUrl: string;
+	clientWebOrigin: string;
 }
 
 export interface ClientUpdateCommand {
@@ -9,4 +12,7 @@ export interface ClientUpdateCommand {
 	realmCode: string;
 	clientId: string;
 	clientName: string;
+	clientRootUrl: string;
+	clientRedirectUrl: string;
+	clientWebOrigin: string;
 }

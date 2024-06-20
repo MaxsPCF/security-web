@@ -5,5 +5,8 @@ export class Client {
 	realmCode: string = '';
 	clientId: string = '';
 	clientName: string = '';
+	clientRootUrl: string = '';
+	clientRedirectUrl: string = '';
+	clientWebOrigin: string = '';
 	constructor() {}
 }
