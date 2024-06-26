@@ -13,12 +13,12 @@ import { ClientCreateCommand, ClientUpdateCommand } from './dto/clientCommands';
 export class ClientService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	GetByFilter(clientCode: string, clientId: string, clientName: string): Observable<ClientSimpleResponse[]> {
-		if (clientCode == '' || clientCode == null) clientCode = Guid.EMPTY;
+	GetByFilter(realmCode: string, clientId: string, clientName: string): Observable<ClientSimpleResponse[]> {
+		if (realmCode == '' || realmCode == null) realmCode = Guid.EMPTY;
 		if (clientId == '') clientId = '-';
 		if (clientName == '') clientName = '-';
 		return this._http.get<ClientSimpleResponse[]>(
-			`${this._configService.environment?.apiPath}/Client/GetByFilter/${clientCode}/${clientId}/${clientName}`
+			`${this._configService.environment?.apiPath}/Client/GetByFilter/${realmCode}/${clientId}/${clientName}`
 		);
 	}
 	Find(clientCode: string): Observable<Client> {

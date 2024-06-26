@@ -13,62 +13,82 @@ import { ClientlistComponent } from './client/clientlist/clientlist.component';
 import { ClientmaintenanceComponent } from './client/clientmaintenance/clientmaintenance.component';
 import { ProfilelistComponent } from './profile/profilelist/profilelist.component';
 import { ProfilemaintenanceComponent } from './profile/profilemaintenance/profilemaintenance.component';
+import { ClientscopelistComponent } from './clientScope/clientscopelist/clientscopelist.component';
+import { ClientscopemaintenanceComponent } from './clientScope/clientscopemaintenance/clientscopemaintenance.component';
 import { GouplistComponent } from './group/gouplist/gouplist.component';
 import { GoupmaintenanceComponent } from './group/goupmaintenance/goupmaintenance.component';
 import { TemplatelistComponent } from './template/templatelist/templatelist.component';
 import { TemplatemaintenanceComponent } from './template/templatemaintenance/templatemaintenance.component';
 import { RollistComponent } from './rol/rollist/rollist.component';
 import { RolmaintenanceComponent } from './rol/rolmaintenance/rolmaintenance.component';
+import { BusinessuserlistComponent } from './businessuser/businessuserlist/businessuserlist.component';
+import { BusinessusermaintenanceComponent } from './businessuser/businessusermaintenance/businessusermaintenance.component';
 
 export const routes: Routes = [
 	{
-		path: "security",
+		path: 'security',
 		children: [
-			{ path: "main", component: MainComponent },
+			{ path: 'main', component: MainComponent },
 			{
-				path: "realm",
+				path: 'realm',
 				children: [
-					{ path: "list", component: RealmlistComponent, data: { title: "Realm list" } },
-					{ path: "maintenance", component: RealmmaintenanceComponent, data: { title: "Realm list - New" } },
-					{ path: "maintenance/:id", component: RealmmaintenanceComponent, data: { title: "Realm list - Edit" } },
-				],
+					{ path: 'list', component: RealmlistComponent, data: { title: 'Realm list' } },
+					{ path: 'maintenance', component: RealmmaintenanceComponent, data: { title: 'Realm list - New' } },
+					{ path: 'maintenance/:id', component: RealmmaintenanceComponent, data: { title: 'Realm list - Edit' } }
+				]
 			},
 			{
-				path: "client",
+				path: 'client',
 				children: [
-					{ path: "list", component: ClientlistComponent, data: { title: "Client list" } },
-					{ path: "maintenance", component: ClientmaintenanceComponent, data: { title: "Client maintenance - New" } },
-					{ path: "maintenance/:id", component: ClientmaintenanceComponent, data: { title: "Client maintenance - Edit" } },
-				],
+					{ path: 'list', component: ClientlistComponent, data: { title: 'Client list' } },
+					{ path: 'maintenance', component: ClientmaintenanceComponent, data: { title: 'Client maintenance - New' } },
+					{ path: 'maintenance/:id', component: ClientmaintenanceComponent, data: { title: 'Client maintenance - Edit' } }
+				]
 			},
 			{
-				path: "bank",
+				path: 'bank',
 				children: [
-					{ path: "list", component: BanklistComponent, data: { title: "Bank list" } },
-					{ path: "maintenance", component: BankmaintenanceComponent, data: { title: "Bank maintenance - New" } },
-					{ path: "maintenance/:id", component: BankmaintenanceComponent, data: { title: "Bank maintenance - Edit" } },
-				],
+					{ path: 'list', component: BanklistComponent, data: { title: 'Bank list' } },
+					{ path: 'maintenance', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - New' } },
+					{ path: 'maintenance/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - Edit' } }
+				]
 			},
 			{
-				path: "country",
+				path: 'country',
 				children: [
-					{ path: "list", component: CountrylistComponent, data: { title: "Country list" } },
-					{ path: "maintenance", component: CountrymaintenanceComponent, data: { title: "Country maintenance - New" } },
-					{ path: "maintenance/:id", component: CountrymaintenanceComponent, data: { title: "Country maintenance - Edit" } },
-				],
+					{ path: 'list', component: CountrylistComponent, data: { title: 'Country list' } },
+					{ path: 'maintenance', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - New' } },
+					{ path: 'maintenance/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - Edit' } }
+				]
 			},
 			{
-				path: "page",
+				path: 'page',
 				children: [
-					{ path: "list", component: PagelistComponent, data: { title: "Page list" } },
-					{ path: "maintenance", component: PagemaintenanceComponent, data: { title: "Page maintenance - New" } },
-				],
+					{ path: 'list', component: PagelistComponent, data: { title: 'Page list' } },
+					{ path: 'maintenance', component: PagemaintenanceComponent, data: { title: 'Page maintenance - New' } }
+				]
 			},
 			{
-				path: "profile",
+				path: 'profile',
 				children: [
 					{ path: 'list', component: ProfilelistComponent },
 					{ path: 'maintenance', component: ProfilemaintenanceComponent }
+				]
+			},
+			{
+				path: 'clientscope',
+				children: [
+					{ path: 'list', component: ClientscopelistComponent },
+					{ path: 'maintenance', component: ClientscopemaintenanceComponent },
+					{ path: 'maintenance/:id', component: ClientscopemaintenanceComponent }
+				]
+			},
+			{
+				path: 'businessuser',
+				children: [
+					{ path: 'list', component: BusinessuserlistComponent },
+					{ path: 'maintenance', component: BusinessusermaintenanceComponent },
+					{ path: 'maintenance/:id', component: BusinessusermaintenanceComponent }
 				]
 			},
 			{
@@ -96,5 +116,5 @@ export const routes: Routes = [
 			}
 		]
 	},
-	{ path: "**", component: EmptyRouteComponent },
+	{ path: '**', component: EmptyRouteComponent }
 ];
