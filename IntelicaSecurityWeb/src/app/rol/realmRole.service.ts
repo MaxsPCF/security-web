@@ -21,6 +21,9 @@ export class RealmRoleService {
 			`${this._configService.environment?.apiPath}/RealmRole/GetByFilter/${realmCode}/${realmRoleCode}/${realmROleName}`
 		);
 	}
+	GetAll(): Observable<RealmRoleSimpleResponse[]> {
+		return this._http.get<RealmRoleSimpleResponse[]>(`${this._configService.environment?.apiPath}/RealmRole/GetAll`);
+	}
 	Find(realmRoleCode: string): Observable<RealmRole> {
 		return this._http.get<RealmRole>(`${this._configService.environment?.apiPath}/RealmRole/Find/${realmRoleCode}`);
 	}

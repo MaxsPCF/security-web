@@ -47,7 +47,22 @@
 
 				<div class="col-md-6 col-sm-12">
 					<label class="label-form-enazul text-primary mt-1">Realm</label>
-					<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="RealmGroup.realmCode">
+					<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="RealmGroup.realmCode" required>
+					</ng-select>
+				</div>
+
+				<div class="col-md-6 col-sm-12">
+					<label class="label-form-enazul text-primary mt-1">Roles</label>
+					<ng-select
+						name="realmRoleCode"
+						[items]="roles"
+						bindLabel="realmRoleName"
+						bindValue="realmRoleCode"
+						[multiple]="true"
+						(change)="onMaterialGroupChange($event)"
+						[(ngModel)]="groupRoles"
+						required
+					>
 					</ng-select>
 				</div>
 
