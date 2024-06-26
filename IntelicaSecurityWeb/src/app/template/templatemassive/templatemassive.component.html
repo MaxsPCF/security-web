@@ -1,0 +1,52 @@
+<form #TemplateForm="ngForm">
+	<div class="container">
+		<div class="card mt-3">
+			<ul class="nav justify-content-between">
+				<button type="button" class="btn-toolbar" (click)="Submit()" >
+					<a class="nav-link text-toolbar">
+						<i class="icon-save"></i>
+						Save
+					</a>
+				</button>
+				<div class="d-flex">
+					<button type="button" class="btn-toolbar" (click)="Clean()" >
+						<a class="nav-link text-toolbar">
+							<i class="icon-trash"></i>
+							Clean
+						</a>
+					</button>
+					<button type="button" class="btn-toolbar" (click)="Back()">
+						<a class="nav-link text-toolbar">
+							<i class="icon-return"></i>
+							Return
+						</a>
+					</button>
+				</div>
+			</ul>
+		</div>
+		<div class="card card-header card-header-stretch cold-md-12 mt-3">
+			<div class="card mb-10">
+				<div class="pt-4">
+                    <ngx-dropzone (change)="onSelect($event)" style="height: 100PX;">
+                        <ngx-dropzone-label>Drag your file here</ngx-dropzone-label>
+                        <!-- @for (file of files(); track file) {
+                        <ngx-dropzone-preview [removable]="true" (removed)="onRemove(file)">
+                          <ngx-dropzone-label>{{ file.name }} ({{ file.type }})</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
+                        } -->
+                      </ngx-dropzone>
+                      <div class="row mt-2">
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">File name</label>
+							<input name="TemplateCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="FileName" disabled />
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Number of records</label>
+							<input name="TemplateName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="NumberRecords" disabled />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -23,6 +23,7 @@ import { RollistComponent } from './rol/rollist/rollist.component';
 import { RolmaintenanceComponent } from './rol/rolmaintenance/rolmaintenance.component';
 import { BusinessuserlistComponent } from './businessuser/businessuserlist/businessuserlist.component';
 import { BusinessusermaintenanceComponent } from './businessuser/businessusermaintenance/businessusermaintenance.component';
+import { TemplatemassiveComponent } from './template/templatemassive/templatemassive.component';
 
 export const routes: Routes = [
 	{
@@ -103,7 +104,8 @@ export const routes: Routes = [
 				path: 'template',
 				children: [
 					{ path: 'list', component: TemplatelistComponent },
-					{ path: 'maintenance', component: TemplatemaintenanceComponent }
+					{ path: 'maintenance', component: TemplatemaintenanceComponent },
+					{ path: 'massive', component: TemplatemassiveComponent }
 				]
 			},
 			{

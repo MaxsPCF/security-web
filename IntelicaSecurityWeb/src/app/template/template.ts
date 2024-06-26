@@ -1,6 +1,6 @@
-import { Guid } from 'guid-typescript';
+import { Guid } from "guid-typescript";
 export class Template {
 	templateCode: string = Guid.EMPTY;
-	templateName: string = '';
+	templateName: string = "";
 	constructor() {}
 }
