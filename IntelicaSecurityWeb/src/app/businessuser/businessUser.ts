@@ -1,9 +1,8 @@
 import { Guid } from 'guid-typescript';
-import { BusinessUserPage } from './businessuserpage';
 import { BusinessUserBank } from './businessUserBank';
 import { BusinessUserBankGroup } from './businessUserBankGroup';
 import { BusinessUserRealmGroup } from './businessUserRealmGroup';
-
+import { BusinessUserPage } from './businessUserPage';
 export class BusinessUser {
 	businessUserID: string = Guid.EMPTY;
 	realmID: string = Guid.EMPTY;
@@ -18,6 +17,5 @@ export class BusinessUser {
 	businessUserBanks: BusinessUserBank[] = [];
 	businessUserBankGroups: BusinessUserBankGroup[] = [];
 	businessUserRealmGroups: BusinessUserRealmGroup[] = [];
-
 	constructor() {}
 }

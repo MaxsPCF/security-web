@@ -1,7 +1,6 @@
 import { Guid } from 'guid-typescript';
 import { BusinessUserPageControl } from './businessUserPageControl';
 import { BusinessUser } from './businessUser';
-
 export class BusinessUserPage {
 	businessUserPageID: string = Guid.EMPTY;
 	businessUserID: string = Guid.EMPTY;
