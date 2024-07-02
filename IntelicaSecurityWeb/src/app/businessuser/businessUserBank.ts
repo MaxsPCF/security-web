@@ -5,5 +5,6 @@ export class BusinessUserBank {
 	bankID: string = Guid.EMPTY;
 	businessUserID: string = Guid.EMPTY;
 	businessUser: BusinessUser = new BusinessUser();
+
 	constructor() {}
 }

@@ -6,5 +6,6 @@ export class BusinessUserBankGroup {
 	businessUserID: string = Guid.EMPTY;
 	businessUserBankGroupActive: boolean = false;
 	businessUser: BusinessUser = new BusinessUser();
+
 	constructor() {}
 }
