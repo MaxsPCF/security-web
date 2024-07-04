@@ -51,7 +51,8 @@ export const routes: Routes = [
 				children: [
 					{ path: 'list', component: BanklistComponent, data: { title: 'Bank list' } },
 					{ path: 'maintenance', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - New' } },
-					{ path: 'maintenance/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - Edit' } }
+					{ path: 'maintenance/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - Edit' } },
+					{ path: 'maintenance/:edit/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - View' } }
 				]
 			},
 			{
@@ -59,7 +60,8 @@ export const routes: Routes = [
 				children: [
 					{ path: 'list', component: CountrylistComponent, data: { title: 'Country list' } },
 					{ path: 'maintenance', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - New' } },
-					{ path: 'maintenance/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - Edit' } }
+					{ path: 'maintenance/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - Edit' } },
+					{ path: 'maintenance/:edit/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - View' } }
 				]
 			},
 			{
@@ -95,9 +97,10 @@ export const routes: Routes = [
 			{
 				path: 'group',
 				children: [
-					{ path: 'list', component: GouplistComponent },
-					{ path: 'maintenance', component: GoupmaintenanceComponent },
-					{ path: 'maintenance/:id', component: GoupmaintenanceComponent }
+					{ path: 'list', component: GouplistComponent, data: { title: 'Group list' } },
+					{ path: 'maintenance', component: GoupmaintenanceComponent, data: { title: 'Group maintenance - New' } },
+					{ path: 'maintenance/:id', component: GoupmaintenanceComponent, data: { title: 'Group maintenance - Edit' } },
+					{ path: 'maintenance/:edit/:id', component: GoupmaintenanceComponent, data: { title: 'Group maintenance - View' } }
 				]
 			},
 			{
@@ -109,11 +112,12 @@ export const routes: Routes = [
 				]
 			},
 			{
-				path: 'rol',
+				path: 'role',
 				children: [
-					{ path: 'list', component: RollistComponent },
-					{ path: 'maintenance', component: RolmaintenanceComponent },
-					{ path: 'maintenance/:id', component: RolmaintenanceComponent }
+					{ path: 'list', component: RollistComponent, data: { title: 'Role list' } },
+					{ path: 'maintenance', component: RolmaintenanceComponent, data: { title: 'Role maintenance - New' } },
+					{ path: 'maintenance/:id', component: RolmaintenanceComponent, data: { title: 'Role maintenance - Edit' } },
+					{ path: 'maintenance/:edit/:id', component: RolmaintenanceComponent, data: { title: 'Role maintenance - View' } }
 				]
 			}
 		]

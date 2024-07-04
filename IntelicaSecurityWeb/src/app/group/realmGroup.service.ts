@@ -13,16 +13,16 @@ import { RealmGroupCreateCommand, RealmGroupUpdateCommand } from './dto/realmGro
 export class RealmGroupService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	GetByFilter(realmCode: string, realmGroupCode: string, realmGroupName: string): Observable<RealmGroupSimpleResponse[]> {
+	GetByFilter(realmCode: string, realmGroupId: string, realmGroupName: string): Observable<RealmGroupSimpleResponse[]> {
 		if (realmCode == '' || realmCode == null) realmCode = Guid.EMPTY;
-		if (realmGroupCode == '') realmGroupCode = Guid.EMPTY;
+		if (realmGroupId == '') realmGroupId = Guid.EMPTY;
 		if (realmGroupName == '') realmGroupName = '-';
 		return this._http.get<RealmGroupSimpleResponse[]>(
-			`${this._configService.environment?.apiPath}/Group/GetByFilter/${realmCode}/${realmGroupCode}/${realmGroupName}`
+			`${this._configService.environment?.apiPath}/Group/GetByFilter/${realmCode}/${realmGroupId}/${realmGroupName}`
 		);
 	}
-	Find(realmGroupCode: string): Observable<RealmGroup> {
-		return this._http.get<RealmGroup>(`${this._configService.environment?.apiPath}/Group/Find/${realmGroupCode}`);
+	Find(realmGroupId: string): Observable<RealmGroup> {
+		return this._http.get<RealmGroup>(`${this._configService.environment?.apiPath}/Group/Find/${realmGroupId}`);
 	}
 	Create(realmGroup: RealmGroup): Observable<RealmGroupMaintenanceResponse> {
 		return this._http.post<RealmGroupMaintenanceResponse>(`${this._configService.environment?.apiPath}/Group`, realmGroup);

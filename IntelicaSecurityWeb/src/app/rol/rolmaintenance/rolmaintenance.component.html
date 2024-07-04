@@ -1,77 +1,75 @@
-<form #clientForm="ngForm">
-	<div class="row mt-5">
-		<div class="col-12">
-			<div class="d-flex align-items-center flex-wrap">
-				<div class="d-flex align-items-baseline flex-wrap">
-					<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-						<li class="breadcrumb-item text-muted">
-							<a routerLink="/dashboard" class="text-muted">Home</a>
-						</li>
-						<li class="text-muted not-allowed">
-							<a class="text-muted">Client maintenance</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="card">
-		<ul class="nav px-6 justify-content-between align-items-center">
-			<button type="button" class="btn-toolbar btn-nav mt-1" (click)="Back()">
-				<i class="icon-return-tf"></i>
-				<a class="nav-link text-toolbar font-ul px-1">Back</a>
-			</button>
-			<div class="d-flex">
-				<button type="button" class="btn-toolbar btn-nav mt-1" (click)="Submit()">
-					<i class="icon-save"></i>
-					<a class="nav-link text-toolbar font-ul px-1">Ejecutar</a>
+<form #roleForm="ngForm">
+	<div class="container">
+		<div class="card mt-3">
+			<ul class="nav justify-content-between">
+				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
+					<a class="nav-link text-toolbar">
+						<i class="icon-save"></i>
+						Save
+					</a>
 				</button>
-			</div>
-		</ul>
-	</div>
-	<div class="card mt-4">
-		<div class="card-body">
-			<div class="row mt-2">
-				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Group Code</label>
-					<input
-						name="realmgroupCode"
-						class="form-control form-control-sm"
-						type="text"
-						maxlength="100"
-						disabled
-						[(ngModel)]="RealmRole.realmRoleId"
-						required
-					/>
+				<div class="d-flex">
+					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
+						<a class="nav-link text-toolbar">
+							<i class="icon-trash"></i>
+							Clean
+						</a>
+					</button>
+					<button type="button" class="btn-toolbar" (click)="Back()">
+						<a class="nav-link text-toolbar">
+							<i class="icon-return"></i>
+							Return
+						</a>
+					</button>
 				</div>
+			</ul>
+		</div>
+		<div class="card card-header card-header-stretch cold-md-12 mt-3">
+			<div class="card mb-10">
+				<div class="pt-4">
+					<div class="row mt-2">
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Group Id</label>
+							<input
+								name="realmgroupId"
+								class="form-control form-control-sm"
+								type="text"
+								maxlength="100"
+								disabled
+								[(ngModel)]="RealmRole.realmRoleId"
+								required
+							/>
+						</div>
 
-				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Realm</label>
-					<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="RealmRole.realmCode">
-					</ng-select>
-				</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Realm</label>
+							<ng-select name="realmCode" [items]="realms" bindLabel="realmName" bindValue="realmID" [(ngModel)]="RealmRole.realmId" required>
+							</ng-select>
+						</div>
 
-				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Group Name</label>
-					<input
-						name="realmRolName"
-						class="form-control form-control-sm"
-						type="text"
-						maxlength="100"
-						[(ngModel)]="RealmRole.realmRoleName"
-						required
-					/>
-				</div>
-				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Group Description</label>
-					<input
-						name="realmRolDescription"
-						class="form-control form-control-sm"
-						type="text"
-						maxlength="100"
-						[(ngModel)]="RealmRole.realmRoleDescription"
-						required
-					/>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Role Name</label>
+							<input
+								name="realmRolName"
+								class="form-control form-control-sm"
+								type="text"
+								maxlength="100"
+								[(ngModel)]="RealmRole.realmRoleName"
+								required
+							/>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Role Description</label>
+							<input
+								name="realmRolDescription"
+								class="form-control form-control-sm"
+								type="text"
+								maxlength="100"
+								[(ngModel)]="RealmRole.realmRoleDescription"
+								required
+							/>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

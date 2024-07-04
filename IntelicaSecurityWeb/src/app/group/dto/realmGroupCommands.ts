@@ -1,10 +1,10 @@
 export interface RealmGroupCreateCommand {
-	realmCode: string;
+	realmId: string;
 	realmGroupName: string;
 }
 
 export interface RealmGroupUpdateCommand {
-	realmGroupCode: string;
-	realmCode: string;
+	realmGroupId: string;
+	realmIde: string;
 	realmGroupName: string;
 }

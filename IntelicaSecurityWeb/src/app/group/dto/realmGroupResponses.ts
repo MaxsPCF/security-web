@@ -1,5 +1,5 @@
 export interface RealmGroupSimpleResponse {
-	realmGroupCode: string;
+	realmGroupId: string;
 	realmName: string;
 	realmGroupName: string;
 }

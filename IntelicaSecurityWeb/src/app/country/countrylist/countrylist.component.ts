@@ -5,58 +5,78 @@ import { CountrySimpleResponse } from '../dto/countryResponses';
 import { CountryService } from '../country.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { HtmlToExcel } from '../../common/HtmlToExcel';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'security-countrylist',
-  standalone: true,
+	selector: 'security-countrylist',
+	standalone: true,
 
-  imports: [FormsModule, ReactiveFormsModule, NgSelectModule],
-  templateUrl: './countrylist.component.html',
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule],
+	templateUrl: './countrylist.component.html'
 })
 export class CountrylistComponent implements OnInit {
-  ngOnInit(): void {
-    this.Search();
-  }
-  CountryCode: string = '';
-  CountryName: string = '';
-  Countrys: CountrySimpleResponse[] = [];
-  private readonly CountryService = inject(CountryService);
-  private readonly router = inject(Router);
+	ngOnInit(): void {
+		this.Search();
+	}
+	CountryCode: string = '';
+	CountryName: string = '';
+	Countries: CountrySimpleResponse[] = [];
+	CountriesFilter: CountrySimpleResponse[] = [];
 
-  Home() {}
-  Search() {
-    this.CountryService.GetByFilter(
-      this.CountryCode,
-      this.CountryName
-    ).subscribe((response) => {
-      this.Countrys = response;
-    });
-  }
-  Add() {
-    this.router.navigate(['security/country/maintenance']);
-  }
-  Export() {}
-  EditRow(row: CountrySimpleResponse) {
-    this.router.navigate(['security/country/maintenance', row.countryID]);
-  }
-  DeleteRow(row: CountrySimpleResponse) {
-    Swal.fire({
-      title: 'Esta seguro quen desea eliminar este registro?',
-      showDenyButton: true,
-      confirmButtonText: 'Sí',
-      denyButtonText: 'No',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.CountryService.Delete(row.countryID).subscribe((response2) => {
-          Swal.fire(
-            'Información',
-            `Banco con codigo <br/> <b> ${row.countryID}</b>  <br/> ha sido eliminado correctamente`,
-            'success'
-          );
-          this.Search();
-        });
-      } else if (result.isDenied) {
-      }
-    });
-  }
+	Page: number = 1;
+	PageSize: number = 10;
+	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
+	private readonly CountryService = inject(CountryService);
+	private readonly router = inject(Router);
+
+	Home() {}
+	Search() {
+		this.CountryService.GetByFilter(this.CountryCode, this.CountryName).subscribe((response) => {
+			this.Countries = response;
+			this.Page = 1;
+			this.RefreshList();
+		});
+	}
+	Add() {
+		this.router.navigate(['security/country/maintenance']);
+	}
+	Export() {
+		if (this.Countries.length == 0) {
+			Swal.fire('Information', 'There is no information to download.', 'info');
+			return;
+		}
+		let body: string = '<tr><th>Country code</th><th>Country name</th></tr>';
+		this.Countries.forEach((row) => {
+			body += `<tr><td>${row.countryID}</td><td>${row.countryName}</td> </tr>`;
+		});
+		this.HtmlToExcel.ExportTOExcel('TableExport', body, `CountryList`, 'Country list', 'xlsx');
+	}
+	EditRow(row: CountrySimpleResponse) {
+		this.router.navigate(['security/country/maintenance', row.countryID]);
+	}
+	ViewDetail(row: CountrySimpleResponse) {
+		this.router.navigate(['security/country/maintenance', true, row.countryID]);
+	}
+
+	DeleteRow(row: CountrySimpleResponse) {
+		Swal.fire({
+			title: 'Esta seguro quen desea eliminar este registro?',
+			showDenyButton: true,
+			confirmButtonText: 'Sï¿½',
+			denyButtonText: 'No'
+		}).then((result) => {
+			if (result.isConfirmed) {
+				this.CountryService.Delete(row.countryID).subscribe((response2) => {
+					Swal.fire('Informaciï¿½n', `Banco con codigo <br/> <b> ${row.countryID}</b>  <br/> ha sido eliminado correctamente`, 'success');
+					this.Search();
+				});
+			} else if (result.isDenied) {
+			}
+		});
+	}
+
+	RefreshList(): void {
+		this.CountriesFilter = this.Countries.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
+	}
 }

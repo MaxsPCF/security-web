@@ -1,5 +1,5 @@
 export interface RealmRoleSimpleResponse {
-	realmRoleCode: string;
+	realmRoleId: string;
 	realmName: string;
 	realmRoleName: string;
 	realmRoleDescription: string;

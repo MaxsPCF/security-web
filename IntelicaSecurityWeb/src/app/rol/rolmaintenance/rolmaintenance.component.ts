@@ -22,8 +22,11 @@ export class RolmaintenanceComponent implements OnInit {
 
 	RealmRole: RealmRole = new RealmRole();
 	realms: Realm[] = [];
-	realmGroupCode: string = '';
-	@ViewChild('clientForm', { read: NgForm }) clientForm: any;
+	realmGroupId: string = '';
+
+	Read: boolean = false;
+
+	@ViewChild('roleForm', { read: NgForm }) clientForm: any;
 
 	ngOnInit(): void {
 		this.realmService.GetAll().subscribe((response) => {
@@ -31,9 +34,10 @@ export class RolmaintenanceComponent implements OnInit {
 			console.log(this.realms);
 		});
 
-		this.realmGroupCode = this.activatedRoute.snapshot.params['id'];
-		if (this.realmGroupCode != undefined && this.realmGroupCode != null) {
-			this.realmRoleService.Find(this.realmGroupCode).subscribe((response) => {
+		this.realmGroupId = this.activatedRoute.snapshot.params['id'];
+		this.Read = this.activatedRoute.snapshot.params['read'];
+		if (this.realmGroupId != undefined && this.realmGroupId != null) {
+			this.realmRoleService.Find(this.realmGroupId).subscribe((response) => {
 				this.RealmRole = response;
 			});
 		}
@@ -41,7 +45,7 @@ export class RolmaintenanceComponent implements OnInit {
 	GetRows() {}
 	Home() {}
 	Back() {
-		this.router.navigate(['security/rol/list']);
+		this.router.navigate(['security/role/list']);
 	}
 	Submit() {
 		console.log(this.clientForm.valid);
@@ -49,7 +53,7 @@ export class RolmaintenanceComponent implements OnInit {
 			Swal.fire('Informacion', 'Complete los campos necesarios', 'error');
 			return;
 		}
-		if (this.realmGroupCode != undefined && this.realmGroupCode != null && this.realmGroupCode != '') {
+		if (this.realmGroupId != undefined && this.realmGroupId != null && this.realmGroupId != '') {
 			this.realmRoleService.Update(this.RealmRole).subscribe((response) => {
 				Swal.fire('Informacion', `Rol con codigo <br/> <b> ${response.id}</b>  <br/> ha sido actualizado correctamente`, 'success');
 				this.Back();

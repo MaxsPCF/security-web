@@ -1,15 +1,15 @@
 import { Guid } from 'guid-typescript';
 
 export class RealmGroup {
-	realmGroupCode: string = Guid.EMPTY;
-	realmCode: string = '';
+	realmGroupId: string = Guid.EMPTY;
+	realmId: string = '';
 	realmGroupName: string = '';
 	realmGroupRoles: RealmGroupRoles[] = [];
 	constructor() {}
 }
 export class RealmGroupRoles {
 	realmGroupRoleId: string = Guid.EMPTY;
-	realmGroupCode: string = '';
+	realmGroupId: string = '';
 	realmRoleId: string = '';
 	realmRoleName: string = '';
 	realmRoleDescription: string = '';

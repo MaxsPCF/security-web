@@ -7,11 +7,13 @@ import Swal from 'sweetalert2';
 import { Realm } from '../../realm/realm';
 import { RealmService } from '../../realm/realm.service';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { HtmlToExcel } from '../../common/HtmlToExcel';
 
 @Component({
 	selector: 'security-rollist',
 	standalone: true,
-	imports: [FormsModule, NgSelectModule],
+	imports: [FormsModule, NgSelectModule, NgbPaginationModule],
 	templateUrl: './rollist.component.html'
 })
 export class RollistComponent {
@@ -19,11 +21,16 @@ export class RollistComponent {
 	private readonly realmService = inject(RealmService);
 	private readonly router = inject(Router);
 
-	RealmCode: string = '';
-	RealmRoleCode: string = '';
+	RealmId: string = '';
+	RealmRoleId: string = '';
 	RealmRoleName: string = '';
 	realms: Realm[] = [];
 	RealmRoles: RealmRoleSimpleResponse[] = [];
+	RealmRolesFilter: RealmRoleSimpleResponse[] = [];
+
+	Page: number = 1;
+	PageSize: number = 10;
+	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
 
 	ngOnInit() {
 		this.realmService.GetAll().subscribe((response) => {
@@ -34,16 +41,21 @@ export class RollistComponent {
 	}
 	Home() {}
 	Search() {
-		this.realmRoleService.GetByFilter(this.RealmCode, this.RealmRoleCode, this.RealmRoleName).subscribe((response) => {
+		this.realmRoleService.GetByFilter(this.RealmId, this.RealmRoleId, this.RealmRoleName).subscribe((response) => {
 			this.RealmRoles = response;
+			this.Page = 1;
+			this.RefreshList();
 		});
 	}
 	Add() {
-		this.router.navigate(['security/rol/maintenance']);
+		this.router.navigate(['security/role/maintenance']);
 	}
 	Export() {}
 	EditRow(row: RealmRoleSimpleResponse) {
-		this.router.navigate(['security/rol/maintenance', row.realmRoleCode]);
+		this.router.navigate(['security/role/maintenance', row.realmRoleId]);
+	}
+	ViewDetail(row: RealmRoleSimpleResponse) {
+		this.router.navigate(['security/role/maintenance', true, row.realmRoleId]);
 	}
 	DeleteRow(row: RealmRoleSimpleResponse) {
 		Swal.fire({
@@ -53,13 +65,16 @@ export class RollistComponent {
 			denyButtonText: 'No'
 		}).then((result) => {
 			if (result.isConfirmed) {
-				this.realmRoleService.Delete(row.realmRoleCode).subscribe((response) => {
-					Swal.fire('Informacion', `Rol con codigo <br/> <b> ${row.realmRoleCode}</b>  <br/> ha sido eliminado correctamente`, 'success');
+				this.realmRoleService.Delete(row.realmRoleId).subscribe((response) => {
+					Swal.fire('Informacion', `Rol con codigo <br/> <b> ${row.realmRoleId}</b>  <br/> ha sido eliminado correctamente`, 'success');
 					this.Search();
 				});
 			} else if (result.isDenied) {
 			}
 		});
 	}
-	SelectRow(row: RealmRoleSimpleResponse) {}
+
+	RefreshList(): void {
+		this.RealmRolesFilter = this.RealmRoles.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
+	}
 }
