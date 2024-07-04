@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ConfigService } from '../common/config.service';
+import { ConfigService } from '../common/services/config.service';
 import { ProfileCreateResponses, ProfileSimpleResponses } from './dto/profileResponses';
 import { ProfileCommand } from './dto/profileRequests';
 

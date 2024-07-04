@@ -24,10 +24,10 @@ import { RolmaintenanceComponent } from './rol/rolmaintenance/rolmaintenance.com
 import { BusinessuserlistComponent } from './businessuser/businessuserlist/businessuserlist.component';
 import { BusinessusermaintenanceComponent } from './businessuser/businessusermaintenance/businessusermaintenance.component';
 import { TemplatemassiveComponent } from './template/templatemassive/templatemassive.component';
-
 export const routes: Routes = [
 	{
 		path: 'security',
+		//canActivate: [AuthGuard],
 		children: [
 			{ path: 'main', component: MainComponent },
 			{

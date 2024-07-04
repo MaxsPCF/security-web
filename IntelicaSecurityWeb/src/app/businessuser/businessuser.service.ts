@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ConfigService } from '../common/config.service';
+import { ConfigService } from '../common/services/config.service';
 import { Observable } from 'rxjs';
 import { BusinessUserMaintenanceResponse, BusinessUserSimpleResponse } from './dto/businessUserCommands';
 import { Guid } from 'guid-typescript';

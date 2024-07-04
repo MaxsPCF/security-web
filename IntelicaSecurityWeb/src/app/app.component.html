@@ -7,7 +7,7 @@
 			class="page-title d-flex align-items-center flex-wrap me-3 mb-5 mb-lg-0"
 		>
 			<h1 class="d-flex text-dark fw-bolder fs-3 align-items-center my-1">
-				<b> Security</b>
+				<b>Security</b>
 				<span class="h-20px border-1 border-gray-200 border-start ms-3 mx-2 me-1"></span>
 				<span class="text-muted fs-7 fw-bold mt-2">{{Title}}</span>
 			</h1>
@@ -16,7 +16,9 @@
 </div>
 <div class="post d-flex flex-column-fluid" id="kt_post">
 	<div id="kt_content_container" class="container-xxl">
+		@if (IsLoggedIn()){
 		<router-outlet />
+		}
 	</div>
 </div>
 <app-spinner />

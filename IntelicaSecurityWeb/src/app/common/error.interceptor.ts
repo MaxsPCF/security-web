@@ -3,11 +3,13 @@ import { HttpErrorResponse, HttpHeaders, HttpInterceptorFn } from "@angular/comm
 import { inject } from "@angular/core";
 import { catchError, finalize, throwError } from "rxjs";
 import { SpinnerService } from "./spinner/spinner.service";
+import { CustomKeycloackService } from "./services/customKeycloak.service";
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 	const spinner = inject(SpinnerService);
+	const customKeycloackService = inject(CustomKeycloackService); 
 	spinner.show();
 	const HeaderSettings: { [name: string]: string | string[] } = {};
-	HeaderSettings["Authorization"] = "Bearer ";
+	HeaderSettings["Authorization"] = `Bearer ${ customKeycloackService.Token}`;
 	HeaderSettings["Accept"] = "application/json";
 	HeaderSettings["Content-Type"] = "application/json";
 	let _request = req.clone({ headers: new HttpHeaders(HeaderSettings) });

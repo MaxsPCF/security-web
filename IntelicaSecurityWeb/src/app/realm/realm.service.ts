@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ConfigService } from '../common/config.service';
+import { ConfigService } from '../common/services/config.service';
 import { Realm } from './realm';
 import { RealmMaintenanceResponse, RealmSimpleResponse } from './dto/realmResponses';
 import { Guid } from 'guid-typescript';

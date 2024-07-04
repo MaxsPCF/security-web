@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, inject, signal } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { SpinnerComponent } from "./common/spinner/spinner.component";
-import { filter, map } from "rxjs";
+import { filter, fromEvent, map } from "rxjs";
+import { CustomKeycloackService } from "./common/services/customKeycloak.service";
 @Component({
 	selector: "app-security",
 	standalone: true,
@@ -10,8 +11,12 @@ import { filter, map } from "rxjs";
 })
 export class AppComponent implements OnInit {
 	Title: string = "";
+	IsLoggedIn = signal<boolean>(false);
+	CustomKeycloakService: CustomKeycloackService = inject(CustomKeycloackService);
+	event = fromEvent(window, "eventKeycloack");
 	private router = inject(Router);
-	ngOnInit(): void {
+	async ngOnInit() {
+		//Route name
 		this.router.events
 			.pipe(
 				filter(event => event instanceof NavigationEnd),
@@ -28,10 +33,28 @@ export class AppComponent implements OnInit {
 				})
 			)
 			.subscribe((title: string) => {
-				if (title) {
-					this.Title = title;
-				}
+				if (title) this.Title = title;
 			});
+		//Keycloak
+		var intertval = setInterval(async () => {
+			if (this.IsLoggedIn()) clearInterval(intertval);
+			else this.CallKeycloakInstance();
+		}, 300);
+		this.SetKeycloakInstance();
+	}
+	async SetKeycloakInstance() {
+		this.event.subscribe(async (x: any) => {
+			this.CustomKeycloakService.SetKeycloakInstance(x.detail.keycLoakService);
+			this.IsLoggedIn.set(true);
+		});
+	}
+	CallKeycloakInstance() {
+		let event = new CustomEvent("callKeycloack", {
+			detail: {
+				callKeycloack: true,
+			},
+		});
+		window.dispatchEvent(event);
 	}
 	title = "Intelica Security Web";
 }

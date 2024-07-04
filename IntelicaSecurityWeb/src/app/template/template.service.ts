@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
-import { ConfigService } from "../common/config.service";
+import { ConfigService } from "../common/services/config.service";
 import { Template } from "./template";
 import { TemplateMaintenanceResponse, TemplateMassive, TemplateSimpleResponse } from "./dto/templateResponses";
 import { Guid } from "guid-typescript";

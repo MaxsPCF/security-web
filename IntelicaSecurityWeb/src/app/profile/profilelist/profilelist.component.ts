@@ -7,7 +7,6 @@ import { ProfileService } from '../profile.service';
 import { ProfileSimpleResponses } from '../dto/profileResponses';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ViewDetailsProfileComponent } from '../modals/view-details-profile/view-details-profile.component';
-
 @Component({
 	selector: 'security-profilelist',
 	standalone: true,
@@ -20,31 +19,24 @@ export class ProfilelistComponent implements OnInit {
 	private readonly router = inject(Router);
 	private readonly sweetAlertService = inject(SweetAlertService);
 	private readonly modalService = inject(NgbModal);
-
 	profileList: ProfileSimpleResponses[] = [];
-
 	ngOnInit(): void {
 		this.GetAll();
 	}
-
 	GetAll() {
 		this.profileService.GetAll().subscribe((response) => {
 			this.profileList = response;
 		});
 	}
-
 	Add() {
 		this.router.navigate(['security/profile/maintenance']);
 	}
-
 	Export() {}
-
 	EditRow(row: ProfileSimpleResponses) {
 		this.router.navigate(['security/profile/maintenance'], {
 			queryParams: { profileID: row.profileID }
 		});
 	}
-
 	DeleteRow(row: ProfileSimpleResponses) {
 		this.sweetAlertService.confirmBox('Do you want to delete this profile?', 'Yes', 'No').then((response) => {
 			if (response.isConfirmed) {
@@ -54,14 +46,11 @@ export class ProfilelistComponent implements OnInit {
 							this.sweetAlertService.messageTextBox('Process successfully completed.');
 							this.GetAll();
 						}
-					},
-					error: (error) => {},
-					complete: () => {}
+					}
 				});
 			}
 		});
 	}
-
 	viewDetail(row: ProfileSimpleResponses) {
 		const modal = this.modalService.open(ViewDetailsProfileComponent, { size: 'xl' });
 		modal.componentInstance.listpage = row.profilePages;

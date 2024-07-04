@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { ConfigService } from '../common/config.service';
+import { ConfigService } from '../common/services/config.service';
 import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
 import { RealmRoleMaintenanceResponse, RealmRoleSimpleResponse } from './dto/realmRoleResponses';
 import { RealmRole } from './realmRole';
-import { RealmRoleCreateCommand, RealmRoleUpdateCommand } from './dto/realmRoleCommands';
-
 @Injectable({
 	providedIn: 'root'
 })
