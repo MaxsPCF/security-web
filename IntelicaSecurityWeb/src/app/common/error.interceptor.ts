@@ -6,12 +6,14 @@ import { SpinnerService } from "./spinner/spinner.service";
 import { CustomKeycloackService } from "./services/customKeycloak.service";
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 	const spinner = inject(SpinnerService);
-	const customKeycloackService = inject(CustomKeycloackService); 
+	const customKeycloackService = inject(CustomKeycloackService);
 	spinner.show();
 	const HeaderSettings: { [name: string]: string | string[] } = {};
-	HeaderSettings["Authorization"] = `Bearer ${ customKeycloackService.Token}`;
-	HeaderSettings["Accept"] = "application/json";
-	HeaderSettings["Content-Type"] = "application/json";
+	if (!req.url.includes("assets/environment.json")) {
+		HeaderSettings["Authorization"] = `Bearer ${customKeycloackService.Token}`;
+		HeaderSettings["Accept"] = "application/json";
+		HeaderSettings["Content-Type"] = "application/json";
+	}
 	let _request = req.clone({ headers: new HttpHeaders(HeaderSettings) });
 	return next(_request).pipe(
 		finalize(() => spinner.hide()),
