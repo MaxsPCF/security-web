@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ClientScope } from '../clientScope';
@@ -22,32 +22,38 @@ export class ClientscopemaintenanceComponent {
 	private activatedRoute = inject(ActivatedRoute);
 
 	ClientScope: ClientScope = new ClientScope();
-	realms: Realm[] = [];
-	clientScopeID: string = '';
-	@ViewChild('clientScopeForm', { read: NgForm }) clientScopeForm: any;
+	Realms: Realm[] = [];
+	ClientScopeID: string = '';
+	@ViewChild('ClientScopeForm', { read: NgForm }) ClientScopeForm: any;
+	Read: boolean = false;
 
 	ngOnInit(): void {
 		this.realmService.GetAll().subscribe((response) => {
-			this.realms = response;
-			console.log(this.realms);
+			this.Realms = response;
+			console.log(response);
 		});
 
-		this.clientScopeID = this.activatedRoute.snapshot.params['id'];
-		if (this.clientScopeID != undefined && this.clientScopeID != null) {
-			this.clientScopeService.Find(this.clientScopeID).subscribe((response) => {
+		this.ClientScopeID = this.activatedRoute.snapshot.params['id'];
+		this.Read = this.activatedRoute.snapshot.params['read'];
+		if (this.ClientScopeID != undefined && this.ClientScopeID != null) {
+			this.clientScopeService.Find(this.ClientScopeID).subscribe((response) => {
 				this.ClientScope = response;
 			});
 		}
+		if (this.ClientScopeID == undefined && this.ClientScopeID == null) this.Read = false;
 	}
+	@HostListener('window:keydown.alt.r', ['$event'])
 	Back() {
 		this.router.navigate(['security/clientscope/list']);
 	}
+	@HostListener('window:keydown.alt.s', ['$event'])
 	Submit() {
-		if (!this.clientScopeForm.valid) {
+		console.log(this.ClientScope);
+		if (!this.ClientScopeForm.valid) {
 			Swal.fire('Informaci�n', 'Complete los campos necesarios', 'error');
 			return;
 		}
-		if (this.clientScopeID != undefined && this.clientScopeID != null && this.clientScopeID != '') {
+		if (this.ClientScopeID != undefined && this.ClientScopeID != null && this.ClientScopeID != '') {
 			this.clientScopeService.Update(this.ClientScope).subscribe((response) => {
 				Swal.fire(
 					'Informaci�n',

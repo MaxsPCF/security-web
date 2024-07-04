@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Realm } from '../realm';
@@ -17,37 +17,41 @@ export class RealmmaintenanceComponent {
 	private activatedRoute = inject(ActivatedRoute);
 
 	Realm: Realm = new Realm();
-	realmCode: string = '';
-	@ViewChild('realmForm', { read: NgForm }) realmForm: any;
+	RealmCode: string = '';
+	@ViewChild('RealmForm', { read: NgForm }) RealmForm: any;
+	Read: boolean = false;
 
 	ngOnInit() {
-		this.realmCode = this.activatedRoute.snapshot.params['id'];
-		console.log(this.realmCode);
-		if (this.realmCode != undefined && this.realmCode != null) {
-			this.realmService.Find(this.realmCode).subscribe((response) => {
+		this.RealmCode = this.activatedRoute.snapshot.params['id'];
+		this.Read = this.activatedRoute.snapshot.params['read'];
+		if (this.RealmCode != undefined && this.RealmCode != null) {
+			this.realmService.Find(this.RealmCode).subscribe((response) => {
 				this.Realm = response;
 			});
 		}
+		if (this.RealmCode == undefined && this.RealmCode == null) this.Read = false;
 	}
 	GetRows() {}
 	Home() {}
+	@HostListener('window:keydown.alt.r', ['$event'])
 	Back() {
 		this.router.navigate(['security/realm/list']);
 	}
+	@HostListener('window:keydown.alt.s', ['$event'])
 	Submit() {
-		if (!this.realmForm.valid) {
+		if (!this.RealmForm.valid) {
 			Swal.fire('Informaci�n', 'Complete los campos necesarios', 'error');
 			return;
 		}
-		if (this.realmCode != undefined && this.realmCode != null && this.realmCode != '') {
+		if (this.RealmCode != undefined && this.RealmCode != null && this.RealmCode != '') {
 			this.realmService.Update(this.Realm).subscribe((response) => {
-				Swal.fire('Informaci�n', `Reino con codigo <br/> <b> ${response.realmCode}</b>  <br/> ha sido actualizado correctamente`, 'success');
+				Swal.fire('Informaci�n', `Reino con codigo <br/> <b> ${response.realmID}</b>  <br/> ha sido actualizado correctamente`, 'success');
 				this.Back();
 				this.Clean();
 			});
 		} else {
 			this.realmService.Create(this.Realm).subscribe((response) => {
-				Swal.fire('Informaci�n', `Reino con codigo <br/> <b> ${response.realmCode}</b>  <br/> ha sido registrada correctamente`, 'success');
+				Swal.fire('Informaci�n', `Reino con codigo <br/> <b> ${response.realmID}</b>  <br/> ha sido registrada correctamente`, 'success');
 				this.Back();
 				this.Clean();
 			});

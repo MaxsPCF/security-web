@@ -1,7 +1,7 @@
 export interface RealmSimpleResponse {
-	realmCode: string;
+	realmID: string;
 	realmName: string;
 }
 export interface RealmMaintenanceResponse {
-	realmCode: string;
+	realmID: string;
 }

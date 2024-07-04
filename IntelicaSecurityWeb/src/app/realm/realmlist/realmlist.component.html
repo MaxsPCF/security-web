@@ -1,117 +1,85 @@
-<div class="card mt-3">
-	<div class="card-body">
-		<div class="row">
-			<!-- <div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Realm code</label>
-				<input
-					name="realmCode"
-					class="form-control form-control-sm"
-					type="text"
-					maxlength="100"
-					[(ngModel)]="RealmCode"
-					(keyup.enter)="Search()"
-					autofocus
-				/>
-			</div> -->
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Realm name</label>
-				<input
-					name="realmCode"
-					class="form-control form-control-sm"
-					type="text"
-					maxlength="100"
-					[(ngModel)]="RealmName"
-					(keyup.enter)="Search()"
+<div class="container">
+	<div class="card mt-3">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Realm name</label>
+					<input
+						name="RealmName"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="RealmName"
+						(keyup.enter)="Search()"
+					/>
+				</div>
+				<div class="col-md-2 div-center-right" (click)="Search()">
+					<button class="btn btn-primary">
+						Search
+						<i class="icon-save-white"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card card-header card-header-stretch cold-md-12 mt-3">
+		<div class="card mb-4 mt-4">
+			<ul class="nav">
+				<button type="button" class="btn-toolbar" (click)="Add()">
+					<a class="nav-link text-toolbar">
+						<i class="icon-add"></i>
+						Add
+					</a>
+				</button>
+				<button type="button" class="btn-toolbar" (click)="Export()">
+					<a class="nav-link text-toolbar">
+						<i class="icon-export"></i>
+						Export
+					</a>
+				</button>
+			</ul>
+		</div>
+		<div class="card mb-10">
+			<div class="pt-4">
+				<table class="int-table">
+					<thead>
+						<tr>
+							<th scope="col" style="width: 35%">Realm ID</th>
+							<th scope="col" style="width: 45%">Realm Name</th>
+							<th scope="col" style="width: 15%">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ( realm of RealmsFilter ; track realm.realmID){
+						<tr>
+							<td>{{ realm.realmID }}</td>
+							<td>{{ realm.realmName }}</td>
+							<th scope="row">
+								<div class="row">
+									<div class="col-lg-4 col-md-12 pl-10">
+										<button class="int-iconBtn" (click)="EditRow(realm)"><i class="icon-edit"></i></button>
+									</div>
+									<div class="col-lg-4 col-md-12">
+										<button class="int-iconBtn" (click)="DeleteRow(realm)"><i class="icon-trash"></i></button>
+									</div>
+									<div class="col-lg-4 col-md-12 pr-10">
+										<button class="int-iconBtn"><i class="icon-eye"></i></button>
+									</div>
+								</div>
+							</th>
+						</tr>
+						}
+					</tbody>
+				</table>
+				<ngb-pagination
+					class="d-flex justify-content-center"
+					[pageSize]="PageSize"
+					[collectionSize]="Realms.length"
+					[(page)]="Page"
+					(pageChange)="RefreshList()"
 				/>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card card-header card-header-stretch cold-md-12 mt-3">
-	<div class="card mb-4 mt-4">
-		<ul class="nav">
-			<button type="button" class="btn-toolbar" (click)="Search()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					Search
-				</a>
-			</button>
-			<button type="button" class="btn-toolbar" (click)="Add()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					Add
-				</a>
-			</button>
-			<!-- <button type="button" class="btn-toolbar" (click)="Export()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					Export
-				</a>
-			</button> -->
-		</ul>
-	</div>
-	<div class="card mb-10">
-		<div class="pt-4">
-			<table class="int-table">
-				<thead>
-					<tr>
-						<th scope="col">Realm Code</th>
-						<th scope="col">Realm Name</th>
-						<th scope="col">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					@for ( realm of Realms ; track realm.realmCode){
-					<tr>
-						<td>{{ realm.realmCode }}</td>
-						<td>{{ realm.realmName }}</td>
-						<th scope="row">
-							<div class="btn-group">
-								<!-- <button class="btn btn-secondary" (click)="SelectRow(realm)">
-									<i class="icon-export"></i>
-									Select
-								</button> -->
-								<button class="btn btn-secondary" (click)="EditRow(realm)">Edit</button>
-								<button class="btn btn-secondary" (click)="DeleteRow(realm)">Delete</button>
-							</div>
-						</th>
-					</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
+<table id="TableExport" style="display: none"></table>

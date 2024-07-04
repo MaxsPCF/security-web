@@ -13,8 +13,8 @@ export class RealmService {
 		if (realmName == '') realmName = '-';
 		return this._http.get<RealmSimpleResponse[]>(`${this._configService.environment?.apiPath}/Realm/GetByFilter/${realmName}`);
 	}
-	Find(realmCode: string): Observable<Realm> {
-		return this._http.get<Realm>(`${this._configService.environment?.apiPath}/Realm/Find/${realmCode}`);
+	Find(realmID: string): Observable<Realm> {
+		return this._http.get<Realm>(`${this._configService.environment?.apiPath}/Realm/Find/${realmID}`);
 	}
 	Create(realm: Realm): Observable<RealmMaintenanceResponse> {
 		return this._http.post<RealmMaintenanceResponse>(`${this._configService.environment?.apiPath}/Realm`, realm);
@@ -22,8 +22,8 @@ export class RealmService {
 	Update(realm: Realm): Observable<RealmMaintenanceResponse> {
 		return this._http.put<RealmMaintenanceResponse>(`${this._configService.environment?.apiPath}/Realm`, realm);
 	}
-	Delete(realmCode: string): Observable<boolean> {
-		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/Realm/${realmCode}`);
+	Delete(realmID: string): Observable<boolean> {
+		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/Realm/${realmID}/${Guid.EMPTY}`);
 	}
 	GetAll(): Observable<RealmSimpleResponse[]> {
 		return this._http.get<RealmSimpleResponse[]>(`${this._configService.environment?.apiPath}/Realm/GetAll`);
