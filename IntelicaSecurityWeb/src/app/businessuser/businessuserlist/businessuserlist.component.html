@@ -1,157 +1,134 @@
-<div class="row mt-5">
-	<div class="col-md-7 col-lg-7">
-		<div class="d-flex align-items-center flex-wrap">
-			<div class="d-flex align-items-baseline flex-wrap">
-				<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
-					<li class="breadcrumb-item text-muted">
-						<a (click)="Home()" class="text-muted">Home</a>
-					</li>
-					<li class="text-muted not-allowed">
-						<a class="text-muted">Business User list</a>
-					</li>
-				</ul>
+<div class="container">
+	<div class="card mt-3">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Realm</label>
+					<ng-select name="realmId" [items]="realms" bindLabel="realmName" bindValue="realmID" [(ngModel)]="RealmID"> </ng-select>
+				</div>
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Profile</label>
+					<ng-select name="profileId" [items]="profiles" bindLabel="profileName" bindValue="profileID" [(ngModel)]="ProfileID"> </ng-select>
+				</div>
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Business User Name</label>
+					<input
+						name="BusinessUserName"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="BusinessUserName"
+						(keyup.enter)="Search()"
+					/>
+				</div>
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Business User FirstName</label>
+					<input
+						name="BusinessUserFirstName"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="BusinessUserFirstName"
+						(keyup.enter)="Search()"
+					/>
+				</div>
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Business User Lastname</label>
+					<input
+						name="BusinessUserLastName"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="BusinessUserLastName"
+						(keyup.enter)="Search()"
+					/>
+				</div>
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Business User Email</label>
+					<input
+						name="BusinessUserEmail"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="BusinessUserEmail"
+						(keyup.enter)="Search()"
+					/>
+				</div>
+				<div class="col-md-2 div-center-right" (click)="Search()">
+					<button class="btn btn-primary">
+						Search
+						<i class="icon-save-white"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card card-header card-header-stretch cold-md-12 mt-3">
+		<div class="card mb-4 mt-4">
+			<ul class="nav">
+				<button type="button" class="btn-toolbar" (click)="Add()">
+					<a class="nav-link text-toolbar">
+						<i class="icon-add"></i>
+						Add
+					</a>
+				</button>
+				<button type="button" class="btn-toolbar" (click)="Export()">
+					<a class="nav-link text-toolbar">
+						<i class="icon-export"></i>
+						Export
+					</a>
+				</button>
+			</ul>
+		</div>
+		<div class="card mb-10">
+			<div class="pt-4">
+				<table class="int-table">
+					<thead>
+						<tr>
+							<th scope="col">Business User ID</th>
+							<th scope="col">Realm Name</th>
+							<th scope="col">Business User Name</th>
+							<th scope="col">Business User FirstName</th>
+							<th scope="col">Business User LastName</th>
+							<th scope="col">Business User Email</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ( user of BusinessUserFilter ; track user.businessUserID){
+						<tr>
+							<td>{{ user.businessUserID }}</td>
+							<td>{{ user.realmName }}</td>
+							<td>{{ user.businessUserName }}</td>
+							<td>{{ user.businessUserFirstName }}</td>
+							<td>{{ user.businessUserLastName }}</td>
+							<td>{{ user.businessUserEmail }}</td>
+							<th scope="row">
+								<div class="row">
+									<div class="col-lg-4 col-md-12 pl-10">
+										<button class="int-iconBtn" (click)="EditRow(user)"><i class="icon-edit"></i></button>
+									</div>
+									<div class="col-lg-4 col-md-12">
+										<button class="int-iconBtn" (click)="DeleteRow(user)"><i class="icon-trash"></i></button>
+									</div>
+									<div class="col-lg-4 col-md-12 pr-10">
+										<button class="int-iconBtn"><i class="icon-eye"></i></button>
+									</div>
+								</div>
+							</th>
+						</tr>
+						}
+					</tbody>
+				</table>
+				<ngb-pagination
+					class="d-flex justify-content-center"
+					[pageSize]="PageSize"
+					[collectionSize]="BusinessUsers.length"
+					[(page)]="Page"
+					(pageChange)="RefreshList()"
+				/>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card mt-3">
-	<div class="card-body">
-		<div class="row">
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Realm</label>
-				<ng-select name="realmId" [items]="realms" bindLabel="realmName" bindValue="realmCode" [(ngModel)]="RealmID"> </ng-select>
-			</div>
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Profile</label>
-				<ng-select name="profileId" [items]="profiles" bindLabel="profileName" bindValue="profileID" [(ngModel)]="ProfileID"> </ng-select>
-			</div>
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Business User Name</label>
-				<input
-					name="realmCode"
-					class="form-control form-control-sm"
-					type="text"
-					maxlength="100"
-					[(ngModel)]="BusinessUserName"
-					(keyup.enter)="Search()"
-				/>
-			</div>
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Business User FirstName</label>
-				<input
-					name="realmCode"
-					class="form-control form-control-sm"
-					type="text"
-					maxlength="100"
-					[(ngModel)]="BusinessUserFirstName"
-					(keyup.enter)="Search()"
-				/>
-			</div>
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Business User Lastname</label>
-				<input
-					name="realmCode"
-					class="form-control form-control-sm"
-					type="text"
-					maxlength="100"
-					[(ngModel)]="BusinessUserLastName"
-					(keyup.enter)="Search()"
-				/>
-			</div>
-			<div class="col-md-4">
-				<label class="label-form-enazul text-primary mt-1">Business User Email</label>
-				<input
-					name="realmCode"
-					class="form-control form-control-sm"
-					type="text"
-					maxlength="100"
-					[(ngModel)]="BusinessUserEmail"
-					(keyup.enter)="Search()"
-				/>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="card card-header card-header-stretch cold-md-12 mt-3">
-	<div class="card mb-4 mt-4">
-		<ul class="nav">
-			<button type="button" class="btn-toolbar" (click)="Search()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					Search
-				</a>
-			</button>
-			<button type="button" class="btn-toolbar" (click)="Add()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					Add
-				</a>
-			</button>
-		</ul>
-	</div>
-	<div class="card mb-10">
-		<div class="pt-4">
-			<table class="int-table">
-				<thead>
-					<tr>
-						<th scope="col">Business User ID</th>
-						<th scope="col">Realm Name</th>
-						<th scope="col">Business User Name</th>
-						<th scope="col">Business User FirstName</th>
-						<th scope="col">Business User LastName</th>
-						<th scope="col">Business User Email</th>
-						<th scope="col">Actions</th>
-					</tr>
-				</thead>
-				<tbody>
-					@for ( user of BusinessUsers ; track user.businessUserID){
-					<tr>
-						<td>{{ user.businessUserID }}</td>
-						<td>{{ user.realmName }}</td>
-						<td>{{ user.businessUserName }}</td>
-						<td>{{ user.businessUserFirstName }}</td>
-						<td>{{ user.businessUserLastName }}</td>
-						<td>{{ user.businessUserEmail }}</td>
-						<th scope="row">
-							<div class="btm-group">
-								<button class="int-iconBtn" (click)="EditRow(user)"><i class="icon-edit"></i></button>
-								<button class="int-iconBtn" (click)="DeleteRow(user)"><i class="icon-trash"></i></button>
-							</div>
-						</th>
-					</tr>
-					}
-				</tbody>
-			</table>
-		</div>
-	</div>
-</div>
-<style>
-	.logo {
-		background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='17' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z' stroke='%2338E8C6' stroke-linecap='round' stroke-linejoin='round' /%3E%3Cpath d='M1 5H13' stroke='%2338E8C6' stroke-linecap='round' stroke-linejoin='round' /%3E%3Cpath d='M5 13V5' stroke='%2338E8C6' stroke-linecap='round' stroke-linejoin='round' /%3E%3C/svg%3E");
-	}
-	.bg {
-		background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M224%20387.814V512L32 320l192-192v126.912C447.375 260.152 437.794 103.016 380.93 0 521.287 151.707 491.48 394.785 224 387.814z'/%3E%3C/svg%3E");
-	}
-</style>
+<table id="TableExport" style="display: none"></table>

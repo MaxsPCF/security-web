@@ -15,15 +15,16 @@ import { ProfilelistComponent } from './profile/profilelist/profilelist.componen
 import { ProfilemaintenanceComponent } from './profile/profilemaintenance/profilemaintenance.component';
 import { ClientscopelistComponent } from './clientScope/clientscopelist/clientscopelist.component';
 import { ClientscopemaintenanceComponent } from './clientScope/clientscopemaintenance/clientscopemaintenance.component';
-import { GouplistComponent } from './group/gouplist/gouplist.component';
-import { GoupmaintenanceComponent } from './group/goupmaintenance/goupmaintenance.component';
 import { TemplatelistComponent } from './template/templatelist/templatelist.component';
 import { TemplatemaintenanceComponent } from './template/templatemaintenance/templatemaintenance.component';
-import { RollistComponent } from './rol/rollist/rollist.component';
-import { RolmaintenanceComponent } from './rol/rolmaintenance/rolmaintenance.component';
 import { BusinessuserlistComponent } from './businessuser/businessuserlist/businessuserlist.component';
 import { BusinessusermaintenanceComponent } from './businessuser/businessusermaintenance/businessusermaintenance.component';
 import { TemplatemassiveComponent } from './template/templatemassive/templatemassive.component';
+import { RealmrolelistComponent } from './realmrole/realmrolelist/realmrolelist.component';
+import { RealmrolmaintenanceComponent } from './realmrole/realmrolmaintenance/realmrolmaintenance.component';
+import { RealmgrouplistComponent } from './realmgroup/realmgrouplist/realmgrouplist.component';
+import { RealmgroupmaintenanceComponent } from './realmgroup/realmgroupmaintenance/realmgroupmaintenance.component';
+import { RealmsessionlistComponent } from './realmsession/realmsessionlist/realmsessionlist.component';
 export const routes: Routes = [
 	{
 		path: 'security',
@@ -95,12 +96,11 @@ export const routes: Routes = [
 				]
 			},
 			{
-				path: 'group',
+				path: 'realmgroup',
 				children: [
-					{ path: 'list', component: GouplistComponent, data: { title: 'Group list' } },
-					{ path: 'maintenance', component: GoupmaintenanceComponent, data: { title: 'Group maintenance - New' } },
-					{ path: 'maintenance/:id', component: GoupmaintenanceComponent, data: { title: 'Group maintenance - Edit' } },
-					{ path: 'maintenance/:edit/:id', component: GoupmaintenanceComponent, data: { title: 'Group maintenance - View' } }
+					{ path: 'list', component: RealmgrouplistComponent },
+					{ path: 'maintenance', component: RealmgroupmaintenanceComponent },
+					{ path: 'maintenance/:id', component: RealmgroupmaintenanceComponent }
 				]
 			},
 			{
@@ -112,13 +112,16 @@ export const routes: Routes = [
 				]
 			},
 			{
-				path: 'role',
+				path: 'realmrole',
 				children: [
-					{ path: 'list', component: RollistComponent, data: { title: 'Role list' } },
-					{ path: 'maintenance', component: RolmaintenanceComponent, data: { title: 'Role maintenance - New' } },
-					{ path: 'maintenance/:id', component: RolmaintenanceComponent, data: { title: 'Role maintenance - Edit' } },
-					{ path: 'maintenance/:edit/:id', component: RolmaintenanceComponent, data: { title: 'Role maintenance - View' } }
+					{ path: 'list', component: RealmrolelistComponent },
+					{ path: 'maintenance', component: RealmrolmaintenanceComponent },
+					{ path: 'maintenance/:id', component: RealmrolmaintenanceComponent }
 				]
+			},
+			{
+				path: 'realmsession',
+				children: [{ path: 'list', component: RealmsessionlistComponent }]
 			}
 		]
 	},

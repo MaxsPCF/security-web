@@ -1,10 +1,10 @@
 import { Guid } from 'guid-typescript';
 
 export class Client {
-	clientCode: string = Guid.EMPTY;
-	realmCode: string = '';
-	clientId: string = '';
+	clientID: string = '';
+	realmID: string = '';
 	clientName: string = '';
+	clientDescription: string = '';
 	clientRootUrl: string = '';
 	clientRedirectUrl: string = '';
 	clientWebOrigin: string = '';

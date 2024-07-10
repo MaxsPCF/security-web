@@ -3,28 +3,28 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-4">
-					<label class="label-form-enazul text-primary mt-1">Client id</label>
-					<input
-						name="ClientID"
-						class="form-control form-control-sm"
-						type="text"
-						maxlength="100"
-						[(ngModel)]="ClientID"
-						(keyup.enter)="Search()"
-					/>
-				</div>
-				<div class="col-md-4">
 					<label class="label-form-enazul text-primary mt-1">Realm</label>
 					<ng-select name="realmID" [items]="realms" bindLabel="realmName" bindValue="realmID" [(ngModel)]="RealmID"> </ng-select>
 				</div>
 				<div class="col-md-4">
-					<label class="label-form-enazul text-primary mt-1">Client name</label>
+					<label class="label-form-enazul text-primary mt-1">Group id</label>
 					<input
-						name="clientName"
+						name="RealmRoleID"
 						class="form-control form-control-sm"
 						type="text"
 						maxlength="100"
-						[(ngModel)]="ClientName"
+						[(ngModel)]="RealmRoleID"
+						(keyup.enter)="Search()"
+					/>
+				</div>
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Role name</label>
+					<input
+						name="RealmRoleName"
+						class="form-control form-control-sm"
+						type="text"
+						maxlength="100"
+						[(ngModel)]="RealmRoleName"
 						(keyup.enter)="Search()"
 					/>
 				</div>
@@ -59,27 +59,27 @@
 				<table class="int-table">
 					<thead>
 						<tr>
-							<th scope="col" style="width: 15%">Client ID</th>
-							<th scope="col" style="width: 25%">Realm Name</th>
-							<th scope="col" style="width: 20%">Client Name</th>
-							<th scope="col" style="width: 30%">Client Description</th>
-							<th scope="col" style="width: 20%">Actions</th>
+							<th scope="col" style="width: 30%">Realm Role ID</th>
+							<th scope="col" style="width: 20%">Realm Name</th>
+							<th scope="col" style="width: 20%">Realm Role Name</th>
+							<th scope="col" style="width: 20%">Realm Role Description</th>
+							<th scope="col" style="width: 15%">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						@for ( client of ClientsFilter ; track client.clientID){
+						@for ( realm of RealmRolesFilter ; track realm.realmRoleID){
 						<tr>
-							<td>{{ client.clientID }}</td>
-							<td>{{ client.realmName }}</td>
-							<td>{{ client.clientName }}</td>
-							<td>{{ client.clientDescription }}</td>
+							<td>{{ realm.realmRoleID }}</td>
+							<td>{{ realm.realmName }}</td>
+							<td>{{ realm.realmRoleName }}</td>
+							<td>{{ realm.realmRoleDescription }}</td>
 							<th scope="row">
 								<div class="row">
 									<div class="col-lg-4 col-md-12 pl-10">
-										<button class="int-iconBtn" (click)="EditRow(client)"><i class="icon-edit"></i></button>
+										<button class="int-iconBtn" (click)="EditRow(realm)"><i class="icon-edit"></i></button>
 									</div>
 									<div class="col-lg-4 col-md-12">
-										<button class="int-iconBtn" (click)="DeleteRow(client)"><i class="icon-trash"></i></button>
+										<button class="int-iconBtn" (click)="DeleteRow(realm)"><i class="icon-trash"></i></button>
 									</div>
 									<div class="col-lg-4 col-md-12 pr-10">
 										<button class="int-iconBtn"><i class="icon-eye"></i></button>
@@ -93,7 +93,7 @@
 				<ngb-pagination
 					class="d-flex justify-content-center"
 					[pageSize]="PageSize"
-					[collectionSize]="Clients.length"
+					[collectionSize]="RealmRoles.length"
 					[(page)]="Page"
 					(pageChange)="RefreshList()"
 				/>

@@ -17,22 +17,20 @@ export class RealmmaintenanceComponent {
 	private activatedRoute = inject(ActivatedRoute);
 
 	Realm: Realm = new Realm();
-	RealmCode: string = '';
+	RealmID: string = '';
 	@ViewChild('RealmForm', { read: NgForm }) RealmForm: any;
 	Read: boolean = false;
 
 	ngOnInit() {
-		this.RealmCode = this.activatedRoute.snapshot.params['id'];
+		this.RealmID = this.activatedRoute.snapshot.params['id'];
 		this.Read = this.activatedRoute.snapshot.params['read'];
-		if (this.RealmCode != undefined && this.RealmCode != null) {
-			this.realmService.Find(this.RealmCode).subscribe((response) => {
+		if (this.RealmID != undefined && this.RealmID != null) {
+			this.realmService.Find(this.RealmID).subscribe((response) => {
 				this.Realm = response;
 			});
 		}
-		if (this.RealmCode == undefined && this.RealmCode == null) this.Read = false;
+		if (this.RealmID == undefined && this.RealmID == null) this.Read = false;
 	}
-	GetRows() {}
-	Home() {}
 	@HostListener('window:keydown.alt.r', ['$event'])
 	Back() {
 		this.router.navigate(['security/realm/list']);
@@ -43,7 +41,7 @@ export class RealmmaintenanceComponent {
 			Swal.fire('Informaci�n', 'Complete los campos necesarios', 'error');
 			return;
 		}
-		if (this.RealmCode != undefined && this.RealmCode != null && this.RealmCode != '') {
+		if (this.RealmID != undefined && this.RealmID != null && this.RealmID != '') {
 			this.realmService.Update(this.Realm).subscribe((response) => {
 				Swal.fire('Informaci�n', `Reino con codigo <br/> <b> ${response.realmID}</b>  <br/> ha sido actualizado correctamente`, 'success');
 				this.Back();

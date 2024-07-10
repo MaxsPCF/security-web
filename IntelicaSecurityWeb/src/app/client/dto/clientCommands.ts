@@ -1,6 +1,6 @@
 export interface ClientCreateCommand {
-	realmCode: string;
-	clientId: string;
+	realmID: string;
+	clientID: string;
 	clientName: string;
 	clientRootUrl: string;
 	clientRedirectUrl: string;
@@ -8,8 +8,8 @@ export interface ClientCreateCommand {
 }
 
 export interface ClientUpdateCommand {
-	clientCode: string;
-	realmCode: string;
+	clientID: string;
+	realmID: string;
 	clientId: string;
 	clientName: string;
 	clientRootUrl: string;

@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Realm } from '../../realm/realm';
@@ -9,11 +9,11 @@ import { RealmService } from '../../realm/realm.service';
 import { BusinessuserService } from '../businessuser.service';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RealmGroupService } from '../../group/realmGroup.service';
-import { RealmGroupSimpleResponse } from '../../group/dto/realmGroupResponses';
+import { RealmGroupSimpleResponse } from '../../realmgroup/dto/realmGroupResponses';
 import { PageService } from '../../page/page.service';
 import { PageSimpleResponse } from '../../page/dto/pageResponses';
 import { Guid } from 'guid-typescript';
+import { RealmGroupService } from '../../realmgroup/realmGroup.service';
 
 @Component({
 	selector: 'security-businessusermaintenance',
@@ -37,8 +37,9 @@ export class BusinessusermaintenanceComponent {
 	realmGroups: RealmGroupSimpleResponse[] = [];
 	profiles: ProfileSimpleResponses[] = [];
 	pages: PageSimpleResponse[] = [];
-	@ViewChild('businessuserForm', { read: NgForm }) businessuserForm: any;
+	@ViewChild('BusinessUserForm', { read: NgForm }) BusinessUserForm: any;
 	businessUserRealmGroups: string[] = [];
+	Read: boolean = false;
 
 	ngOnInit() {
 		this.realmService.GetAll().subscribe((response) => {
@@ -64,11 +65,13 @@ export class BusinessusermaintenanceComponent {
 			});
 		}
 	}
+	@HostListener('window:keydown.alt.r', ['$event'])
 	Back() {
 		this.router.navigate(['security/businessuser/list']);
 	}
+	@HostListener('window:keydown.alt.s', ['$event'])
 	Submit() {
-		if (!this.businessuserForm.valid) {
+		if (!this.BusinessUserForm.valid) {
 			Swal.fire('Informacion', 'Complete los campos necesarios', 'error');
 			return;
 		}
@@ -110,8 +113,8 @@ export class BusinessusermaintenanceComponent {
 		this.BusinessUser = new BusinessUser();
 	}
 	ChangeRealm(e: any) {
-		console.log(e);
-		this.RealmGroupsByRealm(e.realmCode);
+		if (e) this.RealmGroupsByRealm(e.realmID);
+		else this.realmGroups = [];
 	}
 	RealmGroupsByRealm(realmID: string) {
 		this.realmGroupService.GetByFilter(realmID, '', '').subscribe((response) => {

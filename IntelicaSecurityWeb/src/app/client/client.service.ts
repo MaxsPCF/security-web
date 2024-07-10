@@ -13,16 +13,16 @@ import { ClientCreateCommand, ClientUpdateCommand } from './dto/clientCommands';
 export class ClientService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	GetByFilter(realmCode: string, clientId: string, clientName: string): Observable<ClientSimpleResponse[]> {
-		if (realmCode == '' || realmCode == null) realmCode = Guid.EMPTY;
-		if (clientId == '') clientId = '-';
+	GetByFilter(clientID: string, realmID: string, clientName: string): Observable<ClientSimpleResponse[]> {
+		if (realmID == '' || realmID == null) realmID = Guid.EMPTY;
+		if (clientID == '') clientID = '-';
 		if (clientName == '') clientName = '-';
 		return this._http.get<ClientSimpleResponse[]>(
-			`${this._configService.environment?.apiPath}/Client/GetByFilter/${realmCode}/${clientId}/${clientName}`
+			`${this._configService.environment?.apiPath}/Client/GetByFilter/${clientID}/${realmID}/${clientName}`
 		);
 	}
-	Find(clientCode: string): Observable<Client> {
-		return this._http.get<Client>(`${this._configService.environment?.apiPath}/Client/Find/${clientCode}`);
+	Find(clientID: string): Observable<Client> {
+		return this._http.get<Client>(`${this._configService.environment?.apiPath}/Client/Find/${clientID}`);
 	}
 	Create(client: Client): Observable<ClientMaintenanceResponse> {
 		return this._http.post<ClientMaintenanceResponse>(`${this._configService.environment?.apiPath}/Client`, client);
@@ -30,7 +30,7 @@ export class ClientService {
 	Update(client: Client): Observable<ClientMaintenanceResponse> {
 		return this._http.put<ClientMaintenanceResponse>(`${this._configService.environment?.apiPath}/Client`, client);
 	}
-	Delete(clientCode: string): Observable<boolean> {
-		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/Client/${clientCode}`);
+	Delete(clientID: string): Observable<boolean> {
+		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/Client/${clientID}`);
 	}
 }

@@ -1,13 +1,14 @@
 export interface ClientSimpleResponse {
-	clientCode: string;
+	clientID: string;
+	realmID: string;
 	realmName: string;
-	clientId: string;
 	clientName: string;
+	clientDescription: string;
 	clientRootUrl: string;
 	clientRedirectUrl: string;
 	clientWebOrigin: string;
 }
 
 export interface ClientMaintenanceResponse {
-	clientCode: string;
+	clientID: string;
 }

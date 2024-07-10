@@ -1,4 +1,4 @@
-<form #RealmForm="ngForm">
+<form #RealmGroupForm="ngForm">
 	<div class="container">
 		<div class="card mt-3">
 			<ul class="nav justify-content-between">
@@ -29,19 +29,51 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm</label>
-							<input name="realmID" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Realm.realmID" disabled />
-						</div>
-						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm Name</label>
+							<label class="label-form-enazul text-primary mt-1">Realm Group ID</label>
 							<input
-								name="realmName"
+								name="RealmGroupID"
 								class="form-control form-control-sm"
 								type="text"
 								maxlength="100"
-								[(ngModel)]="Realm.realmName"
+								disabled
+								[(ngModel)]="RealmGroup.realmGroupID"
 								required
-								[disabled]="Read"
+							/>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Realm</label>
+							<ng-select
+								name="realmID"
+								[items]="realms"
+								bindLabel="realmName"
+								bindValue="realmID"
+								[(ngModel)]="RealmGroup.realmID"
+								(change)="ChangeRealm($event)"
+								required
+							></ng-select>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Roles</label>
+							<ng-select
+								name="realmRoleID"
+								[items]="roles"
+								bindLabel="realmRoleName"
+								bindValue="realmRoleID"
+								[multiple]="true"
+								(change)="onMaterialGroupChange($event)"
+								[(ngModel)]="groupRoles"
+								required
+							></ng-select>
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Group Name</label>
+							<input
+								name="realmgroupName"
+								class="form-control form-control-sm"
+								type="text"
+								maxlength="100"
+								[(ngModel)]="RealmGroup.realmGroupName"
+								required
 							/>
 						</div>
 					</div>

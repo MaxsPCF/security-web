@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Client } from '../client';
@@ -24,43 +24,45 @@ export class ClientmaintenanceComponent {
 
 	Client: Client = new Client();
 	realms: Realm[] = [];
-	clientCode: string = '';
-	@ViewChild('clientForm', { read: NgForm }) clientForm: any;
+	ClientID: string = '';
+	@ViewChild('ClientForm', { read: NgForm }) ClientForm: any;
+	Read: boolean = false;
 
 	ngOnInit(): void {
 		this.realmService.GetAll().subscribe((response) => {
 			this.realms = response;
-			console.log(this.realms);
 		});
 
-		this.clientCode = this.activatedRoute.snapshot.params['id'];
-		if (this.clientCode != undefined && this.clientCode != null) {
-			this.clientService.Find(this.clientCode).subscribe((response) => {
+		this.Read = this.activatedRoute.snapshot.params['read'];
+		this.ClientID = this.activatedRoute.snapshot.params['id'];
+		if (this.ClientID != undefined && this.ClientID != null) {
+			this.clientService.Find(this.ClientID).subscribe((response) => {
 				this.Client = response;
-				console.log(response);
 			});
 		}
+		if (this.ClientID == undefined && this.ClientID == null) this.Read = false;
+		console.log(this.Read);
 	}
-	GetRows() {}
-	Home() {}
+	@HostListener('window:keydown.alt.r', ['$event'])
 	Back() {
 		this.router.navigate(['security/client/list']);
 	}
+	@HostListener('window:keydown.alt.s', ['$event'])
 	Submit() {
-		console.log(this.clientForm.valid);
-		if (!this.clientForm.valid) {
+		console.log(this.ClientForm.valid);
+		if (!this.ClientForm.valid) {
 			Swal.fire('Informaci�n', 'Complete los campos necesarios', 'error');
 			return;
 		}
-		if (this.clientCode != undefined && this.clientCode != null && this.clientCode != '') {
+		if (this.ClientID != undefined && this.ClientID != null && this.ClientID != '') {
 			this.clientService.Update(this.Client).subscribe((response) => {
-				Swal.fire('Informaci�n', `Cliente con codigo <br/> <b> ${response.clientCode}</b>  <br/> ha sido actualizado correctamente`, 'success');
+				Swal.fire('Informaci�n', `Cliente con codigo <br/> <b> ${response.clientID}</b>  <br/> ha sido actualizado correctamente`, 'success');
 				this.Back();
 				this.Clean();
 			});
 		} else {
 			this.clientService.Create(this.Client).subscribe((response) => {
-				Swal.fire('Informaci�n', `Cliente con codigo <br/> <b> ${response.clientCode}</b>  <br/> ha sido registrada correctamente`, 'success');
+				Swal.fire('Informaci�n', `Cliente con codigo <br/> <b> ${response.clientID}</b>  <br/> ha sido registrada correctamente`, 'success');
 				this.Back();
 				this.Clean();
 			});

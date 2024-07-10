@@ -1,0 +1,70 @@
+<div class="container">
+	<div class="card mt-3">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Realm</label>
+					<ng-select name="realmID" [items]="Realms" bindLabel="realmName" bindValue="realmID" [(ngModel)]="RealmID"> </ng-select>
+				</div>
+				<div class="col-md-2 div-center-right" (click)="Search()">
+					<button class="btn btn-primary">
+						Search
+						<i class="icon-save-white"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card card-header card-header-stretch cold-md-12 mt-3">
+		<div class="card mb-10">
+			<div class="pt-4">
+				<table class="int-table">
+					<thead>
+						<tr>
+							<th scope="col" style="width: 25%">Realm Session ID</th>
+							<th scope="col" style="width: 15%">Realm Name</th>
+							<th scope="col" style="width: 15%">User Name</th>
+							<th scope="col" style="width: 20%">IP Address</th>
+							<th scope="col" style="width: 25%">Start</th>
+							<th scope="col" style="width: 25%">Last Accesss</th>
+							<th scope="col" style="width: 15%">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ( session of RealmSessionFilter ; track session.id){
+						<tr>
+							<td>{{ session.id }}</td>
+							<td>{{ session.realmName }}</td>
+							<td>{{ session.username }}</td>
+							<td>{{ session.ipAddress }}</td>
+							<td>{{ session.start }}</td>
+							<td>{{ session.lastAccess }}</td>
+							<th scope="row">
+								<div class="row">
+									<!-- <div class="col-lg-4 col-md-12 pl-10">
+										<button class="int-iconBtn" (click)="EditRow(realm)"><i class="icon-edit"></i></button>
+									</div> -->
+									<div class="col-lg-4 col-md-12">
+										<button class="int-iconBtn" (click)="DeleteRow(session)"><i class="icon-trash"></i></button>
+									</div>
+									<!-- <div class="col-lg-4 col-md-12 pr-10">
+										<button class="int-iconBtn"><i class="icon-eye"></i></button>
+									</div> -->
+								</div>
+							</th>
+						</tr>
+						}
+					</tbody>
+				</table>
+				<ngb-pagination
+					class="d-flex justify-content-center"
+					[pageSize]="PageSize"
+					[collectionSize]="Realms.length"
+					[(page)]="Page"
+					(pageChange)="RefreshList()"
+				/>
+			</div>
+		</div>
+	</div>
+</div>
+<table id="TableExport" style="display: none"></table>

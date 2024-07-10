@@ -1,12 +1,12 @@
 export interface ClientScopeCreateCommand {
-	realmCode: string;
-	clientId: string;
+	realmID: string;
+	clientID: string;
 	clientName: string;
 }
 
 export interface ClientScopeUpdateCommand {
-	clientCode: string;
-	realmCode: string;
+	clientID: string;
+	realmID: string;
 	clientId: string;
 	clientName: string;
 }
