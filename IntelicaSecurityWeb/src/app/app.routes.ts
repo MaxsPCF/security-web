@@ -28,7 +28,6 @@ import { RealmsessionlistComponent } from './realmsession/realmsessionlist/realm
 export const routes: Routes = [
 	{
 		path: 'security',
-		//canActivate: [AuthGuard],
 		children: [
 			{ path: 'main', component: MainComponent },
 			{
@@ -75,24 +74,24 @@ export const routes: Routes = [
 			{
 				path: 'profile',
 				children: [
-					{ path: 'list', component: ProfilelistComponent },
-					{ path: 'maintenance', component: ProfilemaintenanceComponent }
+					{ path: 'list', component: ProfilelistComponent, data: { title: 'Profile list' }  },
+					{ path: 'maintenance', component: ProfilemaintenanceComponent,  data: { title: 'Profile maintenance - New' }  }
 				]
 			},
 			{
 				path: 'clientscope',
 				children: [
-					{ path: 'list', component: ClientscopelistComponent },
-					{ path: 'maintenance', component: ClientscopemaintenanceComponent },
-					{ path: 'maintenance/:id', component: ClientscopemaintenanceComponent }
+					{ path: 'list', component: ClientscopelistComponent ,  data: { title: 'Client Scope list' }  },
+					{ path: 'maintenance', component: ClientscopemaintenanceComponent ,  data: { title: 'Client Scope maintenance - New' } },
+					{ path: 'maintenance/:id', component: ClientscopemaintenanceComponent ,  data: { title: 'Client Scope maintenance - New' } }
 				]
 			},
 			{
 				path: 'businessuser',
 				children: [
-					{ path: 'list', component: BusinessuserlistComponent },
-					{ path: 'maintenance', component: BusinessusermaintenanceComponent },
-					{ path: 'maintenance/:id', component: BusinessusermaintenanceComponent }
+					{ path: 'list', component: BusinessuserlistComponent,  data: { title: 'Business User list' }  },
+					{ path: 'maintenance', component: BusinessusermaintenanceComponent ,  data: { title: 'Business User maintenance - New' } },
+					{ path: 'maintenance/:id', component: BusinessusermaintenanceComponent,  data: { title: 'Business User maintenance - Edit' }  }
 				]
 			},
 			{
@@ -106,9 +105,9 @@ export const routes: Routes = [
 			{
 				path: 'template',
 				children: [
-					{ path: 'list', component: TemplatelistComponent },
-					{ path: 'maintenance', component: TemplatemaintenanceComponent },
-					{ path: 'massive', component: TemplatemassiveComponent }
+					{ path: 'list', component: TemplatelistComponent ,  data: { title: 'Template list' } },
+					{ path: 'maintenance', component: TemplatemaintenanceComponent ,  data: { title: 'Template maintenance - New' } },
+					{ path: 'massive', component: TemplatemassiveComponent ,  data: { title: 'Template maintenance - Edit' } }
 				]
 			},
 			{

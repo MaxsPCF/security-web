@@ -33,7 +33,10 @@ export class AppComponent implements OnInit {
 				})
 			)
 			.subscribe((title: string) => {
-				if (title) this.Title = title;
+				if (title) {
+					this.Title = title;
+					this.CallEventChangePage(title, "Security");
+				}
 			});
 		//Keycloak
 		var intertval = setInterval(async () => {
@@ -55,6 +58,16 @@ export class AppComponent implements OnInit {
 			},
 		});
 		window.dispatchEvent(event);
+	}
+	CallEventChangePage(title: string, client: string) {
+		let event = new CustomEvent("eventChangePage", {
+			detail: {
+				title: title,
+				client: client,
+			},
+		});
+		window.dispatchEvent(event);
+		console.log("Evento despachado","Evento");
 	}
 	title = "Intelica Security Web";
 }
