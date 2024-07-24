@@ -25,11 +25,14 @@ import { RealmrolmaintenanceComponent } from './realmrole/realmrolmaintenance/re
 import { RealmgrouplistComponent } from './realmgroup/realmgrouplist/realmgrouplist.component';
 import { RealmgroupmaintenanceComponent } from './realmgroup/realmgroupmaintenance/realmgroupmaintenance.component';
 import { RealmsessionlistComponent } from './realmsession/realmsessionlist/realmsessionlist.component';
+import { ChatComponent } from './chat/chat.component';
+import { TemplatemassivelistComponent } from './template/templatemassivelist/templatemassivelist.component';
 export const routes: Routes = [
 	{
 		path: 'security',
 		children: [
 			{ path: 'main', component: MainComponent },
+			{ path: 'chat', component: ChatComponent, data: { title: 'Chat' } },
 			{
 				path: 'realm',
 				children: [
@@ -107,7 +110,8 @@ export const routes: Routes = [
 				children: [
 					{ path: 'list', component: TemplatelistComponent ,  data: { title: 'Template list' } },
 					{ path: 'maintenance', component: TemplatemaintenanceComponent ,  data: { title: 'Template maintenance - New' } },
-					{ path: 'massive', component: TemplatemassiveComponent ,  data: { title: 'Template maintenance - Edit' } }
+					{ path: 'massive', component: TemplatemassiveComponent ,  data: { title: 'Template massive - Edit' } },
+					{ path: 'massivelist', component: TemplatemassivelistComponent ,  data: { title: 'Template massive list - View' } }
 				]
 			},
 			{

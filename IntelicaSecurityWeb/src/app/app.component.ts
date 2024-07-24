@@ -67,7 +67,6 @@ export class AppComponent implements OnInit {
 			},
 		});
 		window.dispatchEvent(event);
-		console.log("Evento despachado","Evento");
 	}
 	title = "Intelica Security Web";
 }

@@ -3,7 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { Observable } from "rxjs";
 import { ConfigService } from "../common/services/config.service";
 import { Template } from "./template";
-import { TemplateMaintenanceResponse, TemplateMassive, TemplateSimpleResponse } from "./dto/templateResponses";
+import { TemplateDistribution, TemplateMaintenanceResponse, TemplateMassive, TemplateSimpleResponse } from "./dto/templateResponses";
 import { Guid } from "guid-typescript";
 @Injectable({ providedIn: "root" })
 export class TemplateService {
@@ -31,5 +31,8 @@ export class TemplateService {
 	}
 	GetAll(): Observable<TemplateSimpleResponse[]> {
 		return this._http.get<TemplateSimpleResponse[]>(`${this._configService.environment?.apiPath}/Template/GetAll`);
+	}
+	GetDistribution(): Observable<TemplateDistribution[]>{		
+		return this._http.get<TemplateDistribution[]>(`${this._configService.environment?.apiPath}/TemplateDistribution`);
 	}
 }

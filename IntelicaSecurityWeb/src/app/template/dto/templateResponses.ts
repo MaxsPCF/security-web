@@ -24,3 +24,17 @@ export interface TemplateMassive {
 	latitud: number;
 	longitud: number;
 }
+export interface TemplateDistribution {
+	templateDistributionID: string;
+	templateDistributionOriginFileName: string;
+	templateDistributionNumberFiles: number;
+	templateDistributionPercent: number;
+	templateDistributionDetails: TemplateDistributionDetail[];
+}
+export interface TemplateDistributionDetail {
+	templateDistributionFileName: string;
+}
+export interface TemplateDistributionPercentChangeResponse {
+	templateDistributionID: string;
+	templateDistributionFileName: string;
+}

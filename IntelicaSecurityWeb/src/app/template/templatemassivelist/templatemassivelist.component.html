@@ -1,0 +1,52 @@
+<div class="container">
+	<div class="card mt-3">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-md-4">
+					<label class="label-form-enazul text-primary mt-1">Template name</label>
+					<input name="TemplateCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="TemplateDistributionOriginFileName" (keyup.enter)="Search()" />
+				</div>
+				<div class="col-md-3">
+					<label class="label-form-enazul text-primary mt-1">Distribution Date</label>
+					<input name="TemplateCode" class="form-control form-control-sm" type="date" maxlength="100" [(ngModel)]="TemplateDistributionDate" (keyup.enter)="Search()" />
+				</div>
+				<div class="col-md-2 div-center-right" (click)="Search()">
+					<button class="btn btn-primary">
+						Search
+						<i class="icon-save-white"></i>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="card card-header card-header-stretch cold-md-12 mt-3">
+		<div class="card mb-10">
+			<div class="pt-4">
+				<table class="int-table">
+					<thead>
+						<tr>
+							<th scope="col" style="width: 30%">Id</th>
+							<th scope="col" style="width: 20%">File name</th>
+							<th scope="col" style="width: 25%">Percent</th>
+							<th scope="col" style="width: 25%">Progress</th>
+						</tr>
+					</thead>
+					<tbody>
+						@for ( template of TemplateDistributions ; track template.templateDistributionID){
+						<tr>
+							<td>{{ template.templateDistributionID }}</td>
+							<td>{{ template.templateDistributionOriginFileName }}</td>
+							<td>{{ template.templateDistributionDetails.length }} de {{ template.templateDistributionNumberFiles }}</td>
+							<td>
+								<ngb-progressbar class="mb-3" [showValue]="true" type="success" [value]="template.templateDistributionPercent" />
+							</td>
+						</tr>
+						}
+					</tbody>
+				</table>
+				<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="TemplateDistributions.length" [(page)]="Page" (pageChange)="RefreshList()" />
+			</div>
+		</div>
+	</div>
+</div>
+<table id="TableExport" style="display: none"></table>
