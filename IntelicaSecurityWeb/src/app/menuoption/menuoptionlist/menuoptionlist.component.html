@@ -1,0 +1,57 @@
+<div class="row mb-3">
+	<div class="col">
+		<label class="form-label">Parent</label>
+		<ng-select [items]="listMenuParent" bindLabel="menuOptionName" bindValue="menuOptionID" [(ngModel)]="menuOptionModel.menuOptionParentID">
+		</ng-select>
+	</div>
+	<div class="col">
+		<label class="form-label">Name</label>
+		<input type="text" class="form-control form-control-sm" placeholder="Name" [(ngModel)]="menuOptionModel.menuOptionName" />
+	</div>
+	<div class="col">
+		<button type="button" class="btn btn-primary" (click)="search()"><i class="icon-search-white"></i> Search</button>
+		&nbsp;
+		<button type="button" class="btn btn-primary" (click)="Add()"><i class="icon-add-white"></i> Add</button>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<table class="int-table">
+			<thead>
+				<tr>
+					<th style="width: 10%">N°</th>
+					<th style="width: 20%">Menu ID</th>
+					<th style="width: 20%">Parent ID</th>
+					<th>Menu name</th>
+					<th style="width: 10%">Nro order</th>
+					<th style="width: 10%">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for ( option of listMenuOption; track option.menuOptionID; let index = $index){
+				<tr>
+					<td>{{ (index + 1) }}</td>
+					<td>{{ option.menuOptionID }}</td>
+					<td>{{ option.menuOptionParentID }}</td>
+					<td class="text-start">
+						{{ option.menuOptionName }}
+						<div>
+							<ol>
+								@for ( page of option.menuOptionPages; track page.pageID){
+								<li>{{ page.pageName}}</li>
+								}
+							</ol>
+						</div>
+					</td>
+					<td>{{ option.menuOptionOrder }}</td>
+					<td>
+						<button class="int-iconBtn"><i class="icon-edit"></i></button>
+						<button class="int-iconBtn"><i class="icon-trash"></i></button>
+					</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>

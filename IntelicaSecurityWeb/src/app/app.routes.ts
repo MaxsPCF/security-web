@@ -27,6 +27,9 @@ import { RealmgroupmaintenanceComponent } from './realmgroup/realmgroupmaintenan
 import { RealmsessionlistComponent } from './realmsession/realmsessionlist/realmsessionlist.component';
 import { ChatComponent } from './chat/chat.component';
 import { TemplatemassivelistComponent } from './template/templatemassivelist/templatemassivelist.component';
+import { MenuoptionlistComponent } from './menuoption/menuoptionlist/menuoptionlist.component';
+import { MenuoptionmaintenanceComponent } from './menuoption/menuoptionmaintenance/menuoptionmaintenance.component';
+
 export const routes: Routes = [
 	{
 		path: 'security',
@@ -77,24 +80,24 @@ export const routes: Routes = [
 			{
 				path: 'profile',
 				children: [
-					{ path: 'list', component: ProfilelistComponent, data: { title: 'Profile list' }  },
-					{ path: 'maintenance', component: ProfilemaintenanceComponent,  data: { title: 'Profile maintenance - New' }  }
+					{ path: 'list', component: ProfilelistComponent, data: { title: 'Profile list' } },
+					{ path: 'maintenance', component: ProfilemaintenanceComponent, data: { title: 'Profile maintenance - New' } }
 				]
 			},
 			{
 				path: 'clientscope',
 				children: [
-					{ path: 'list', component: ClientscopelistComponent ,  data: { title: 'Client Scope list' }  },
-					{ path: 'maintenance', component: ClientscopemaintenanceComponent ,  data: { title: 'Client Scope maintenance - New' } },
-					{ path: 'maintenance/:id', component: ClientscopemaintenanceComponent ,  data: { title: 'Client Scope maintenance - New' } }
+					{ path: 'list', component: ClientscopelistComponent, data: { title: 'Client Scope list' } },
+					{ path: 'maintenance', component: ClientscopemaintenanceComponent, data: { title: 'Client Scope maintenance - New' } },
+					{ path: 'maintenance/:id', component: ClientscopemaintenanceComponent, data: { title: 'Client Scope maintenance - New' } }
 				]
 			},
 			{
 				path: 'businessuser',
 				children: [
-					{ path: 'list', component: BusinessuserlistComponent,  data: { title: 'Business User list' }  },
-					{ path: 'maintenance', component: BusinessusermaintenanceComponent ,  data: { title: 'Business User maintenance - New' } },
-					{ path: 'maintenance/:id', component: BusinessusermaintenanceComponent,  data: { title: 'Business User maintenance - Edit' }  }
+					{ path: 'list', component: BusinessuserlistComponent, data: { title: 'Business User list' } },
+					{ path: 'maintenance', component: BusinessusermaintenanceComponent, data: { title: 'Business User maintenance - New' } },
+					{ path: 'maintenance/:id', component: BusinessusermaintenanceComponent, data: { title: 'Business User maintenance - Edit' } }
 				]
 			},
 			{
@@ -108,10 +111,10 @@ export const routes: Routes = [
 			{
 				path: 'template',
 				children: [
-					{ path: 'list', component: TemplatelistComponent ,  data: { title: 'Template list' } },
-					{ path: 'maintenance', component: TemplatemaintenanceComponent ,  data: { title: 'Template maintenance - New' } },
-					{ path: 'massive', component: TemplatemassiveComponent ,  data: { title: 'Template massive - Edit' } },
-					{ path: 'massivelist', component: TemplatemassivelistComponent ,  data: { title: 'Template massive list - View' } }
+					{ path: 'list', component: TemplatelistComponent, data: { title: 'Template list' } },
+					{ path: 'maintenance', component: TemplatemaintenanceComponent, data: { title: 'Template maintenance - New' } },
+					{ path: 'massive', component: TemplatemassiveComponent, data: { title: 'Template massive - Edit' } },
+					{ path: 'massivelist', component: TemplatemassivelistComponent, data: { title: 'Template massive list - View' } }
 				]
 			},
 			{
@@ -125,6 +128,13 @@ export const routes: Routes = [
 			{
 				path: 'realmsession',
 				children: [{ path: 'list', component: RealmsessionlistComponent }]
+			},
+			{
+				path: 'menuoption',
+				children: [
+					{ path: 'list', component: MenuoptionlistComponent, data: { title: 'Menu Option list' } },
+					{ path: 'maintenance', component: MenuoptionmaintenanceComponent, data: { title: 'Menu Option maintenance - New' } }
+				]
 			}
 		]
 	},
