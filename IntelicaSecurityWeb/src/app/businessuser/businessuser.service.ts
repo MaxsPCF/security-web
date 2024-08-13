@@ -30,6 +30,9 @@ export class BusinessuserService {
 			`${this._configService.environment?.apiPath}/BusinessUser/GetByFilter/${realmID}/${profileID}/${businessUserName}/${businessUserFirstName}/${businessUserLastName}/${businessUserEmail}`
 		);
 	}
+	GetByAll(): Observable<BusinessUserSimpleResponse[]> {
+		return this._http.get<BusinessUserSimpleResponse[]>(`${this._configService.environment?.apiPath}/BusinessUser`);
+	}
 	Create(businessUser: BusinessUser): Observable<BusinessUserMaintenanceResponse> {
 		return this._http.post<BusinessUserMaintenanceResponse>(`${this._configService.environment?.apiPath}/BusinessUser`, businessUser);
 	}

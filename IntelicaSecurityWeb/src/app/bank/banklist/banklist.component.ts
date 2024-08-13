@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { AfterContentChecked, Component, OnInit, afterRender, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BankSimpleResponse } from '../dto/bankResponses';
@@ -7,26 +7,40 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { HtmlToExcel } from '../../common/HtmlToExcel';
+import { CustomFeatureFlagService } from '../../common/services/custom-feature-flag.service';
+
 @Component({
 	selector: 'security-banklist',
 	standalone: true,
 	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule],
 	templateUrl: './banklist.component.html'
 })
-export class BanklistComponent implements OnInit {
+export class BanklistComponent implements OnInit, AfterContentChecked {
+	constructor(private featureFlagService: CustomFeatureFlagService) {
+		// afterRender(() => {
+		// 	this.IsVisibleFeature = this.featureFlagService.featureOn('ActivatedNewDemo');
+		// });
+	}
 	ngOnInit(): void {
 		this.Search();
 	}
+
+	ngAfterContentChecked(): void {
+		this.IsVisibleFeature = this.featureFlagService.featureOn('ActivatedNewDemo');
+	}
+
 	BankCode: string = '';
 	BankName: string = '';
 	Banks: BankSimpleResponse[] = [];
 	BanksFilter: BankSimpleResponse[] = [];
+	IsVisibleFeature: boolean = false;
 
 	Page: number = 1;
 	PageSize: number = 10;
 	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
 
 	private readonly bankService = inject(BankService);
+	// private readonly featureFlagService = inject(FeatureFlagService);
 	private readonly router = inject(Router);
 
 	Home() {}

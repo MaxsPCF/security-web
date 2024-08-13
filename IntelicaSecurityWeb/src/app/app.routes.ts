@@ -29,6 +29,8 @@ import { ChatComponent } from './chat/chat.component';
 import { TemplatemassivelistComponent } from './template/templatemassivelist/templatemassivelist.component';
 import { MenuoptionlistComponent } from './menuoption/menuoptionlist/menuoptionlist.component';
 import { MenuoptionmaintenanceComponent } from './menuoption/menuoptionmaintenance/menuoptionmaintenance.component';
+import { FeatureflaglistComponent } from './featureflag/featureflaglist/featureflaglist.component';
+import { FeatureflagmaintenanceComponent } from './featureflag/featureflagmaintenance/featureflagmaintenance.component';
 
 export const routes: Routes = [
 	{
@@ -134,6 +136,14 @@ export const routes: Routes = [
 				children: [
 					{ path: 'list', component: MenuoptionlistComponent, data: { title: 'Menu Option list' } },
 					{ path: 'maintenance', component: MenuoptionmaintenanceComponent, data: { title: 'Menu Option maintenance - New' } }
+				]
+			},
+			{
+				path: 'featureflag',
+				children: [
+					{ path: 'list', component: FeatureflaglistComponent, data: { title: 'Feature Flag list' } },
+					{ path: 'maintenance', component: FeatureflagmaintenanceComponent, data: { title: 'Feature Flag maintenance - New' } },
+					{ path: 'maintenance/:id', component: FeatureflagmaintenanceComponent, data: { title: 'Feature Flag maintenance - Edit' } }
 				]
 			}
 		]

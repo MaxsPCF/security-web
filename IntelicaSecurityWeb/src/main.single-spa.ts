@@ -7,11 +7,12 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { ConfigService, InitializeConfig } from './app/common/services/config.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorInterceptor } from './app/common/error.interceptor';
 import { CustomKeycloackService } from './app/common/services/customKeycloak.service';
-import "@angular/localize/init";
-enableProdMode()
+import '@angular/localize/init';
+import { HeaderInterceptor } from './app/common/services/HeaderInterceptor';
+enableProdMode();
 const lifecycles = singleSpaAngular({
 	bootstrapFunction: (singleSpaProps) => {
 		singleSpaPropsSubject.next(singleSpaProps);
@@ -33,12 +34,14 @@ const lifecycles = singleSpaAngular({
 					multi: true,
 					deps: [CustomKeycloackService]
 				},
+				{
+					provide: HTTP_INTERCEPTORS,
+					useClass: HeaderInterceptor,
+					multi: true
+				},
 				provideClientHydration(),
 				provideAnimationsAsync(),
-				provideHttpClient(
-					withFetch(),
-					withInterceptors([ErrorInterceptor])
-				)
+				provideHttpClient(withFetch(), withInterceptors([ErrorInterceptor]), withInterceptorsFromDi())
 			]
 		};
 		return bootstrapApplication(AppComponent, options);

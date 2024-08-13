@@ -24,6 +24,11 @@
 			/>
 		</div>
 
+		<div class="col-md-5" [hidden]="!IsVisibleFeature">
+			<label class="label-form-enazul text-primary mt-1">Bank name Comercial</label>
+			<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" />
+		</div>
+
 		<div class="col-md-2 div-center-right" (click)="Search()">
 			<button class="btn btn-primary">
 				Search
