@@ -1,58 +1,77 @@
-<form #pageForm="ngForm">
+<form #pageForm="ngForm" autocomplete="off">
 	<div class="card">
-		<div class="card-header">
-			<div class="">
-				<button type="button" class="btn-toolbar mt-1" (click)="Back()">
-					<i class="icon-return"></i>
-					<a class="nav-link text-toolbar font-ul px-1">Back</a>
-				</button>
-			</div>
-			<div class="">
-				<button type="button" class="btn-toolbar mt-1" (click)="Submit()">
-					<i class="icon-email-blue"></i>
-					<a class="nav-link text-toolbar font-ul px-1">save</a>
-				</button>
-			</div>
-		</div>
 		<div class="card-body">
 			<div class="row">
-				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Profile name</label>
-					<input name="profileName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="currentProfile.profileName" />
-				</div>
-				<div class="col-md-6 col-sm-12">
-					<label class="label-form-enazul text-primary mt-1">Profile descripción</label>
-					<input
-						name="profileDescription"
-						class="form-control form-control-sm"
-						type="text"
-						maxlength="100"
-						[(ngModel)]="currentProfile.profileDescription"
-					/>
+				<div class="col-lg-12">
+					<div class="nav justify-content-between">
+						<button type="button" class="btn-toolbar" data-bs-toggle="tooltip" title="Return" (click)="back()">
+							<i class="icon-return"></i>
+						</button>
+						<div class="d-flex">
+							<button type="button" class="btn-toolbar" data-bs-toggle="tooltip" title="Clean" (click)="cleanFrmProfile()">
+								<i class="icon-trash"></i>
+							</button>
+							<button type="button" class="btn-toolbar" data-bs-toggle="tooltip" title="Save" (click)="save()"><i class="icon-save"></i></button>
+						</div>
+					</div>
 				</div>
 			</div>
-			<div class="row mt-4">
-				<div class="col-sm-12">
-					<table class="int-table">
-						<thead>
-							<tr>
-								<th style="width: 5%">N°</th>
-								<th>Page name</th>
-								<th>Page url</th>
-								<th style="width: 5%">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							@for ( page of listPageProfile; track page.pageId; let index = $index){
-							<tr>
-								<td>{{ (index + 1) }}</td>
-								<td class="text-start">{{ page.pageName }}</td>
-								<td class="text-start">{{ page.pageUrl }}</td>
-								<td><input type="checkbox" [name]="'chkOpc' + index" [(ngModel)]="page.isSelect" /></td>
-							</tr>
-							}
-						</tbody>
-					</table>
+		</div>
+	</div>
+
+	<div class="row mt-3">
+		<div class="col-lg-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title">
+						<b>Profile</b>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row mb-3">
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Name</label>
+							<input name="profileName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="profileTemp.profileName" />
+						</div>
+						<div class="col-md-6 col-sm-12">
+							<label class="label-form-enazul text-primary mt-1">Descripción</label>
+							<input
+								name="profileDescription"
+								class="form-control form-control-sm"
+								type="text"
+								maxlength="100"
+								[(ngModel)]="profileTemp.profileDescription"
+							/>
+						</div>
+					</div>
+					<div class="row mb-3">
+						<div class="col-lg-12">
+							<table class="int-table">
+								<thead>
+									<tr>
+										<th style="width: 5%">N°</th>
+										<th>Page name</th>
+										<th style="width: 15%">Create</th>
+										<th style="width: 15%">Update</th>
+										<th style="width: 15%">Delete</th>
+										<th style="width: 15%">All</th>
+									</tr>
+								</thead>
+								<tbody>
+									@for ( page of profileTemp.profilePages; track page.pageId; let index = $index){
+									<tr>
+										<td>{{ (index + 1) }}</td>
+										<td class="text-start">{{ page.pageName }}</td>
+										<td><input type="checkbox" [name]="'chkCre' + index" [(ngModel)]="page.profilePageCanCreate" /></td>
+										<td><input type="checkbox" [name]="'chkUpd' + index" [(ngModel)]="page.profilePageCanUpdate" /></td>
+										<td><input type="checkbox" [name]="'chkDel' + index" [(ngModel)]="page.profilePageCanDelete" /></td>
+										<td><input type="checkbox" [name]="'chkSel' + index" [(ngModel)]="page.isSelect" /></td>
+									</tr>
+									}
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

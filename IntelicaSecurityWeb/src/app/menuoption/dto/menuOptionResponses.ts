@@ -1,11 +1,12 @@
 export interface MenuOptionSimpleResponses {
 	menuOptionID: string;
-	menuOptionParentID: string;
+	menuOptionParentID?: string;
 	menuOptionName: string;
+	menuOptionParentName?: string;
 	menuOptionDescription: string;
 	menuOptionOrder: number;
 	menuOptionShow: boolean;
-	menuOptionIcon: string;
+	menuOptionIcon?: string;
 	menuOptionPages: MenuOptionPageSimpleResponses[];
 }
 
@@ -20,4 +21,8 @@ export interface MenuOptionPageSimpleResponses {
 export interface MenuOptionParentResponses {
 	menuOptionID: string;
 	menuOptionName: string;
+}
+
+export interface MenuOptionCreateResponses {
+	menuOptionID: string;
 }

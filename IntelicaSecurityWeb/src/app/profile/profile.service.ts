@@ -23,11 +23,17 @@ export class ProfileService {
 		return this._http.delete<ProfileCreateResponses>(`${this._path}/${profileId}`);
 	}
 
-	Find(profileId: string): Observable<ProfileSimpleResponses> {
+	GetById(profileId: string): Observable<ProfileSimpleResponses> {
 		return this._http.get<ProfileSimpleResponses>(`${this._path}/${profileId}`);
 	}
 
 	GetAll(): Observable<ProfileSimpleResponses[]> {
 		return this._http.get<ProfileSimpleResponses[]>(`${this._path}`);
+	}
+
+	GetByFilter(name: string, description: string): Observable<ProfileSimpleResponses[]> {
+		if (name?.trim() == '') name = '-';
+		if (description?.trim() == '') description = '-';
+		return this._http.get<ProfileSimpleResponses[]>(`${this._path}/GetByFilter/${name}/${description}`);
 	}
 }

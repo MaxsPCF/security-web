@@ -1,5 +1,5 @@
 <div class="modalHeader">
-	<h2><span>Details profile</span></h2>
+	<h2><span>List page</span></h2>
 	<button type="button" (click)="activeModal.close()" class="btn-close" aria-label="Close"></button>
 </div>
 <div class="modalContentBorder">
@@ -7,23 +7,23 @@
 		<table class="int-table">
 			<thead>
 				<tr>
-					<th style="width: 5%">N°</th>
+					<th style="width: 10%">N°</th>
 					<th>Page name</th>
+					<th style="width: 10%">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
-				@for ( page of listpage; track page.pageID; let index = $index){
+				@for ( page of pageListAll; track page.pageId; let index = $index){
 				<tr>
 					<td>{{ (index + 1) }}</td>
 					<td class="text-start">{{ page.pageName }}</td>
+					<td>
+						<button class="int-iconBtn" (click)="AddPageMenuOption(page)"><i class="icon-add"></i></button>
+					</td>
 				</tr>
 				}
 			</tbody>
 		</table>
 	</div>
-	<div class="modalFooter">
-		<!-- <div class="actionBtnArea">
-			<button class="btn btn-secondary" (click)="activeModal.close();">Close</button>
-		</div> -->
-	</div>
+	<div class="modalFooter"></div>
 </div>

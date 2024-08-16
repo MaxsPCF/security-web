@@ -1,4 +1,5 @@
-import { GlobalConstants } from '../../common/constants/global.constants';
+import { Guid } from 'guid-typescript';
+// import { GlobalConstants } from '../../common/constants/global.constants';
 
 export class ProfileCommand {
 	profileID: string;
@@ -7,7 +8,7 @@ export class ProfileCommand {
 	profilePages: ProfilePageCommand[];
 
 	constructor() {
-		this.profileID = GlobalConstants.GUID_EMPTY;
+		this.profileID = Guid.EMPTY;
 		this.profileName = '';
 		this.profileDescription = '';
 		this.profilePages = [];
@@ -18,10 +19,16 @@ export class ProfilePageCommand {
 	profilePageID: string;
 	profileID: string;
 	pageID: string;
+	profilePageCanUpdate: boolean;
+	profilePageCanCreate: boolean;
+	profilePageCanDelete: boolean;
 
 	constructor() {
-		this.profilePageID = GlobalConstants.GUID_EMPTY;
-		this.profileID = GlobalConstants.GUID_EMPTY;
-		this.pageID = GlobalConstants.GUID_EMPTY;
+		this.profilePageID = Guid.EMPTY;
+		this.profileID = Guid.EMPTY;
+		this.pageID = Guid.EMPTY;
+		this.profilePageCanUpdate = false;
+		this.profilePageCanCreate = false;
+		this.profilePageCanDelete = false;
 	}
 }

@@ -2,8 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigService } from '../common/services/config.service';
-import { MenuOptionParentResponses, MenuOptionSimpleResponses } from './dto/menuOptionResponses';
+import { MenuOptionCreateResponses, MenuOptionParentResponses, MenuOptionSimpleResponses } from './dto/menuOptionResponses';
 import { Guid } from 'guid-typescript';
+import { MenuOptionCommands } from './dto/menuOptionRequests';
 
 @Injectable({ providedIn: 'root' })
 export class MenuOptionService {
@@ -25,19 +26,19 @@ export class MenuOptionService {
 		return this._http.get<MenuOptionSimpleResponses[]>(`${this._path}/GetByFilter/${menuOptionParentID}/${menuOptionName}`);
 	}
 
-	// Create(profile: ProfileCommand): Observable<ProfileCreateResponses> {
-	// 	return this._http.post<ProfileCreateResponses>(`${this._path}`, profile);
-	// }
+	Create(menuOption: MenuOptionCommands): Observable<MenuOptionCreateResponses> {
+		return this._http.post<MenuOptionCreateResponses>(`${this._path}`, menuOption);
+	}
 
-	// Update(profile: ProfileCommand): Observable<ProfileCreateResponses> {
-	// 	return this._http.put<ProfileCreateResponses>(`${this._path}`, profile);
-	// }
+	Update(menuOption: MenuOptionCommands): Observable<MenuOptionCreateResponses> {
+		return this._http.put<MenuOptionCreateResponses>(`${this._path}`, menuOption);
+	}
 
-	// Delete(profileId: string): Observable<ProfileCreateResponses> {
-	// 	return this._http.delete<ProfileCreateResponses>(`${this._path}/${profileId}`);
-	// }
+	GetById(menuOptionID: string): Observable<MenuOptionSimpleResponses> {
+		return this._http.get<MenuOptionSimpleResponses>(`${this._path}/${menuOptionID}`);
+	}
 
-	// Find(profileId: string): Observable<ProfileSimpleResponses> {
-	// 	return this._http.get<ProfileSimpleResponses>(`${this._path}/${profileId}`);
-	// }
+	Delete(menuOptionID: string): Observable<MenuOptionCreateResponses> {
+		return this._http.delete<MenuOptionCreateResponses>(`${this._path}/${menuOptionID}`);
+	}
 }

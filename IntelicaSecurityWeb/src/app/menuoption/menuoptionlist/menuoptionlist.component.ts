@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -7,6 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { MenuOptionService } from '../menuoption.service';
 import { MenuOptionParentResponses, MenuOptionSimpleResponses } from '../dto/menuOptionResponses';
 import { MenuOptionFilter } from '../dto/menuOptionRequests';
+import { SweetAlertService } from '../../common/services/sweet-alert.service';
 
 @Component({
 	selector: 'security-menuoptionlist',
@@ -15,9 +16,10 @@ import { MenuOptionFilter } from '../dto/menuOptionRequests';
 	templateUrl: './menuoptionlist.component.html',
 	styleUrl: './menuoptionlist.component.css'
 })
-export class MenuoptionlistComponent {
+export class MenuoptionlistComponent implements OnInit {
 	private readonly router = inject(Router);
 	private readonly menuOptionService = inject(MenuOptionService);
+	private readonly sweetAlertService = inject(SweetAlertService);
 
 	listMenuOption: MenuOptionSimpleResponses[] = [];
 	listMenuParent: MenuOptionParentResponses[] = [];
@@ -25,7 +27,7 @@ export class MenuoptionlistComponent {
 	menuOptionModel: MenuOptionFilter = {} as MenuOptionFilter;
 
 	ngOnInit(): void {
-		this.menuOptionModel.menuOptionParentID = '';
+		this.menuOptionModel.menuOptionParentID = null;
 		this.menuOptionModel.menuOptionName = '';
 
 		this.GetAll();
@@ -53,6 +55,29 @@ export class MenuoptionlistComponent {
 	search() {
 		this.menuOptionService.GetByFilter(this.menuOptionModel.menuOptionParentID, this.menuOptionModel.menuOptionName).subscribe((response) => {
 			this.listMenuOption = response;
+		});
+	}
+
+	editMenuOption(row: MenuOptionSimpleResponses) {
+		this.router.navigate(['security/menuoption/maintenance'], {
+			queryParams: { menuOptionID: row.menuOptionID }
+		});
+	}
+
+	deleteMenuOption(row: MenuOptionSimpleResponses) {
+		this.sweetAlertService.confirmBox('Do you want to delete this menu option?', 'Yes', 'No').then((response) => {
+			if (response.isConfirmed) {
+				this.menuOptionService.Delete(row.menuOptionID).subscribe({
+					next: (response) => {
+						if (response.menuOptionID !== '') {
+							this.sweetAlertService.messageTextBox('Process successfully completed.');
+							this.GetAll();
+						}
+					},
+					error: (error) => {},
+					complete: () => {}
+				});
+			}
 		});
 	}
 }

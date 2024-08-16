@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -7,9 +7,10 @@ import { ProfileService } from '../profile.service';
 import { ProfileCommand, ProfilePageCommand } from '../dto/profileRequests';
 import { PageService } from '../../page/page.service';
 import { PageSimpleResponse } from '../../page/dto/pageResponses';
-import { PageProfile } from '../dto/pageProfile';
+import { Profile } from '../dto/pageProfile';
 import { forkJoin } from 'rxjs';
 import { ProfileSimpleResponses } from '../dto/profileResponses';
+import { Guid } from 'guid-typescript';
 
 @Component({
 	selector: 'security-profilemaintenance',
@@ -23,7 +24,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 	private readonly sweetAlertService = inject(SweetAlertService);
 	private readonly profileService = inject(ProfileService);
 	private readonly pageService = inject(PageService);
-	private ngActivatedRoute = inject(ActivatedRoute);
+	private readonly ngActivatedRoute = inject(ActivatedRoute);
 
 	currentProfile: ProfileCommand = new ProfileCommand();
 	parameters: Params | undefined = undefined;
@@ -31,8 +32,9 @@ export class ProfilemaintenanceComponent implements OnInit {
 	swEdit: Boolean = false;
 
 	pageListAll: PageSimpleResponse[] = [];
-	listPageProfile: PageProfile[] = [];
-	profile: ProfileSimpleResponses = {} as ProfileSimpleResponses;
+
+	profileByID: ProfileSimpleResponses = {} as ProfileSimpleResponses;
+	profileTemp: Profile = new Profile();
 
 	ngOnInit(): void {
 		this.ngActivatedRoute.queryParams.subscribe((parameters) => {
@@ -40,87 +42,108 @@ export class ProfilemaintenanceComponent implements OnInit {
 			this.profileId = this.parameters['profileID'];
 			if (this.profileId !== '' && this.profileId !== undefined) {
 				this.swEdit = true;
-				this.GetProfile();
+				this.getProfile();
 			} else {
-				this.GetAll();
+				this.getAll();
 			}
 		});
 	}
 
-	GetAll() {
+	getAll() {
 		this.pageService.GetAll().subscribe((response) => {
 			this.pageListAll = response;
+			this.profileTemp.profilePages = [];
 
 			this.pageListAll.forEach((itemPage) => {
-				this.listPageProfile.push({ pageId: itemPage.pageId, pageName: itemPage.pageName, pageUrl: itemPage.pageUrl, isSelect: false });
+				this.profileTemp.profilePages.push({
+					pageId: itemPage.pageId,
+					pageName: itemPage.pageName,
+					profilePageCanUpdate: true,
+					profilePageCanCreate: true,
+					profilePageCanDelete: true,
+					isSelect: false
+				});
 			});
 		});
 	}
 
-	GetProfile() {
+	getProfile() {
 		const getAllServicesSF = forkJoin({
 			pageAll: this.pageService.GetAll(),
-			profile: this.profileService.Find(this.profileId)
+			profile: this.profileService.GetById(this.profileId)
 		});
 		getAllServicesSF.subscribe({
 			next: (response) => {
 				this.pageListAll = response.pageAll;
-				this.profile = response.profile;
+				this.profileByID = response.profile;
 
-				this.currentProfile.profileID = this.profile.profileID;
-				this.currentProfile.profileName = this.profile.profileName;
-				this.currentProfile.profileDescription = this.profile.profileDescription;
+				this.profileTemp.profileID = this.profileByID.profileID;
+				this.profileTemp.profileName = this.profileByID.profileName;
+				this.profileTemp.profileDescription = this.profileByID.profileDescription;
+				this.profileTemp.profilePages = [];
 
-				this.listPageProfile = [];
-
-				if (this.profile.profilePages.length > 0) {
-					this.pageListAll.forEach((itemPage) => {
-						let _page = this.profile.profilePages.find((f) => f.pageID === itemPage.pageId);
-						let swSelect: boolean = _page !== undefined;
-						this.listPageProfile.push({ pageId: itemPage.pageId, pageName: itemPage.pageName, pageUrl: itemPage.pageUrl, isSelect: swSelect });
-					});
-				} else {
-					this.pageListAll.forEach((itemPage) => {
-						this.listPageProfile.push({ pageId: itemPage.pageId, pageName: itemPage.pageName, pageUrl: itemPage.pageUrl, isSelect: false });
-					});
-				}
+				this.pageListAll.forEach((itemPage) => {
+					let _page = this.profileByID.profilePages.find((f) => f.pageID === itemPage.pageId);
+					if (_page !== undefined) {
+						this.profileTemp.profilePages.push({
+							pageId: itemPage.pageId,
+							pageName: itemPage.pageName,
+							profilePageCanUpdate: _page.profilePageCanUpdate,
+							profilePageCanCreate: _page.profilePageCanCreate,
+							profilePageCanDelete: _page.profilePageCanDelete,
+							isSelect: true
+						});
+					} else {
+						this.profileTemp.profilePages.push({
+							pageId: itemPage.pageId,
+							pageName: itemPage.pageName,
+							profilePageCanUpdate: true,
+							profilePageCanCreate: true,
+							profilePageCanDelete: true,
+							isSelect: false
+						});
+					}
+				});
 			},
 			error: (error) => {},
 			complete: () => {}
 		});
 	}
 
-	Home() {}
-
-	Back() {
+	@HostListener('window:keydown.alt.r', ['$event'])
+	back() {
 		this.router.navigate(['security/profile/list']);
 	}
 
-	Submit() {
+	@HostListener('window:keydown.alt.s', ['$event'])
+	save() {
+		this.currentProfile.profileID = this.swEdit ? this.profileId : Guid.EMPTY;
+		this.currentProfile.profileName = this.profileTemp.profileName;
+		this.currentProfile.profileDescription = this.profileTemp.profileDescription;
+		this.currentProfile.profilePages = [];
+		this.profileTemp.profilePages.forEach((itemPage) => {
+			if (itemPage.isSelect) {
+				let rowSelect: ProfilePageCommand = new ProfilePageCommand();
+				rowSelect.profileID = this.currentProfile.profileID;
+				rowSelect.pageID = itemPage.pageId;
+				if (this.swEdit && this.profileByID.profilePages?.length > 0) {
+					let _page = this.profileByID.profilePages.find((f) => f.pageID === itemPage.pageId);
+					if (_page !== undefined) rowSelect.profilePageID = _page.profilePageID;
+				}
+				rowSelect.profilePageCanCreate = itemPage.profilePageCanCreate;
+				rowSelect.profilePageCanUpdate = itemPage.profilePageCanUpdate;
+				rowSelect.profilePageCanDelete = itemPage.profilePageCanDelete;
+				this.currentProfile.profilePages.push(rowSelect);
+			}
+		});
+
 		const swError = this.validateCreate(this.currentProfile);
 		if (swError) {
 			this.sweetAlertService.messageTextBox('Please complete all mandatory fields or correct wrong values to continue.');
 			return;
 		}
 
-		this.currentProfile.profilePages = [];
-		this.listPageProfile.forEach((itemPage) => {
-			if (itemPage.isSelect) {
-				let rowSelect: ProfilePageCommand = new ProfilePageCommand();
-				rowSelect.profileID = this.currentProfile.profileID;
-				rowSelect.pageID = itemPage.pageId;
-
-				if (this.profile.profilePages?.length > 0) {
-					let _page = this.profile.profilePages.find((f) => f.pageID === itemPage.pageId);
-					if (_page !== undefined) rowSelect.profilePageID = _page.profilePageID;
-				}
-
-				this.currentProfile.profilePages.push(rowSelect);
-			}
-		});
-
 		// console.log('this.currentProfile', this.currentProfile);
-
 		this.sweetAlertService.confirmBox('Are you sure you want to save the changes?', 'Yes', 'No').then((response) => {
 			if (response.isConfirmed) {
 				if (!this.swEdit) {
@@ -128,7 +151,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 						next: (response) => {
 							if (response.profileID !== '') {
 								this.profileId = response.profileID;
-								this.GetProfile();
+								this.getProfile();
 								this.sweetAlertService.messageTextBox('Process successfully completed.');
 							}
 						},
@@ -139,7 +162,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 					this.profileService.Update(this.currentProfile).subscribe((response) => {
 						if (response.profileID !== '') {
 							this.profileId = response.profileID;
-							this.GetProfile();
+							this.getProfile();
 							this.sweetAlertService.messageTextBox('Process successfully completed.');
 						}
 					});
@@ -155,8 +178,18 @@ export class ProfilemaintenanceComponent implements OnInit {
 			if (parameter.profileID?.trim() === '') swValidate = true;
 		}
 		if (parameter.profileName?.trim() === '') swValidate = true;
-		if (parameter.profileDescription?.trim() === '') swValidate = true;
+		if (parameter.profilePages.length === 0) swValidate = true;
 
 		return swValidate;
+	}
+
+	cleanFrmProfile() {
+		this.profileTemp = new Profile();
+		if (this.profileId !== '' && this.profileId !== undefined) {
+			this.swEdit = true;
+			this.getProfile();
+		} else {
+			this.getAll();
+		}
 	}
 }
