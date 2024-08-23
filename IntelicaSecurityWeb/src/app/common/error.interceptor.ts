@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpHeaders, HttpInterceptorFn } from "@angular/comm
 import { inject } from "@angular/core";
 import { catchError, finalize, throwError } from "rxjs";
 import { SpinnerService } from "./spinner/spinner.service";
-import { CustomKeycloackService } from "./services/customKeycloak.service";
+import { CustomKeycloackService } from "./services/keycloakCommon.service";
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 	const spinner = inject(SpinnerService);
 	const customKeycloackService = inject(CustomKeycloackService);

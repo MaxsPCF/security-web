@@ -1,43 +1,34 @@
+@if(featureFlagService.IsReady()){
 <div class="card-body">
 	<div class="row">
 		<div class="col-md-5">
 			<label class="label-form-enazul text-primary mt-1">Bank code</label>
-			<input
-				name="realmCode"
-				class="form-control form-control-sm"
-				type="text"
-				maxlength="100"
-				[(ngModel)]="BankCode"
-				(keyup.enter)="Search()"
-				autofocus
-			/>
+			<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="BankCode" (keyup.enter)="Search()" autofocus />
 		</div>
 		<div class="col-md-5">
 			<label class="label-form-enazul text-primary mt-1">Bank name</label>
-			<input
-				name="realmCode"
-				class="form-control form-control-sm"
-				type="text"
-				maxlength="100"
-				[(ngModel)]="BankName"
-				(keyup.enter)="Search()"
-			/>
+			<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="BankName" (keyup.enter)="Search()" />
 		</div>
-
-		<div class="col-md-5" [hidden]="!IsVisibleFeature">
+		@if(featureFlagService.Exists("ActivatedNewDemo")){
+		<div class="col-md-5">
 			<label class="label-form-enazul text-primary mt-1">Bank name Comercial</label>
 			<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" />
 		</div>
-
-		<div class="col-md-2 div-center-right" (click)="Search()">
-			<button class="btn btn-primary">
+		}
+		<div class="col-md-2 div-center-right">
+			<button class="btn btn-primary" (click)="Search()">
 				Search
 				<i class="icon-save-white"></i>
 			</button>
+			@if(featureFlagService.Exists("ActivatedNewDemo")){
+			<button class="btn btn-primary" >
+				Feature Flag
+				<i class="icon-save-white"></i>
+			</button>
+			}
 		</div>
 	</div>
 </div>
-
 <div class="card card-header card-header-stretch cold-md-12 mt-3">
 	<div class="card mb-4 mt-4">
 		<ul class="nav">
@@ -72,7 +63,6 @@
 						<td>{{ bank.bankName }}</td>
 						<td>{{ bank.countryID }}</td>
 						<td>{{ bank.contactName }}</td>
-
 						<th scope="row">
 							<div class="row">
 								<div class="col-lg-4 col-md-12 pl-10">
@@ -90,15 +80,9 @@
 					}
 				</tbody>
 			</table>
-			<ngb-pagination
-				class="d-flex justify-content-center"
-				[pageSize]="PageSize"
-				[collectionSize]="Banks.length"
-				[(page)]="Page"
-				(pageChange)="RefreshList()"
-			/>
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Banks.length" [(page)]="Page" (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>
-
 <table id="TableExport" style="display: none"></table>
+}

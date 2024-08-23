@@ -30,26 +30,11 @@
 					<div class="row mt-2">
 						<div class="col-md-6 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Realm Group ID</label>
-							<input
-								name="FeatureFlagID"
-								class="form-control form-control-sm"
-								type="text"
-								maxlength="100"
-								disabled
-								[(ngModel)]="FeatureFlag.featureFlagID"
-								required
-							/>
+							<input name="FeatureFlagID" class="form-control form-control-sm" type="text" maxlength="100" disabled [(ngModel)]="FeatureFlag.featureFlagID" required />
 						</div>
 						<div class="col-md-6 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Page</label>
-							<ng-select
-								name="pageID"
-								[items]="pages"
-								bindLabel="pageName"
-								bindValue="pageId"
-								[(ngModel)]="FeatureFlag.pageID"
-								required
-							></ng-select>
+							<ng-select name="pageID" [items]="pages" bindLabel="pageName" bindValue="pageId" [(ngModel)]="FeatureFlag.pageID" required></ng-select>
 						</div>
 						<div class="col-md-6 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Users</label>
@@ -60,40 +45,21 @@
 								bindValue="businessUserID"
 								[multiple]="true"
 								[(ngModel)]="usersSelected"
+								[disabled]="FeatureFlag.allUser"
 							></ng-select>
 						</div>
 						<div class="col-md-6 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Feature Flag Name</label>
-							<input
-								name="featureFlagName"
-								class="form-control form-control-sm"
-								type="text"
-								maxlength="100"
-								[(ngModel)]="FeatureFlag.featureFlagName"
-								required
-							/>
+							<input name="featureFlagName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="FeatureFlag.featureFlagName" required />
 						</div>
 
 						<div class="col-md-6 col-sm-12">
-							<label class="form-check-label text-primary mt-1" for="Status"> Status </label>
-							<input
-								class="form-check-input form-control form-control-sm"
-								type="checkbox"
-								value=""
-								id="Status"
-								[checked]="FeatureFlag.status"
-								(change)="FeatureFlag.status = !FeatureFlag.status"
-							/>
+							<label class="form-check-label text-primary mt-1" for="Status">Active</label>
+							<input class="form-check-input form-control form-control-sm" type="checkbox" value="" id="Status" [checked]="FeatureFlag.status" (change)="FeatureFlag.status = !FeatureFlag.status" />
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="form-check-label text-primary mt-1" for="allUser"> All User </label>
-							<input
-								class="form-check-input form-control form-control-sm"
-								type="checkbox"
-								id="allUser"
-								[checked]="FeatureFlag.allUser"
-								(change)="FeatureFlag.allUser = !FeatureFlag.allUser"
-							/>
+							<label class="form-check-label text-primary mt-1" for="allUser">All User</label>
+							<input class="form-check-input form-control form-control-sm" type="checkbox" id="allUser" [checked]="FeatureFlag.allUser" (change)="FeatureFlag.allUser = !FeatureFlag.allUser" />
 						</div>
 					</div>
 				</div>

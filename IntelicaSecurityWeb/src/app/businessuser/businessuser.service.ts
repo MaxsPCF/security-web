@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { BusinessUserMaintenanceResponse, BusinessUserSimpleResponse } from './dto/businessUserCommands';
 import { Guid } from 'guid-typescript';
 import { BusinessUser } from './businessUser';
-
 @Injectable({
 	providedIn: 'root'
 })

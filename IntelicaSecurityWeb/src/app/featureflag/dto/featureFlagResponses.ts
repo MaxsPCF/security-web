@@ -7,13 +7,11 @@ export interface FeatureFlagSimpleResponse {
 	status: boolean;
 	featureFlagDetails: FeatureFlagDetailSimpleResponse[];
 }
-
 export interface FeatureFlagDetailSimpleResponse {
 	featureFlagDetailID: string;
 	featureFlagID: string;
 	businessUserID: string;
 }
-
 export interface FeatureFlagMaintenanceResponse {
 	featureFlagID: string;
 }

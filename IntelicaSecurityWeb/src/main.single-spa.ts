@@ -7,11 +7,10 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { ConfigService, InitializeConfig } from './app/common/services/config.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { ErrorInterceptor } from './app/common/error.interceptor';
-import { CustomKeycloackService } from './app/common/services/customKeycloak.service';
+import { CustomKeycloackService } from './app/common/services/keycloakCommon.service';
 import '@angular/localize/init';
-import { HeaderInterceptor } from './app/common/services/HeaderInterceptor';
 enableProdMode();
 const lifecycles = singleSpaAngular({
 	bootstrapFunction: (singleSpaProps) => {
@@ -33,11 +32,6 @@ const lifecycles = singleSpaAngular({
 					useFactory: InitializeConfig,
 					multi: true,
 					deps: [CustomKeycloackService]
-				},
-				{
-					provide: HTTP_INTERCEPTORS,
-					useClass: HeaderInterceptor,
-					multi: true
 				},
 				provideClientHydration(),
 				provideAnimationsAsync(),

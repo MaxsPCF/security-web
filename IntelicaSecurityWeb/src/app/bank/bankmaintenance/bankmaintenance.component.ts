@@ -1,13 +1,12 @@
+import Swal from 'sweetalert2';
 import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Bank } from '../bank';
 import { ActivatedRoute, Router } from '@angular/router';
-import Swal from 'sweetalert2';
 import { BankService } from '../bank.service';
 import { CountrySimpleResponse } from '../../country/dto/countryResponses';
 import { CountryService } from '../../country/country.service';
-
 @Component({
 	selector: 'security-bankmaintenance',
 	standalone: true,
@@ -15,19 +14,15 @@ import { CountryService } from '../../country/country.service';
 	templateUrl: './bankmaintenance.component.html'
 })
 export class BankmaintenanceComponent implements OnInit {
+	bankid: string = '';	
+	Read: boolean = false;
+	Countries: CountrySimpleResponse[] = [];
+	Bank: Bank = new Bank();
 	private readonly bankService = inject(BankService);
 	private readonly countryService = inject(CountryService);
-
 	private readonly router = inject(Router);
-	Bank: Bank = new Bank();
-	@ViewChild('bankForm', { read: NgForm }) bankForm: any;
-	bankid: string = '';
-	Countries: CountrySimpleResponse[] = [];
-
-	Read: boolean = false;
-
 	private activatedRoute = inject(ActivatedRoute);
-
+	@ViewChild('bankForm', { read: NgForm }) bankForm: any;
 	ngOnInit(): void {
 		this.countryService.GetByAll().subscribe((response1) => {
 			this.Countries = response1;
@@ -40,9 +35,6 @@ export class BankmaintenanceComponent implements OnInit {
 			}
 		});
 	}
-
-	GetRows() {}
-	Home() {}
 	Back() {
 		this.router.navigate(['security/bank/list']);
 	}
@@ -65,7 +57,6 @@ export class BankmaintenanceComponent implements OnInit {
 			});
 		}
 	}
-
 	Clean(): void {
 		this.Bank = new Bank();
 	}

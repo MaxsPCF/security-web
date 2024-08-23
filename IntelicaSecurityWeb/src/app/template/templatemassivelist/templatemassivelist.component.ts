@@ -5,7 +5,7 @@ import { NgbPaginationModule, NgbProgressbarModule } from "@ng-bootstrap/ng-boot
 import { TemplateService } from "../template.service";
 import { ConfigService } from "../../common/services/config.service";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
-import { CustomKeycloackService } from "../../common/services/customKeycloak.service";
+import { CustomKeycloackService } from "../../common/services/keycloakCommon.service";
 @Component({
 	selector: "security-templatemassivelist",
 	standalone: true,
