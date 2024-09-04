@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CountrySimpleResponse } from '../dto/countryResponses';
@@ -7,15 +7,18 @@ import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { HtmlToExcel } from '../../common/HtmlToExcel';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ActionDirective, ActionsMenuComponent } from 'intelica-components-ui';
 
 @Component({
 	selector: 'security-countrylist',
 	standalone: true,
 
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule],
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective],
 	templateUrl: './countrylist.component.html'
 })
 export class CountrylistComponent implements OnInit {
+	@ViewChild('actionsMenu') actionsMenu!: ActionsMenuComponent;
+
 	ngOnInit(): void {
 		this.Search();
 	}
@@ -29,6 +32,7 @@ export class CountrylistComponent implements OnInit {
 	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
 	private readonly CountryService = inject(CountryService);
 	private readonly router = inject(Router);
+	backBlueClass = false;
 
 	Home() {}
 	Search() {
@@ -78,5 +82,22 @@ export class CountrylistComponent implements OnInit {
 
 	RefreshList(): void {
 		this.CountriesFilter = this.Countries.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
+	}
+
+	applyFilter() {
+		this.actionsMenu.closeAll();
+		this.Search();
+	}
+	ClerSearch() {
+		this.CountryCode = '';
+		this.CountryName = '';
+	}
+	exportFilter() {
+		this.actionsMenu.closeAll();
+		this.Export();
+	}
+
+	showBackBlue(value: boolean): void {
+		this.backBlueClass = value;
 	}
 }

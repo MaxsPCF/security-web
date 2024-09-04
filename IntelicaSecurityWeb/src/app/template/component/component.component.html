@@ -1,9 +1,100 @@
 <p>component works!</p>
+
 <!-- <lib-intelica-filter [text]="'SUPER AWESOME TEXT'" [speed]="1000" /> -->
-<div class="container">
+<!-- <div class="container int-content-body">
+
+	
 	<div class="example" [ngClass]="">
+		<div class="d-flex justify-content-end">
+			Actions
+			<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
+				<action name="Filters">
+					<ng-template #template> </ng-template>
+				</action>
+
+				<action name="Download"></action>
+			</intelica-actions-menu>
+		</div>
+
 		<intelica-new-filter label="Filter"> </intelica-new-filter>
 
 		<intelica-new-table></intelica-new-table>
+	</div>
+</div> -->
+
+<div class="container int-content-body">
+	<div class="card mt-3">
+		<ul class="nav justify-content-between">
+			<button type="button" class="btn-toolbar">
+				<a class="nav-link text-toolbar">
+					<i class="icon-save"></i>
+					Save
+				</a>
+			</button>
+			<div class="d-flex">
+				<button type="button" class="btn-toolbar">
+					<a class="nav-link text-toolbar">
+						<i class="icon-trash"></i>
+						Clean
+					</a>
+				</button>
+				<button type="button" class="btn-toolbar">
+					<a class="nav-link text-toolbar">
+						<i class="icon-return"></i>
+						Return
+					</a>
+				</button>
+
+				<div class="d-flex d-flex p-2">
+					<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
+						<action name="Filters">
+							<ng-template #template>
+								<div class="container overflow-hidden">
+									<div class="row gy-1 filtersAnalytics">
+										<div class="inputRowGap cold-md-12">
+											<div class="filtersRow ng-star-inserted">
+												<div class="idx-lbl">
+													<div class="numOrder"><span>1</span></div>
+													<label for="PeriodSummary"><span>Name</span></label>
+												</div>
+												<input type="text" class="txtBoxStyle" />
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="actionButtons">
+									<button class="int-Btn int-priBtn btn-fixed applyAnalytics">
+										<span>Apply</span>
+									</button>
+									<button class="int-Btn int-secBtn btn-fixed cleanAnalytics">
+										<span>Clear</span>
+									</button>
+								</div>
+							</ng-template>
+						</action>
+
+						<action name="Download" (onClick)="laodmsj()" [stopPropagation]="true"></action>
+					</intelica-actions-menu>
+				</div>
+			</div>
+		</ul>
+	</div>
+
+	<div class="card card-header card-header-stretch cold-md-12 mt-3">
+		<div class="card mb-10">
+			<div class="pt-4">
+				<div class="row mt-2">
+					<div class="col-md-6 col-sm-12">
+						<label class="label-form-enazul text-primary mt-1">Realm</label>
+						<input name="realmID" class="form-control form-control-sm" type="text" maxlength="100" disabled />
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<label class="label-form-enazul text-primary mt-1">Realm Name</label>
+						<input name="realmName" class="form-control form-control-sm" type="text" maxlength="100" />
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
