@@ -1,0 +1,13 @@
+.mat-stepper-vertical {
+	margin-top: 8px;
+}
+
+.mat-success {
+	background-color: #ff7f00;
+	color: #fff;
+}
+
+.color-chk-all {
+	background-color: #fff;
+	color: #fff;
+}

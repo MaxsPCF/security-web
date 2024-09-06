@@ -26,4 +26,7 @@ export class BankService {
 		if (bankName == '') bankName = '-';
 		return this._http.get<BankSimpleResponse[]>(`${this._configService.environment?.apiPath}/Bank/GetByFilter/${bankCode}/${bankName}`);
 	}
+	GetAll(): Observable<BankSimpleResponse[]> {
+		return this._http.get<BankSimpleResponse[]>(`${this._configService.environment?.apiPath}/Bank`);
+	}
 }
