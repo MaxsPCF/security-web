@@ -5,6 +5,8 @@ import { Realm } from '../realm';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { RealmService } from '../realm.service';
+import { CustomKeycloackService } from '../../common/services/keycloakCommon.service';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 @Component({
 	selector: 'security-realmmaintenance',
 	standalone: true,
@@ -15,13 +17,28 @@ export class RealmmaintenanceComponent {
 	private readonly router = inject(Router);
 	private readonly realmService = inject(RealmService);
 	private activatedRoute = inject(ActivatedRoute);
+	private readonly connection: HubConnection;
+	private readonly customKeycloackService = inject(CustomKeycloackService);
 
 	Realm: Realm = new Realm();
 	RealmID: string = '';
 	@ViewChild('RealmForm', { read: NgForm }) RealmForm: any;
 	Read: boolean = false;
-
+	constructor() {
+		this.connection = new HubConnectionBuilder().withUrl(`http://localhost:5149/hubs/template`).build();
+		this.connection.on("SendPercentage", message => Swal.fire('Informaci�n', `Notification Group con data <br/> <b> ${message}</b>  <br/> ha sido actualizado correctamente`, 'success'));
+		this.connection.on("Connect", message => console.log(message));
+	}
 	ngOnInit() {
+		this.connection
+			.start()
+			.then(_ => {
+				console.log("WebSocket Connection Started");
+			})
+			.catch(error => {
+				return console.error(error);
+			});
+
 		this.RealmID = this.activatedRoute.snapshot.params['id'];
 		this.Read = this.activatedRoute.snapshot.params['read'];
 		if (this.RealmID != undefined && this.RealmID != null) {
@@ -54,6 +71,9 @@ export class RealmmaintenanceComponent {
 				this.Clean();
 			});
 		}
+
+		console.log(this.customKeycloackService.BusinessUserID);
+		this.connection.invoke("Connect", this.customKeycloackService.BusinessUserID);
 	}
 	Clean(): void {
 		this.Realm = new Realm();

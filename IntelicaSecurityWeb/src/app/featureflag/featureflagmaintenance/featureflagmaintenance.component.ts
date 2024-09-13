@@ -2,13 +2,13 @@ import { Component, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FeatureFlagService } from '../feature-flag.service';
 import { PageService } from '../../page/page.service';
 import { FeatureFlag, FeatureFlagDetail } from '../featureFlag';
 import { PageSimpleResponse } from '../../page/dto/pageResponses';
 import { BusinessuserService } from '../../businessuser/businessuser.service';
 import { BusinessUserSimpleResponse } from '../../businessuser/dto/businessUserResponses';
 import Swal from 'sweetalert2';
+import { FeatureFlagService } from '../featureflag.service';
 
 @Component({
 	selector: 'security-featureflagmaintenance',
@@ -71,7 +71,7 @@ export class FeatureflagmaintenanceComponent {
 		});
 		this.FeatureFlag.featureFlagDetails = userCrud;
 		if (this.FeatureFlagID != undefined && this.FeatureFlagID != null && this.FeatureFlagID != '') {
-			this.featureFlagService.Update(this.FeatureFlag).subscribe((response) => {
+			this.featureFlagService.Update(this.FeatureFlag).subscribe((response: any) => {
 				Swal.fire(
 					'Informacion',
 					`Feature Flag con codigo <br/> <b> ${response.featureFlagID}</b>  <br/> ha sido actualizado correctamente`,
@@ -81,7 +81,7 @@ export class FeatureflagmaintenanceComponent {
 				this.Clean();
 			});
 		} else {
-			this.featureFlagService.Create(this.FeatureFlag).subscribe((response) => {
+			this.featureFlagService.Create(this.FeatureFlag).subscribe((response: any) => {
 				Swal.fire(
 					'Informacion',
 					`Feature Flag con codigo <br/> <b> ${response.featureFlagID}</b>  <br/> ha sido registrada correctamente`,
