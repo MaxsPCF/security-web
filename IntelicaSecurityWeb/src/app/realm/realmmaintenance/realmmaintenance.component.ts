@@ -25,8 +25,8 @@ export class RealmmaintenanceComponent {
 	@ViewChild('RealmForm', { read: NgForm }) RealmForm: any;
 	Read: boolean = false;
 	constructor() {
-		this.connection = new HubConnectionBuilder().withUrl(`http://localhost:5149/hubs/template`).build();
-		this.connection.on("SendPercentage", message => Swal.fire('Informaci�n', `Notification Group con data <br/> <b> ${message}</b>  <br/> ha sido actualizado correctamente`, 'success'));
+		this.connection = new HubConnectionBuilder().withUrl(`http://localhost:5149/hubs/notification`).build();
+		this.connection.on("SendNotification", message => Swal.fire('Informaci�n', message, 'success'));
 		this.connection.on("Connect", message => console.log(message));
 	}
 	ngOnInit() {
