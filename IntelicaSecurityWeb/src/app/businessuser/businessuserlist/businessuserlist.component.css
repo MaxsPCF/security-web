@@ -1,0 +1,13 @@
+.primary-intelica {
+	color: #ffffff !important;
+	background-color: #ff7f00 !important;
+}
+
+.mdc-data-table__header-cell {
+	color: #ffffff !important;
+	background-color: #17375e !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+	display: none !important;
+}

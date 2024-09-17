@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, inject, signal } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit, ViewChild, inject, signal } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+// import { NgSelectModule } from '@ng-select/ng-select';
 import { ProfileSimpleResponses } from '../../profile/dto/profileResponses';
 import { ProfileService } from '../../profile/profile.service';
 import { BusinessuserService } from '../businessuser.service';
@@ -29,12 +29,18 @@ import { SweetAlertService } from '../../common/services/sweet-alert.service';
 import { BusinessUserPageRequest } from '../dto/businessUserPage';
 import { BusinessUserBankRequest } from '../dto/businessUserBank';
 import { BusinessUserBankGroupRequest } from '../dto/businessUserBankGroup';
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 
 @Component({
 	selector: 'security-businessusermaintenance',
 	standalone: true,
+	providers: [
+		{
+			provide: STEPPER_GLOBAL_OPTIONS,
+			useValue: { showError: true }
+		}
+	],
 	imports: [
-		NgSelectModule,
 		FormsModule,
 		MatCardModule,
 		MatStepperModule,
@@ -46,7 +52,8 @@ import { BusinessUserBankGroupRequest } from '../dto/businessUserBankGroup';
 		MatCheckboxModule,
 		MatTableModule,
 		MatSortModule,
-		MatPaginatorModule
+		MatPaginatorModule,
+		ReactiveFormsModule
 	],
 	templateUrl: './businessusermaintenance.component.html',
 	styleUrl: './businessusermaintenance.component.css',
@@ -63,11 +70,13 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	private readonly activatedRoute = inject(ActivatedRoute);
 	private readonly sweetAlertService = inject(SweetAlertService);
 
-	@ViewChild('BusinessUserForm', { read: NgForm }) BusinessUserForm: any;
+	private readonly _formBuilder = inject(FormBuilder);
+
+	// @ViewChild('BusinessUserForm', { read: NgForm }) BusinessUserForm: any;
 
 	businessUserID: string = '';
 	Read: boolean = false;
-	checkedAllPage: boolean = false;
+	// checkedAllPage: boolean = false;
 	isLoading: boolean = false;
 	isLinear: boolean = true;
 	BusinessUserByID: BusinessUserSimpleResponses = {} as BusinessUserSimpleResponses;
@@ -92,8 +101,8 @@ export class BusinessusermaintenanceComponent implements OnInit {
 
 	hide = signal(true);
 
-	@ViewChild('matPaginatorPages') paginatorPages: any = MatPaginator;
-	@ViewChild('sortPages') sortPages = new MatSort();
+	@ViewChild('matPaginatorPages') paginatorPages!: MatPaginator;
+	@ViewChild('sortPages') sortPages!: MatSort;
 
 	displayedColumnsPages: string[] = [
 		'index',
@@ -106,21 +115,31 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	dataSourcePages!: MatTableDataSource<BusinessUserPage>;
 	selectionPages = new SelectionModel<BusinessUserPage>(true, []);
 
-	@ViewChild('matPaginatorBanks') paginatorBanks: any = MatPaginator;
-	@ViewChild('sortBanks') sortBanks = new MatSort();
+	@ViewChild('matPaginatorBanks') set matPaginatorBanks(paginator: MatPaginator) {
+		this.dataSourceBanks.paginator = paginator;
+	}
+	@ViewChild('sortBanks') set sortBanks(sort: MatSort) {
+		this.dataSourceBanks.sort = sort;
+	}
 
 	displayedColumnsBanks: string[] = ['index', 'bankName', 'select'];
 	dataSourceBanks!: MatTableDataSource<BusinessUserBank>;
 	selectionBanks = new SelectionModel<BusinessUserBank>(true, []);
 
-	@ViewChild('matPaginatorBankGroups') paginatorBankGroups: any = MatPaginator;
-	@ViewChild('sortBankGroups') sortBankGroups = new MatSort();
+	@ViewChild('matPaginatorBankGroups') set matPaginatorBankGroups(paginator: MatPaginator) {
+		this.dataSourceBankGroups.paginator = paginator;
+	}
+	@ViewChild('sortBankGroups') set sortBankGroups(sort: MatSort) {
+		this.dataSourceBankGroups.sort = sort;
+	}
 
 	displayedColumnsBankGroups: string[] = ['index', 'bankGroupName', 'select'];
 	dataSourceBankGroups!: MatTableDataSource<BusinessUserBankGroup>;
 	selectionBankGroups = new SelectionModel<BusinessUserBankGroup>(true, []);
 
 	ngOnInit() {
+		this.onInitForm();
+
 		this.businessUserID = this.activatedRoute.snapshot.params['id'];
 		if (this.businessUserID != undefined && this.businessUserID != null) {
 			this.getBusinessUser();
@@ -223,9 +242,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.loadPageProfile();
 				this.loadBankUser();
 				this.loadBankGroupUser();
-				// setTimeout(() => {
-				// 	this.loadBankUser();
-				// }, 500);
 			}
 		});
 	}
@@ -245,11 +261,19 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.BusinessUserByID = response.userByID;
 
 				this.currentBusinessUser.businessUserID = this.BusinessUserByID.businessUserID;
-				this.currentBusinessUser.profileID = this.BusinessUserByID.profileID;
-				this.currentBusinessUser.businessUserName = this.BusinessUserByID.businessUserName;
-				this.currentBusinessUser.businessUserFirstName = this.BusinessUserByID.businessUserFirstName;
-				this.currentBusinessUser.businessUserLastName = this.BusinessUserByID.businessUserLastName;
-				this.currentBusinessUser.businessUserEmail = this.BusinessUserByID.businessUserEmail;
+				// this.currentBusinessUser.profileID = this.BusinessUserByID.profileID;
+				// this.currentBusinessUser.businessUserName = this.BusinessUserByID.businessUserName;
+				// this.currentBusinessUser.businessUserFirstName = this.BusinessUserByID.businessUserFirstName;
+				// this.currentBusinessUser.businessUserLastName = this.BusinessUserByID.businessUserLastName;
+				// this.currentBusinessUser.businessUserEmail = this.BusinessUserByID.businessUserEmail;
+				// this.currentBusinessUser.businessUserPassword = this.BusinessUserByID.businessUserPassword;
+
+				this.firstFormGroup.controls['profileID'].setValue(this.BusinessUserByID.profileID);
+				this.firstFormGroup.controls['businessUserName'].setValue(this.BusinessUserByID.businessUserName);
+				this.firstFormGroup.controls['businessUserFirstName'].setValue(this.BusinessUserByID.businessUserFirstName);
+				this.firstFormGroup.controls['businessUserLastName'].setValue(this.BusinessUserByID.businessUserLastName);
+				this.firstFormGroup.controls['businessUserEmail'].setValue(this.BusinessUserByID.businessUserEmail);
+				this.firstFormGroup.controls['businessUserPassword'].setValue(this.BusinessUserByID.businessUserPassword);
 			},
 			error: (error) => {},
 			complete: () => {
@@ -261,6 +285,7 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	}
 
 	loadPageProfile() {
+		this.currentBusinessUser.profileID = this.firstFormGroup.controls['profileID'].value;
 		if (this.currentBusinessUser.profileID !== null) {
 			this.profileService.GetById(this.currentBusinessUser.profileID).subscribe((responseProfile) => {
 				this.currentProfileByID = responseProfile;
@@ -308,13 +333,8 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			if (_bank !== undefined) this.bankListUserSelect.push(_item);
 		});
 
-		console.log('this.bankListUser', this.bankListUser);
-
 		this.dataSourceBanks = new MatTableDataSource(this.bankListUser);
 		this.selectionBanks.select(...this.bankListUserSelect);
-
-		this.dataSourceBanks.paginator = this.paginatorBanks;
-		this.dataSourceBanks.sort = this.sortBanks;
 	}
 
 	loadBankGroupUser() {
@@ -335,13 +355,8 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			if (_bankGroup !== undefined) this.bankGroupListUserSelect.push(_item);
 		});
 
-		console.log('this.bankGroupListUser', this.bankGroupListUser);
-
 		this.dataSourceBankGroups = new MatTableDataSource(this.bankGroupListUser);
 		this.selectionBankGroups.select(...this.bankGroupListUserSelect);
-
-		this.dataSourceBankGroups.paginator = this.paginatorBankGroups;
-		this.dataSourceBankGroups.sort = this.sortBankGroups;
 	}
 
 	@HostListener('window:keydown.alt.r', ['$event'])
@@ -349,8 +364,146 @@ export class BusinessusermaintenanceComponent implements OnInit {
 		this.router.navigate(['security/businessuser/list']);
 	}
 
+	// @HostListener('window:keydown.alt.s', ['$event'])
+	// Save() {
+	// 	if (!this.selectionPages.isEmpty()) {
+	// 		this.currentBusinessUser.businessUserPages = [];
+	// 		this.selectionPages.selected.forEach((itemPage) => {
+	// 			let _item: BusinessUserPageRequest = new BusinessUserPageRequest();
+	// 			_item.businessUserPageID = itemPage.businessUserPageID;
+	// 			_item.PageID = itemPage.pageID;
+	// 			_item.businessUserPageCanCreate = itemPage.businessUserCanCreate;
+	// 			_item.businessUserPageCanUpdate = itemPage.businessUserCanUpdate;
+	// 			_item.businessUserPageCanDelete = itemPage.businessUserCanDelete;
+	// 			this.currentBusinessUser.businessUserPages.push(_item);
+	// 		});
+	// 	}
+
+	// 	if (!this.selectionBanks.isEmpty()) {
+	// 		this.currentBusinessUser.businessUserBanks = [];
+	// 		this.selectionBanks.selected.forEach((itemBank) => {
+	// 			let _item: BusinessUserBankRequest = new BusinessUserBankRequest();
+	// 			_item.businessUserBankID = itemBank.businessUserBankID;
+	// 			_item.bankID = itemBank.bankID;
+	// 			this.currentBusinessUser.businessUserBanks.push(_item);
+	// 		});
+	// 	}
+
+	// 	if (!this.selectionBankGroups.isEmpty()) {
+	// 		this.currentBusinessUser.businessUserBankGroups = [];
+	// 		this.selectionBankGroups.selected.forEach((itemBakGroup) => {
+	// 			let _item: BusinessUserBankGroupRequest = new BusinessUserBankGroupRequest();
+	// 			_item.bussinessUserBankGroupID = itemBakGroup.businessUserBankGroupID;
+	// 			_item.bankGroupId = itemBakGroup.bankGroupID;
+	// 			this.currentBusinessUser.businessUserBankGroups.push(_item);
+	// 		});
+	// 	}
+
+	// 	console.log('this.currentBusinessUser', this.currentBusinessUser);
+
+	// 	// this.BusinessUser.businessUserRealmGroups = this.businessUserRealmGroups.map((element) => {
+	// 	// 	return {
+	// 	// 		businessUserID: this.BusinessUser.realmID,
+	// 	// 		realmGroupID: element
+	// 	// 	};
+	// 	// });
+
+	// 	this.sweetAlertService.confirmBox('Are you sure you want to save the changes?', 'Yes', 'No').then((response) => {
+	// 		if (response.isConfirmed) {
+	// 			if (this.businessUserID != undefined && this.businessUserID != null && this.businessUserID != '') {
+	// 				this.businessUserService.Update(this.currentBusinessUser).subscribe({
+	// 					next: (response) => {
+	// 						if (response.businessUserID !== '') {
+	// 							this.sweetAlertService.messageTextBox(
+	// 								`Business user con codigo <br/> <b> ${response.businessUserID}</b>  <br/> ha sido actualizado correctamente`,
+	// 								true
+	// 							);
+	// 							this.getBusinessUser();
+	// 						}
+	// 					},
+	// 					error: (error) => {},
+	// 					complete: () => {}
+	// 				});
+	// 			} else {
+	// 				this.businessUserService.Create(this.currentBusinessUser).subscribe((response) => {
+	// 					if (response.businessUserID !== '') {
+	// 						this.sweetAlertService.messageTextBox(
+	// 							`Business user con codigo <br/> <b> ${response.businessUserID}</b>  <br/> ha sido registrada correctamente`,
+	// 							true
+	// 						);
+	// 						this.businessUserID = response.businessUserID;
+	// 						this.getBusinessUser();
+	// 					}
+	// 				});
+	// 			}
+	// 		}
+	// 	});
+	// }
+
+	Clean(): void {
+		if (this.businessUserID != undefined && this.businessUserID != null) {
+			this.getBusinessUser();
+		} else {
+			this.currentBusinessUser = new BusinessUserRequest();
+		}
+	}
+
+	// ChangeRealm(e: any) {
+	// 	if (e) this.RealmGroupsByRealm(e.realmID);
+	// 	else this.realmGroups = [];
+	// }
+
+	// RealmGroupsByRealm(realmID: string) {
+	// 	this.realmGroupService.GetByFilter(realmID, '', '').subscribe((response) => {
+	// 		this.realmGroups = response;
+	// 	});
+	// }
+
+	firstFormGroup!: FormGroup;
+	emailPattern: any = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i;
+	//Acepta letras, números y guiones. Mínimo 5 y máximo 20.
+	lettersPattern: any = /^[a-z0-9_-]{5,20}$/;
+	//Al menos debe contener una mayúscula, una minúscula, un número y un caracter especial. Mínimo 8.
+	passwordPattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
+
+	onInitForm() {
+		this.firstFormGroup = this._formBuilder.group({
+			profileID: new FormControl('', [Validators.required]),
+			businessUserName: new FormControl('', [Validators.required, Validators.maxLength(20), Validators.pattern(this.lettersPattern)]),
+			businessUserFirstName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+			businessUserLastName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+			businessUserEmail: new FormControl('', [Validators.required, Validators.pattern(this.emailPattern)]),
+			// businessUserEmail: new FormControl('', [Validators.required, Validators.email]),
+			businessUserPassword: new FormControl('', [
+				Validators.required,
+				Validators.minLength(8),
+				Validators.maxLength(20),
+				Validators.pattern(this.passwordPattern)
+			])
+		});
+	}
+
+	get frm1(): { [key: string]: AbstractControl } {
+		return this.firstFormGroup.controls;
+	}
+
 	@HostListener('window:keydown.alt.s', ['$event'])
 	Save() {
+		if (this.firstFormGroup.invalid) {
+			return;
+		}
+
+		if (this.BusinessUserByID.businessUserID !== Guid.EMPTY) {
+			this.currentBusinessUser.businessUserID = this.BusinessUserByID.businessUserID;
+		}
+
+		this.currentBusinessUser.profileID = this.firstFormGroup.controls['profileID'].value;
+		this.currentBusinessUser.businessUserName = this.firstFormGroup.controls['businessUserName'].value;
+		this.currentBusinessUser.businessUserFirstName = this.firstFormGroup.controls['businessUserFirstName'].value;
+		this.currentBusinessUser.businessUserLastName = this.firstFormGroup.controls['businessUserLastName'].value;
+		this.currentBusinessUser.businessUserEmail = this.firstFormGroup.controls['businessUserEmail'].value;
+		this.currentBusinessUser.businessUserPassword = this.firstFormGroup.controls['businessUserPassword'].value;
+
 		if (!this.selectionPages.isEmpty()) {
 			this.currentBusinessUser.businessUserPages = [];
 			this.selectionPages.selected.forEach((itemPage) => {
@@ -386,13 +539,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 
 		console.log('this.currentBusinessUser', this.currentBusinessUser);
 
-		// this.BusinessUser.businessUserRealmGroups = this.businessUserRealmGroups.map((element) => {
-		// 	return {
-		// 		businessUserID: this.BusinessUser.realmID,
-		// 		realmGroupID: element
-		// 	};
-		// });
-
 		this.sweetAlertService.confirmBox('Are you sure you want to save the changes?', 'Yes', 'No').then((response) => {
 			if (response.isConfirmed) {
 				if (this.businessUserID != undefined && this.businessUserID != null && this.businessUserID != '') {
@@ -413,8 +559,10 @@ export class BusinessusermaintenanceComponent implements OnInit {
 					this.businessUserService.Create(this.currentBusinessUser).subscribe((response) => {
 						if (response.businessUserID !== '') {
 							this.sweetAlertService.messageTextBox(
-								`Business user con codigo <br/> <b> ${response.businessUserID}</b>  <br/> ha sido registrada correctamente`
+								`Business user con codigo <br/> <b> ${response.businessUserID}</b>  <br/> ha sido registrada correctamente`,
+								true
 							);
+							this.businessUserID = response.businessUserID;
 							this.getBusinessUser();
 						}
 					});
@@ -422,19 +570,4 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			}
 		});
 	}
-
-	Clean(): void {
-		// this.BusinessUser = new BusinessUser();
-	}
-
-	// ChangeRealm(e: any) {
-	// 	if (e) this.RealmGroupsByRealm(e.realmID);
-	// 	else this.realmGroups = [];
-	// }
-
-	// RealmGroupsByRealm(realmID: string) {
-	// 	this.realmGroupService.GetByFilter(realmID, '', '').subscribe((response) => {
-	// 		this.realmGroups = response;
-	// 	});
-	// }
 }

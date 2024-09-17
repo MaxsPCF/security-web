@@ -1,10 +1,18 @@
 <div class="row mb-3">
 	<div class="col-md-3">
-		<label class="label-form-enazul text-primary mt-1">Profile</label>
-		<ng-select name="profileId" [items]="profiles" bindLabel="profileName" bindValue="profileID" [(ngModel)]="ProfileID"> </ng-select>
+		<!-- <label class="label-form-enazul text-primary mt-1">Profile</label>
+		<ng-select name="profileId" [items]="profiles" bindLabel="profileName" bindValue="profileID" [(ngModel)]="ProfileID"> </ng-select> -->
+		<mat-form-field appearance="outline" style="width: 100%">
+			<mat-label>Profile</mat-label>
+			<mat-select [(ngModel)]="ProfileID">
+				@for ( item of profiles; track item.profileID; let index = $index){
+				<mat-option [value]="item.profileID">{{item.profileName}}</mat-option>
+				}
+			</mat-select>
+		</mat-form-field>
 	</div>
 	<div class="col-md-3">
-		<label class="label-form-enazul text-primary mt-1">User Name</label>
+		<!-- <label class="label-form-enazul text-primary mt-1">User Name</label>
 		<input
 			name="BusinessUserName"
 			class="form-control form-control-sm"
@@ -12,10 +20,14 @@
 			maxlength="100"
 			[(ngModel)]="BusinessUserName"
 			(keyup.enter)="Search()"
-		/>
+		/> -->
+		<mat-form-field appearance="outline" style="width: 100%">
+			<mat-label>User Name</mat-label>
+			<input matInput placeholder="Name" [(ngModel)]="BusinessUserName" (keyup.enter)="Search()" />
+		</mat-form-field>
 	</div>
 	<div class="col-md-3">
-		<label class="label-form-enazul text-primary mt-1">Email</label>
+		<!-- <label class="label-form-enazul text-primary mt-1">Email</label>
 		<input
 			name="BusinessUserEmail"
 			class="form-control form-control-sm"
@@ -23,16 +35,22 @@
 			maxlength="100"
 			[(ngModel)]="BusinessUserEmail"
 			(keyup.enter)="Search()"
-		/>
+		/> -->
+		<mat-form-field appearance="outline" style="width: 100%" class="mat-sm">
+			<mat-label>Email</mat-label>
+			<input matInput placeholder="Name" [(ngModel)]="BusinessUserEmail" (keyup.enter)="Search()" />
+		</mat-form-field>
 	</div>
-	<div class="col-md-3 div-center-right" (click)="Search()">
-		<button class="btn btn-primary">
-			<i class="icon-save-white"></i>
+	<div class="col-md-3 div-center-right">
+		<button mat-fab extended class="primary-intelica" (click)="Search()">
+			<!-- <i class="icon-save-white"></i> -->
+			<mat-icon>search</mat-icon>
 			Search
 		</button>
 		&nbsp;
-		<button type="button" class="btn btn-primary" (click)="Add()">
-			<i class="icon-add-white"></i>
+		<button mat-fab extended class="primary-intelica" (click)="Add()">
+			<!-- <i class="icon-add-white"></i> -->
+			<mat-icon>add</mat-icon>
 			Add
 		</button>
 	</div>
@@ -40,46 +58,64 @@
 
 <div class="row">
 	<div class="col-lg-12">
-		<table class="int-table">
-			<thead>
-				<tr>
-					<th style="width: 5%">Nro</th>
-					<th style="width: 20%">User ID</th>
-					<th style="width: 10%">Profile</th>
-					<th>Name</th>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Email</th>
-					<th style="width: 10%">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for ( user of BusinessUserFilter ; track user.businessUserID; let index = $index){
-				<tr>
-					<td>{{ index + 1 }}</td>
-					<td>{{ user.businessUserID }}</td>
-					<td>{{ user.profileName }}</td>
-					<td class="text-start">{{ user.businessUserName }}</td>
-					<td class="text-start">{{ user.businessUserFirstName }}</td>
-					<td class="text-start">{{ user.businessUserLastName }}</td>
-					<td class="text-start">{{ user.businessUserEmail }}</td>
-					<th>
-						<button class="int-iconBtn" (click)="EditRow(user)"><i class="icon-edit"></i></button>
-						<button class="int-iconBtn" (click)="DeleteRow(user)"><i class="icon-trash"></i></button>
-						<button class="int-iconBtn"><i class="icon-eye"></i></button>
-					</th>
-				</tr>
-				}
-			</tbody>
-		</table>
-		<ngb-pagination
-			class="d-flex justify-content-center"
-			[pageSize]="PageSize"
-			[collectionSize]="BusinessUsers.length"
-			[(page)]="Page"
-			(pageChange)="RefreshList()"
-		/>
+		<div class="mat-elevation-z8">
+			<table #tblUsers mat-table [dataSource]="dataSourceUsers" matSort #sortUsers="matSort">
+				<ng-container matColumnDef="index">
+					<th mat-header-cell *matHeaderCellDef>Nro</th>
+					<td mat-cell *matCellDef="let index = index">{{index + 1}}</td>
+				</ng-container>
+
+				<!-- <ng-container matColumnDef="UserId">
+					<th mat-header-cell *matHeaderCellDef mat-sort-header>User ID</th>
+					<td mat-cell *matCellDef="let row">{{row.businessUserID}}</td>
+				</ng-container> -->
+
+				<ng-container matColumnDef="profileName">
+					<th mat-header-cell *matHeaderCellDef>Profile</th>
+					<td mat-cell *matCellDef="let row">{{row.profileName}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="UserName">
+					<th mat-header-cell *matHeaderCellDef>Name</th>
+					<td mat-cell *matCellDef="let row">{{row.businessUserName}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="FirstName">
+					<th mat-header-cell *matHeaderCellDef>First Name</th>
+					<td mat-cell *matCellDef="let row">{{row.businessUserFirstName}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="LastName">
+					<th mat-header-cell *matHeaderCellDef>Last Name</th>
+					<td mat-cell *matCellDef="let row">{{row.businessUserLastName}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="UserEmail">
+					<th mat-header-cell *matHeaderCellDef>Email</th>
+					<td mat-cell *matCellDef="let row">{{row.businessUserEmail}}</td>
+				</ng-container>
+
+				<ng-container matColumnDef="Actions">
+					<th mat-header-cell *matHeaderCellDef style="width: 18%; text-align: center">Actions</th>
+					<td mat-cell *matCellDef="let row" style="text-align: center">
+						<button mat-fab class="int-iconBtn" (click)="EditRow(row)" matTooltip="Edit"><i class="icon-edit"></i></button>
+						<button mat-fab class="int-iconBtn" (click)="DeleteRow(row)" matTooltip="Delete"><i class="icon-trash"></i></button>
+						<button mat-fab class="int-iconBtn" (click)="viewDetailPage(row)" matTooltip="View Pages"><i class="icon-eye"></i></button>
+					</td>
+				</ng-container>
+
+				<tr mat-header-row *matHeaderRowDef="displayedColumnsUsers"></tr>
+				<tr mat-row *matRowDef="let row; columns: displayedColumnsUsers;"></tr>
+			</table>
+
+			<mat-paginator
+				#matPaginatorUsers="matPaginator"
+				[pageSizeOptions]="[5, 10, 25, 100]"
+				showFirstLastButtons
+				aria-label="Select users"
+			></mat-paginator>
+		</div>
 	</div>
 </div>
 
-<table id="TableExport" style="display: none"></table>
+<!-- <table id="TableExport" style="display: none"></table> -->

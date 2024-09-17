@@ -6,6 +6,7 @@ export interface BusinessUserSimpleResponses {
 	businessUserFirstName: string;
 	businessUserLastName: string;
 	businessUserEmail: string;
+	businessUserPassword: string;
 	businessUserPages: BusinessUserPageResponses[];
 	businessUserBanks: BusinessUserBankResponses[];
 	businessUserBankGroups: BusinessUserBankGroupResponses[];

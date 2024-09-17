@@ -2,12 +2,17 @@
 	margin-top: 8px;
 }
 
-.mat-success {
-	background-color: #ff7f00;
-	color: #fff;
+.primary-intelica {
+	color: #ffffff !important;
+	background-color: #ff7f00 !important;
 }
 
 .color-chk-all {
 	background-color: #fff;
 	color: #fff;
+}
+
+.mdc-data-table__header-cell {
+	color: #ffffff !important;
+	background-color: #17375e !important;
 }
