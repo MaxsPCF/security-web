@@ -3,14 +3,13 @@ import { HttpErrorResponse, HttpHeaders, HttpInterceptorFn } from "@angular/comm
 import { inject } from "@angular/core";
 import { catchError, finalize, throwError } from "rxjs";
 import { SpinnerService } from "./spinner/spinner.service";
-import { CustomKeycloackService } from "./services/keycloakCommon.service";
+import { getCookie } from "typescript-cookie";
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
 	const spinner = inject(SpinnerService);
-	const customKeycloackService = inject(CustomKeycloackService);
 	spinner.show();
 	const HeaderSettings: { [name: string]: string | string[] } = {};
 	if (!req.url.includes("assets/environment.json")) {
-		HeaderSettings["Authorization"] = `Bearer ${customKeycloackService.Token}`;
+		HeaderSettings["Authorization"] = getCookie("token") ?? "";
 		HeaderSettings["Accept"] = "application/json";
 		HeaderSettings["Content-Type"] = "application/json";
 	}

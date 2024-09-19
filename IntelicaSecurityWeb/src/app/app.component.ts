@@ -2,8 +2,8 @@ import { Component, OnInit, inject, signal } from "@angular/core";
 import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/router";
 import { SpinnerComponent } from "./common/spinner/spinner.component";
 import { filter, fromEvent, map } from "rxjs";
-import { CustomKeycloackService } from "./common/services/keycloakCommon.service";
 import CustomFeatureFlagService from "./common/services/featureFlagCommon.service";
+import { AuthenticationService } from "./common/authentication.service";
 @Component({
 	selector: "app-security",
 	standalone: true,
@@ -13,23 +13,13 @@ import CustomFeatureFlagService from "./common/services/featureFlagCommon.servic
 export class AppComponent implements OnInit {
 	Title: string = "";
 	IsLoggedIn = signal<boolean>(false);
-	CustomKeycloakService: CustomKeycloackService = inject(CustomKeycloackService);
-	event = fromEvent(window, "eventKeycloack");
+	pageEvent = fromEvent(window, "CallEventChangePage");
 	MenuUserID: string = "";
 	private router = inject(Router);
 	readonly featureFlagService = inject(CustomFeatureFlagService);
+	readonly authenticationService: AuthenticationService = inject(AuthenticationService);
 	async ngOnInit() {
-		//Keycloak
-		var intertval = setInterval(async () => {
-			if (this.IsLoggedIn()) clearInterval(intertval);
-			else this.CallKeycloakInstance();
-		}, 300);
-		this.SetKeycloakInstance();
-	}
-	async SetKeycloakInstance() {
-		this.event.subscribe(async (x: any) => {
-			this.CustomKeycloakService.SetKeycloakInstance(x.detail.keycLoakService);
-			this.IsLoggedIn.set(true);
+		this.pageEvent.subscribe(async (x: any) => {
 			//Route name
 			this.router.events
 				.pipe(
@@ -43,19 +33,11 @@ export class AppComponent implements OnInit {
 					})
 				)
 				.subscribe((pageInformation: PageInformation) => {
-					console.log(pageInformation, "pageInformation");
 					if (pageInformation.pageTitle) this.Title = pageInformation.pageTitle;
 					if (pageInformation.pageRoot) this.featureFlagService.Initialize(pageInformation.pageRoot);
+					this.CallEventChangePage(pageInformation.pageTitle, "Security");
 				});
 		});
-	}
-	CallKeycloakInstance() {
-		let event = new CustomEvent("callKeycloack", {
-			detail: {
-				callKeycloack: true,
-			},
-		});
-		window.dispatchEvent(event);
 	}
 	CallEventChangePage(title: string, client: string) {
 		let event = new CustomEvent("eventChangePage", {
