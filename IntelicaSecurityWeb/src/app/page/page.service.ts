@@ -8,7 +8,7 @@ import { PageCommand } from './dto/pageRequests';
 export class PageService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	private _path: string = `${this._configService.environment?.apiPath}`;
+	private _path: string = `${this._configService.environment?.securityPath}`;
 	Create(page: PageCommand): Observable<PageCreateResponse> {
 		return this._http.post<PageCreateResponse>(`${this._path}/Page`, page);
 	}

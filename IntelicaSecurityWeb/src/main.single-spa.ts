@@ -10,7 +10,6 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from "@angular/common/http";
 import { ErrorInterceptor } from "./app/common/error.interceptor";
 import "@angular/localize/init";
-import { AuthenticationService } from "./app/common/authentication.service";
 enableProdMode();
 const lifecycles = singleSpaAngular({
 	bootstrapFunction: singleSpaProps => {
@@ -24,13 +23,6 @@ const lifecycles = singleSpaAngular({
 					useFactory: InitializeConfig,
 					multi: true,
 					deps: [ConfigService],
-				},
-				AuthenticationService,
-				{
-					provide: APP_INITIALIZER,
-					useFactory: InitializeConfig,
-					multi: true,
-					deps: [AuthenticationService],
 				},
 				provideRouter(routes, withComponentInputBinding()),
 				provideClientHydration(),

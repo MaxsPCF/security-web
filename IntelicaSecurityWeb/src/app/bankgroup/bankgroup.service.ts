@@ -8,7 +8,7 @@ import { BankGroupSimpleResponse } from './dto/bankGroupResponses';
 export class BankGroupService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	private _path: string = `${this._configService.environment?.apiPath}/BankGroup`;
+	private _path: string = `${this._configService.environment?.securityPath}/BankGroup`;
 
 	GetAll(): Observable<BankGroupSimpleResponse[]> {
 		return this._http.get<BankGroupSimpleResponse[]>(`${this._path}`);

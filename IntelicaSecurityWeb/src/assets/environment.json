@@ -1,8 +1,4 @@
 {
-	"apiPath": "http://localhost:5180",
-	"hubPath": "http://localhost:5149/hubs",
-	"authServer": "http://localhost:8081",
-	"authRealm": "IntelicaLocal",
-	"authClientId": "security",
-	"environment": "development"
+	"securityPath": "http://localhost:5180",
+	"hubPath": "http://localhost:5149/hubs"	
 }

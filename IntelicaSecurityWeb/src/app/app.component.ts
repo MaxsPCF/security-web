@@ -3,7 +3,6 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/ro
 import { SpinnerComponent } from "./common/spinner/spinner.component";
 import { filter, fromEvent, map } from "rxjs";
 import CustomFeatureFlagService from "./common/services/featureFlagCommon.service";
-import { AuthenticationService } from "./common/authentication.service";
 @Component({
 	selector: "app-security",
 	standalone: true,
@@ -17,10 +16,8 @@ export class AppComponent implements OnInit {
 	MenuUserID: string = "";
 	private router = inject(Router);
 	readonly featureFlagService = inject(CustomFeatureFlagService);
-	readonly authenticationService: AuthenticationService = inject(AuthenticationService);
 	async ngOnInit() {
 		this.pageEvent.subscribe(async (x: any) => {
-			//Route name
 			this.router.events
 				.pipe(
 					filter(event => event instanceof NavigationEnd),

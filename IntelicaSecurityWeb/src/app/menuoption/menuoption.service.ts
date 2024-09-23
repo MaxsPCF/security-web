@@ -10,7 +10,7 @@ import { MenuOptionCommands } from './dto/menuOptionRequests';
 export class MenuOptionService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	private _path: string = `${this._configService.environment?.apiPath}/MenuOption`;
+	private _path: string = `${this._configService.environment?.securityPath}/MenuOption`;
 
 	GetAll(): Observable<MenuOptionSimpleResponses[]> {
 		return this._http.get<MenuOptionSimpleResponses[]>(`${this._path}`);

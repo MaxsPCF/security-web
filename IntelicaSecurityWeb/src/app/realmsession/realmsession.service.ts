@@ -14,9 +14,9 @@ export class RealmsessionService {
 
 	GetByFilter(realmID: string): Observable<RealmSessionSimpleResponse[]> {
 		if (realmID == '' || realmID == null) realmID = Guid.EMPTY;
-		return this._http.get<RealmSessionSimpleResponse[]>(`${this._configService.environment?.apiPath}/RealmSession/GetByFilter/${realmID}`);
+		return this._http.get<RealmSessionSimpleResponse[]>(`${this._configService.environment?.securityPath}/RealmSession/GetByFilter/${realmID}`);
 	}
 	SignOut(sessionID: string, realmID: string): Observable<boolean> {
-		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/RealmSession/${sessionID}/${realmID}`);
+		return this._http.delete<boolean>(`${this._configService.environment?.securityPath}/RealmSession/${sessionID}/${realmID}`);
 	}
 }

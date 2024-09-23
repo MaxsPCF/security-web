@@ -18,35 +18,35 @@ export class BusinessuserService {
 		if (businessUserName == '') businessUserName = '-';
 		if (businessUserEmail == '') businessUserEmail = '-';
 		return this._http.get<BusinessUserSimpleResponse[]>(
-			`${this._configService.environment?.apiPath}/BusinessUser/GetByFilter/${profileID}/${businessUserName}/${businessUserEmail}`
+			`${this._configService.environment?.securityPath}/BusinessUser/GetByFilter/${profileID}/${businessUserName}/${businessUserEmail}`
 		);
 	}
 
 	GetById(businessUserID: string): Observable<BusinessUserSimpleResponses> {
-		return this._http.get<BusinessUserSimpleResponses>(`${this._configService.environment?.apiPath}/BusinessUser/${businessUserID}`);
+		return this._http.get<BusinessUserSimpleResponses>(`${this._configService.environment?.securityPath}/BusinessUser/${businessUserID}`);
 	}
 
 	GetByAll(): Observable<BusinessUserSimpleResponses[]> {
-		return this._http.get<BusinessUserSimpleResponses[]>(`${this._configService.environment?.apiPath}/BusinessUser`);
+		return this._http.get<BusinessUserSimpleResponses[]>(`${this._configService.environment?.securityPath}/BusinessUser`);
 	}
 
 	Create(businessUser: BusinessUserRequest): Observable<BusinessUserMaintenanceResponse> {
-		return this._http.post<BusinessUserMaintenanceResponse>(`${this._configService.environment?.apiPath}/BusinessUser`, businessUser);
+		return this._http.post<BusinessUserMaintenanceResponse>(`${this._configService.environment?.securityPath}/BusinessUser`, businessUser);
 	}
 
 	Find(businessUserID: string): Observable<BusinessUserRequest> {
-		return this._http.get<BusinessUserRequest>(`${this._configService.environment?.apiPath}/BusinessUser/Find/${businessUserID}`);
+		return this._http.get<BusinessUserRequest>(`${this._configService.environment?.securityPath}/BusinessUser/Find/${businessUserID}`);
 	}
 
 	Update(businessUser: BusinessUserRequest): Observable<BusinessUserMaintenanceResponse> {
-		return this._http.put<BusinessUserRequest>(`${this._configService.environment?.apiPath}/BusinessUser`, businessUser);
+		return this._http.put<BusinessUserRequest>(`${this._configService.environment?.securityPath}/BusinessUser`, businessUser);
 	}
 
 	Delete(businessUserID: string): Observable<boolean> {
-		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/BusinessUser/${businessUserID}`);
+		return this._http.delete<boolean>(`${this._configService.environment?.securityPath}/BusinessUser/${businessUserID}`);
 	}
 
 	FindDetails(businessUserID: string): Observable<BusinessUserRequest> {
-		return this._http.get<BusinessUserRequest>(`${this._configService.environment?.apiPath}/BusinessUser/FindDetails/${businessUserID}`);
+		return this._http.get<BusinessUserRequest>(`${this._configService.environment?.securityPath}/BusinessUser/FindDetails/${businessUserID}`);
 	}
 }

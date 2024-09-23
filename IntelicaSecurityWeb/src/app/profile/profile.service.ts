@@ -9,7 +9,7 @@ import { ProfileCommand } from './dto/profileRequests';
 export class ProfileService {
 	private readonly _http = inject(HttpClient);
 	private readonly _configService = inject(ConfigService);
-	private _path: string = `${this._configService.environment?.apiPath}/Profile`;
+	private _path: string = `${this._configService.environment?.securityPath}/Profile`;
 
 	Create(profile: ProfileCommand): Observable<ProfileCreateResponses> {
 		return this._http.post<ProfileCreateResponses>(`${this._path}`, profile);

@@ -17,24 +17,24 @@ export class RealmGroupService {
 		if (realmGroupID == '') realmGroupID = Guid.EMPTY;
 		if (realmGroupName == '') realmGroupName = '-';
 		return this._http.get<RealmGroupSimpleResponse[]>(
-			`${this._configService.environment?.apiPath}/RealmGroup/GetByFilter/${realmID}/${realmGroupID}/${realmGroupName}`
+			`${this._configService.environment?.securityPath}/RealmGroup/GetByFilter/${realmID}/${realmGroupID}/${realmGroupName}`
 		);
 	}
 	Find(realmGroupID: string): Observable<RealmGroup> {
-		return this._http.get<RealmGroup>(`${this._configService.environment?.apiPath}/RealmGroup/Find/${realmGroupID}`);
+		return this._http.get<RealmGroup>(`${this._configService.environment?.securityPath}/RealmGroup/Find/${realmGroupID}`);
 	}
 	Create(realmGroup: RealmGroup): Observable<RealmGroupMaintenanceResponse> {
-		return this._http.post<RealmGroupMaintenanceResponse>(`${this._configService.environment?.apiPath}/RealmGroup`, realmGroup);
+		return this._http.post<RealmGroupMaintenanceResponse>(`${this._configService.environment?.securityPath}/RealmGroup`, realmGroup);
 	}
 	Update(realmGroup: RealmGroup): Observable<RealmGroupMaintenanceResponse> {
-		return this._http.put<RealmGroupMaintenanceResponse>(`${this._configService.environment?.apiPath}/RealmGroup`, realmGroup);
+		return this._http.put<RealmGroupMaintenanceResponse>(`${this._configService.environment?.securityPath}/RealmGroup`, realmGroup);
 	}
 	Delete(realmGroupID: string): Observable<boolean> {
-		return this._http.delete<boolean>(`${this._configService.environment?.apiPath}/RealmGroup/${realmGroupID}`);
+		return this._http.delete<boolean>(`${this._configService.environment?.securityPath}/RealmGroup/${realmGroupID}`);
 	}
 	GetRealmGroupRolesByRealm(realmID: string): Observable<RealmGroupRoleSimpleResponse[]> {
 		return this._http.get<RealmGroupRoleSimpleResponse[]>(
-			`${this._configService.environment?.apiPath}/RealmGroup/GetRealmGroupRolesByRealm/${realmID}`
+			`${this._configService.environment?.securityPath}/RealmGroup/GetRealmGroupRolesByRealm/${realmID}`
 		);
 	}
 }
