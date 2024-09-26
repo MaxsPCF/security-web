@@ -2,11 +2,11 @@
 <div class="card-body">
 	<div class="row">
 		<div class="col-md-5">
-			<label class="label-form-enazul text-primary mt-1">Bank code</label>
+			<label class="label-form-enazul text-primary mt-1" data-security="BankCode" >Bank code</label>
 			<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="BankCode" (keyup.enter)="Search()" autofocus />
 		</div>
 		<div class="col-md-5">
-			<label class="label-form-enazul text-primary mt-1">Bank name</label>
+			<label class="label-form-enazul text-primary mt-1"  data-security="BankName">Bank name</label>
 			<input name="realmCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="BankName" (keyup.enter)="Search()" />
 		</div>
 		@if(featureFlagService.Exists("ActivatedNewDemo")){

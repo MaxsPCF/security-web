@@ -43,8 +43,6 @@ export class BanklistComponent implements OnInit {
 			.catch(error => {
 				return console.error(error);
 			}).then( ()=>{
-				console.log(this.featureFlagService.GetPageRoot(),"root");
-				// this.connection.invoke("Connect", this.featureFlagService.GetPageRoot());
 				this.connection.invoke("Connect", "Bank");
 			});
 			//

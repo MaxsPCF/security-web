@@ -3,6 +3,8 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from "@angular/ro
 import { SpinnerComponent } from "./common/spinner/spinner.component";
 import { filter, fromEvent, map } from "rxjs";
 import CustomFeatureFlagService from "./common/services/featureFlagCommon.service";
+import { TermService } from "./common/services/term.service";
+import { getCookie } from "typescript-cookie";
 @Component({
 	selector: "app-security",
 	standalone: true,
@@ -14,27 +16,32 @@ export class AppComponent implements OnInit {
 	IsLoggedIn = signal<boolean>(false);
 	pageEvent = fromEvent(window, "CallEventChangePage");
 	MenuUserID: string = "";
+	PageRoot: string = "";
 	private router = inject(Router);
+	private TermService = inject(TermService);
 	readonly featureFlagService = inject(CustomFeatureFlagService);
 	async ngOnInit() {
-		this.pageEvent.subscribe(async (x: any) => {
-			this.router.events
-				.pipe(
-					filter(event => event instanceof NavigationEnd),
-					map(() => {
-						let route: ActivatedRoute = this.router.routerState.root;
-						while (route!.firstChild) {
-							route = route.firstChild;
-						}
-						return new PageInformation(route!.snapshot.data["title"], route!.snapshot.data["pageRoot"]);
-					})
-				)
-				.subscribe((pageInformation: PageInformation) => {
-					if (pageInformation.pageTitle) this.Title = pageInformation.pageTitle;
-					if (pageInformation.pageRoot) this.featureFlagService.Initialize(pageInformation.pageRoot);
-					this.CallEventChangePage(pageInformation.pageTitle, "Security");
-				});
-		});
+		this.router.events
+			.pipe(
+				filter(event => event instanceof NavigationEnd),
+				map(() => {
+					let route: ActivatedRoute = this.router.routerState.root;
+					while (route!.firstChild) {
+						route = route.firstChild;
+					}
+					return new PageInformation(route!.snapshot.data["title"], route!.snapshot.data["pageRoot"]);
+				})
+			)
+			.subscribe((pageInformation: PageInformation) => {
+				if (pageInformation.pageTitle) this.Title = pageInformation.pageTitle;
+				if (pageInformation.pageRoot) {
+					this.PageRoot = pageInformation.pageRoot;
+					this.featureFlagService.Initialize(pageInformation.pageRoot);
+				}
+				this.ChangeLanguage();
+				this.CallEventChangePage(pageInformation.pageTitle, "Security");
+			});
+		await this.CallbackChangeLanguage();
 	}
 	CallEventChangePage(title: string, client: string) {
 		let event = new CustomEvent("eventChangePage", {
@@ -45,6 +52,27 @@ export class AppComponent implements OnInit {
 		});
 		window.dispatchEvent(event);
 	}
+	async ChangeLanguage() {
+		while (true) {
+			await sleep(10);
+			if (document.querySelectorAll("[data-security]").length > 0) break;
+		}
+		this.TermService.GetPageTerm(getCookie("language") ?? "EN", this.PageRoot).subscribe(response => {
+			const textsToChange = document.querySelectorAll("[data-security]");
+			textsToChange.forEach(async element => {
+				let dataValue = element.getAttribute("data-security");
+				let newText = response.find(x => x.termName == dataValue)?.termValue ?? "";
+				element.innerHTML = newText;
+				element.setAttribute("placeholder", newText);
+			});
+		});
+	}
+	async CallbackChangeLanguage() {
+		var event = fromEvent(window, "ChangeLanguage");
+		event.subscribe(async (x: any) => {
+			this.ChangeLanguage();
+		});
+	}
 }
 export class PageInformation {
 	pageTitle: string;
@@ -53,4 +81,7 @@ export class PageInformation {
 		this.pageTitle = pageTitle;
 		this.pageRoot = pageRoot;
 	}
+}
+function sleep(ms: number): Promise<void> {
+	return new Promise(resolve => setTimeout(resolve, ms));
 }

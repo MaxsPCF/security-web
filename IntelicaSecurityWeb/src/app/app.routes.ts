@@ -67,7 +67,7 @@ export const routes: Routes = [
 			{
 				path: 'country',
 				children: [
-					{ path: 'list', component: CountrylistComponent, data: { title: 'Country list' } },
+					{ path: 'list', component: CountrylistComponent, data: { title: 'Countries', pageRoot: 'country' } },
 					{ path: 'maintenance', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - New' } },
 					{ path: 'maintenance/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - Edit' } },
 					{ path: 'maintenance/:edit/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - View' } }
