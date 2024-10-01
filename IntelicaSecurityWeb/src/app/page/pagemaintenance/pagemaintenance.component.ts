@@ -23,6 +23,7 @@ export class PagemaintenanceComponent implements OnInit {
 	parameters: Params | undefined = undefined;
 	pageId: string = "";
 	swEdit: Boolean = false;
+	Read: Boolean = false;
 
 	ngOnInit(): void {
 		this.ngActivatedRoute.queryParams.subscribe(parameters => {
@@ -44,7 +45,7 @@ export class PagemaintenanceComponent implements OnInit {
 		});
 	}
 
-	Home() {}
+	Home() { }
 
 	Back() {
 		this.router.navigate(["security/page/list"]);
@@ -66,8 +67,8 @@ export class PagemaintenanceComponent implements OnInit {
 								this.sweetAlertService.messageTextBox("Process successfully completed.");
 							}
 						},
-						error: error => {},
-						complete: () => {},
+						error: error => { },
+						complete: () => { },
 					});
 				} else {
 					this.pageService.Update(this.page).subscribe(response => {
@@ -90,5 +91,8 @@ export class PagemaintenanceComponent implements OnInit {
 		if (parameter.pageUrl?.trim() === "") swValidate = true;
 
 		return swValidate;
+	}
+	Clean() {
+		this.page = new PageCommand();
 	}
 }

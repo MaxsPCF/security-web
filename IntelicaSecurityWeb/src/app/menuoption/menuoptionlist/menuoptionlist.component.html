@@ -1,61 +1,106 @@
-<div class="row mb-3">
-	<div class="col">
-		<label class="form-label">Parent</label>
-		<ng-select [items]="listMenuParent" bindLabel="menuOptionName" bindValue="menuOptionID" [(ngModel)]="menuOptionModel.menuOptionParentID"></ng-select>
-	</div>
-	<div class="col">
-		<label class="form-label">Name</label>
-		<input type="text" class="form-control form-control-sm" placeholder="Name" [(ngModel)]="menuOptionModel.menuOptionName" />
-	</div>
-	<div class="col">
-		<button type="button" class="btn btn-primary" (click)="Search()">
-			<i class="icon-search-white"></i>
-			Search
-		</button>
-		&nbsp;
-		<button type="button" class="btn btn-primary" (click)="Add()">
-			<i class="icon-add-white"></i>
-			Add
-		</button>
+<div class="card-body int-content-body">
+	<div class="row">
+		<div class="col-md-10">
+			<label class="label-form-enazul text-primary-title mt-1">List of Country</label>
+		</div>
+
+		<div class="col-md-2 div-center-right">
+			<div class="d-flex d-flex p-2">
+				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
+					<action name="Filters">
+						<ng-template #template>
+							<div class="container overflow-hidden">
+								<div class="row gy-1 filtersAnalytics">
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>1</span></div>
+												<label for="parent"><span>Parent</span></label>
+											</div>
+											<select class="txtBoxStyle" id="dynamicSelect"
+												[(ngModel)]="menuOptionModel.menuOptionParentID">
+												@for (item of listMenuParent; track $index) {
+												<option [value]="item.menuOptionName">{{
+													item.menuOptionName }}</option>
+												}
+											</select>
+										</div>
+									</div>
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>2</span></div>
+												<label for="menuOptionName"><span>Menu Option Name</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="menuOptionName"
+												[(ngModel)]="menuOptionModel.menuOptionName" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="actionButtons">
+								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
+									<span>Apply</span>
+								</button>
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+									<span>Clear</span>
+								</button>
+							</div>
+						</ng-template>
+					</action>
+
+					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
+				</intelica-actions-menu>
+			</div>
+		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-lg-12">
-		<table class="int-table">
-			<thead>
-				<tr>
-					<th style="width: 10%">N°</th>
-					<th style="width: 20%">Menu ID</th>
-					<th style="width: 20%">Parent Name</th>
-					<th>Menu name</th>
-					<th style="width: 10%">Nro order</th>
-					<th style="width: 10%">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for ( option of listMenuOption; track option.menuOptionID; let index = $index){
-				<tr>
-					<td>{{ (index + 1) }}</td>
-					<td>{{ option.menuOptionID }}</td>
-					<td>{{ option.menuOptionParentName }}</td>
-					<td class="text-start">
-						{{ option.menuOptionName }}
-						<div>
-							<ol>
-								@for ( page of option.menuOptionPages; track page.pageID){
-								<li>{{ page.pageName}}</li>
-								}
-							</ol>
-						</div>
-					</td>
-					<td>{{ option.menuOptionOrder }}</td>
-					<td>
-						<button class="int-iconBtn" (click)="EditMenuOption(option)"><i class="icon-edit"></i></button>
-						<button class="int-iconBtn" (click)="DeleteMenuOption(option)"><i class="icon-trash"></i></button>
-					</td>
-				</tr>
-				}
-			</tbody>
-		</table>
+
+<div class="card card-header card-header-stretch cold-md-12 mt-3">
+	<div class="card mb-10">
+		<div class="pt-4">
+			<table class="int-table">
+				<thead>
+					<tr>
+						<th scope="col">N°</th>
+						<th scope="col">Menu ID</th>
+						<th scope="col">Parent Name</th>
+						<th scope="col">Menu name</th>
+						<th scope="col">Nro order</th>
+						<th scope="col">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for ( option of MenuOptionsFilter; track option.menuOptionID; let index = $index){
+					<tr>
+						<td>{{ (index + 1) }}</td>
+						<td>{{ option.menuOptionID }}</td>
+						<td>{{ option.menuOptionParentName }}</td>
+						<td class="text-start">
+							{{ option.menuOptionName }}
+							<div>
+								<ol>
+									@for ( page of option.menuOptionPages; track page.pageID){
+									<li>{{ page.pageName}}</li>
+									}
+								</ol>
+							</div>
+						</td>
+						<td>{{ option.menuOptionOrder }}</td>
+						<td>
+							<button class="int-iconBtn" (click)="EditMenuOption(option)"><i
+									class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteMenuOption(option)"><i
+									class="icon-trash"></i></button>
+						</td>
+					</tr>
+					}
+				</tbody>
+			</table>
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize"
+				[collectionSize]="MenuOptions.length" [(page)]="Page" (pageChange)="RefreshList()" />
+		</div>
 	</div>
 </div>

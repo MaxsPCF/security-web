@@ -33,6 +33,7 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 	swEdit: Boolean = false;
 	parameters: Params | undefined = undefined;
 	menuOptionID: string = '';
+	Read: boolean = false;
 
 	currentFilter: MenuOptionSimpleResponses = {} as MenuOptionSimpleResponses;
 
@@ -61,7 +62,7 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 	}
 
 	@HostListener('window:keydown.alt.s', ['$event'])
-	save() {
+	Submit() {
 		// if (!this.MenuOptionForm.valid) {		// 	// Swal.fire('Informacion', 'Complete los campos necesarios', 'error');
 		// 	return;
 		// }
@@ -85,8 +86,8 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 								this.getMenuOption();
 							}
 						},
-						error: (error) => {},
-						complete: () => {}
+						error: (error) => { },
+						complete: () => { }
 					});
 				} else {
 					this.menuOptionService.Update(this.menuOptionCurrent).subscribe((response) => {
@@ -170,8 +171,8 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 					this.menuOptionCurrent.menuOptionPages.push(_page);
 				});
 			},
-			error: (error) => {},
-			complete: () => {}
+			error: (error) => { },
+			complete: () => { }
 		});
 	}
 
@@ -187,4 +188,5 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 			this.getAll();
 		}
 	}
+	Clean() { }
 }

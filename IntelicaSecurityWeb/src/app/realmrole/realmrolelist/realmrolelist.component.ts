@@ -39,7 +39,7 @@ export class RealmrolelistComponent {
 
 		this.Search();
 	}
-	Home() {}
+	Home() { }
 	@HostListener('window:keydown.alt.s', ['$event'])
 	Search() {
 		this.realmRoleService.GetByFilter(this.RealmID, this.RealmRoleID, this.RealmRoleName).subscribe((response) => {
@@ -63,7 +63,7 @@ export class RealmrolelistComponent {
 		this.RealmRoles.forEach((row) => {
 			body += `<tr><td>${row.realmRoleID}</td><td>${row.realmName}</td></tr>`;
 		});
-		this.HtmlToExcel.ExportTOExcel('TableExport', body, `Realmlist`, 'Realm list', 'xlsx');
+		this.HtmlToExcel.ExportTOExcel('TableExport', body, `RealmRolelist`, 'Realm Role list', 'xlsx');
 	}
 	EditRow(row: RealmRoleSimpleResponse) {
 		this.router.navigate(['security/realmrole/maintenance', row.realmRoleID]);
@@ -84,7 +84,7 @@ export class RealmrolelistComponent {
 			}
 		});
 	}
-	SelectRow(row: RealmRoleSimpleResponse) {}
+	SelectRow(row: RealmRoleSimpleResponse) { }
 	RefreshList() {
 		this.RealmRolesFilter = this.RealmRoles.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
 	}

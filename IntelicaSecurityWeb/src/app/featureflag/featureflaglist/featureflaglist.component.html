@@ -1,33 +1,67 @@
-<div class="row mb-3">
-	<div class="col-md-12 col-lg-4">
-		<label class="form-label">Page</label>
-		<ng-select placeholder="Select" [(ngModel)]="PageID" name="pageID" required>
-			@for (page of pages; track page.pageId) {
-			<ng-option [value]="page.pageId">{{page.pageName}} - {{page.pageId}}</ng-option>
-			}
-		</ng-select>
-	</div>
-	<div class="col-md-12 col-lg-4">
-		<label class="form-label">Feature Flag Id</label>
-		<input name="featureFlagID" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="FeatureFlagID" (keyup.enter)="Search()" />
-	</div>
-	<div class="col-md-12 col-lg-4">
-		<label class="form-label">Feature Flag Name</label>
-		<input name="featureFlagName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="FeatureFlagName" (keyup.enter)="Search()" />
-	</div>
-	<div class="col-sm-12" style="display: flex; width: 100%">
-		<div style="width: 100%">
-			<div style="float: right; margin: 10px">
-				<button type="button" class="btn btn-primary" (click)="Search()">
-					<i class="icon-search-white"></i>
-					Search
-				</button>
-			</div>
-			<div style="float: right; margin: 10px">
-				<button type="button" class="btn btn-primary" (click)="Add()">
-					<i class="icon-add-white"></i>
-					Add
-				</button>
+<div class="card-body int-content-body">
+	<div class="row">
+		<div class="col-md-10">
+			<label class="label-form-enazul text-primary-title mt-1">List of Featurflag</label>
+		</div>
+
+		<div class="col-md-2 div-center-right">
+			<div class="d-flex d-flex p-2">
+				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
+					<action name="Filters">
+						<ng-template #template>
+							<div class="container overflow-hidden">
+								<div class="row gy-1 filtersAnalytics">
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>1</span></div>
+												<label for="featureFlagID"><span>Page</span></label>
+											</div>
+											<select class="txtBoxStyle" id="dynamicSelect" [(ngModel)]="PageID">
+												@for (item of pages; track $index) {
+												<option [value]="item.pageId">{{
+													item.pageName }}</option>
+												}
+											</select>
+										</div>
+									</div>
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>1</span></div>
+												<label for="featureFlagID"><span>FeatureFlag ID</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="featureFlagID"
+												[(ngModel)]="FeatureFlagID" />
+										</div>
+									</div>
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>2</span></div>
+												<label for="featureFlagName"><span>Featurflag name</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="featureFlagName"
+												[(ngModel)]="FeatureFlagName" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="actionButtons">
+								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
+									<span>Apply</span>
+								</button>
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+									<span>Clear</span>
+								</button>
+							</div>
+						</ng-template>
+					</action>
+
+					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
+				</intelica-actions-menu>
 			</div>
 		</div>
 	</div>
@@ -37,11 +71,11 @@
 		<table class="int-table">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 30%">Feature Flag Id</th>
-					<th scope="col" style="width: 25%">Feature Flag Name</th>
-					<th scope="col" style="width: 20%">Page Name</th>
-					<th scope="col" style="width: 10%">Status</th>
-					<th scope="col" style="width: 15%">Actions</th>
+					<th scope="col">Feature Flag Id</th>
+					<th scope="col">Feature Flag Name</th>
+					<th scope="col">Page Name</th>
+					<th scope="col">Status</th>
+					<th scope="col">Actions</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -51,7 +85,8 @@
 					<td>{{ realm.featureFlagName }}</td>
 					<td>{{ realm.pageName }}</td>
 					<td>
-						<span [classList]="realm.status?'badge badge-success':'badge badge-danger'">{{realm.status?'Active':'Inactive'}}</span>
+						<span
+							[classList]="realm.status?'badge badge-success':'badge badge-danger'">{{realm.status?'Active':'Inactive'}}</span>
 					</td>
 					<th scope="row">
 						<div class="row">
@@ -59,7 +94,8 @@
 								<button class="int-iconBtn" (click)="EditRow(realm)"><i class="icon-edit"></i></button>
 							</div>
 							<div class="col-lg-4 col-md-12">
-								<button class="int-iconBtn" (click)="DeleteRow(realm)"><i class="icon-trash"></i></button>
+								<button class="int-iconBtn" (click)="DeleteRow(realm)"><i
+										class="icon-trash"></i></button>
 							</div>
 							<div class="col-lg-4 col-md-12 pr-10">
 								<button class="int-iconBtn"><i class="icon-eye"></i></button>
@@ -70,6 +106,7 @@
 				}
 			</tbody>
 		</table>
-		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="FeatureFlags.length" [(page)]="Page" (pageChange)="RefreshList()" />
+		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize"
+			[collectionSize]="FeatureFlags.length" [(page)]="Page" (pageChange)="RefreshList()" />
 	</div>
 </div>

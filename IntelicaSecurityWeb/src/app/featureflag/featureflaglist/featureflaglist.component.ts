@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
-import { Component, HostListener, inject } from "@angular/core";
+import { Component, HostListener, inject, ViewChild } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import {  NgSelectModule } from "@ng-select/ng-select";
+import { NgSelectModule } from "@ng-select/ng-select";
 import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
 import { FeatureFlagService } from "../featureflag.service";
 import { Router } from "@angular/router";
@@ -9,13 +9,19 @@ import { PageService } from "../../page/page.service";
 import { FeatureFlagSimpleResponse } from "../dto/featureFlagResponses";
 import { HtmlToExcel } from "../../common/HtmlToExcel";
 import { PageSimpleResponse } from "../../page/dto/pageResponses";
+import { ActionDirective, ActionsMenuComponent } from "intelica-components-ui";
 @Component({
 	selector: "security-featureflaglist",
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPagination],
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPagination, ActionsMenuComponent, ActionDirective],
 	templateUrl: "./featureflaglist.component.html",
 })
 export class FeatureflaglistComponent {
+	private readonly featureFlagService = inject(FeatureFlagService);
+	private readonly pageService = inject(PageService);
+	private readonly router = inject(Router);
+	@ViewChild('actionsMenu') actionsMenu!: ActionsMenuComponent;
+
 	FeatureFlagID: string = "";
 	PageID: string = "";
 	FeatureFlagName: string = "";
@@ -25,13 +31,12 @@ export class FeatureflaglistComponent {
 	pages: PageSimpleResponse[] = [];
 	FeatureFlags: FeatureFlagSimpleResponse[] = [];
 	FeatureFlagsFilter: FeatureFlagSimpleResponse[] = [];
-	private readonly featureFlagService = inject(FeatureFlagService);
-	private readonly pageService = inject(PageService);
-	private readonly router = inject(Router);
+	backBlueClass = false;
+
 	ngOnInit() {
 		this.pageService.GetAll().subscribe(response => {
 			this.pages = response;
-			console.log(this.pages,"pages");
+			console.log(this.pages, "pages");
 		});
 		this.Search();
 	}
@@ -57,7 +62,7 @@ export class FeatureflaglistComponent {
 		this.FeatureFlags.forEach(row => {
 			body += `<tr><td>${row.featureFlagID}</td><td>${row.featureFlagName}</td> <td>${row.pageName}</td> </tr>`;
 		});
-		this.HtmlToExcel.ExportTOExcel("TableExport", body, `BankList`, "Bank list", "xlsx");
+		this.HtmlToExcel.ExportTOExcel("TableExport", body, `FeatureFlagList`, "Featur Flag list", "xlsx");
 	}
 	EditRow(row: FeatureFlagSimpleResponse) {
 		this.router.navigate(["security/featureflag/maintenance", row.featureFlagID]);
@@ -80,5 +85,21 @@ export class FeatureflaglistComponent {
 	}
 	RefreshList(): void {
 		this.FeatureFlagsFilter = this.FeatureFlags.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
+	}
+	applyFilter() {
+		this.actionsMenu.closeAll();
+		this.Search();
+	}
+	ClerSearch() {
+		this.PageID = '';
+		this.FeatureFlagID = '';
+		this.FeatureFlagName = '';
+	}
+	exportFilter() {
+		this.actionsMenu.closeAll();
+		this.Export();
+	}
+	showBackBlue(value: boolean): void {
+		this.backBlueClass = value;
 	}
 }

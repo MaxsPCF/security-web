@@ -1,44 +1,90 @@
-<div class="row mb-3">
-	<div class="col">
-		<label class="form-label">Name</label>
-		<input type="text" class="form-control form-control-sm" placeholder="Name" [(ngModel)]="nameProfile" />
-	</div>
-	<div class="col">
-		<label class="form-label">Description</label>
-		<input type="text" class="form-control form-control-sm" placeholder="Description" [(ngModel)]="descriptionProfile" />
-	</div>
-	<div class="col">
-		<button type="button" class="btn btn-primary" (click)="search()"><i class="icon-search-white"></i> Search</button>
-		&nbsp;
-		<button type="button" class="btn btn-primary" (click)="Add()"><i class="icon-add-white"></i> Add</button>
+<div class="card-body int-content-body">
+	<div class="row">
+		<div class="col-md-10">
+			<label class="label-form-enazul text-primary-title mt-1">List of Profile</label>
+		</div>
+
+		<div class="col-md-2 div-center-right">
+			<div class="d-flex d-flex p-2">
+				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
+					<action name="Filters">
+						<ng-template #template>
+							<div class="container overflow-hidden">
+								<div class="row gy-1 filtersAnalytics">
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>1</span></div>
+												<label for="profileName"><span>Profile Name</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="profileName"
+												[(ngModel)]="nameProfile" />
+										</div>
+									</div>
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>2</span></div>
+												<label for="profileDescription"><span>Profile Description</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="profileDescription"
+												[(ngModel)]="descriptionProfile" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="actionButtons">
+								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
+									<span>Apply</span>
+								</button>
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+									<span>Clear</span>
+								</button>
+							</div>
+						</ng-template>
+					</action>
+
+					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
+				</intelica-actions-menu>
+			</div>
+		</div>
 	</div>
 </div>
 
-<div class="row">
-	<div class="col-lg-12">
-		<table class="int-table">
-			<thead>
-				<tr>
-					<th style="width: 5%">N°</th>
-					<th>Profile name</th>
-					<th>Profile description</th>
-					<th style="width: 10%">Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				@for ( profile of profileList; track profile.profileID; let index = $index){
-				<tr>
-					<td>{{ (index + 1) }}</td>
-					<td class="text-start">{{ profile.profileName }}</td>
-					<td class="text-start">{{ profile.profileDescription }}</td>
-					<td>
-						<button class="int-iconBtn" (click)="EditRow(profile)"><i class="icon-edit"></i></button>
-						<button class="int-iconBtn" (click)="DeleteRow(profile)"><i class="icon-trash"></i></button>
-						<button class="int-iconBtn" (click)="viewDetail(profile)"><i class="icon-eye"></i></button>
-					</td>
-				</tr>
-				}
-			</tbody>
-		</table>
+<div class="card card-header card-header-stretch cold-md-12 mt-3">
+	<div class="card mb-10">
+		<div class="pt-4">
+			<table class="int-table">
+				<thead>
+					<tr>
+						<th scope="col">N°</th>
+						<th scope="col">Profile name</th>
+						<th scope="col">Profile description</th>
+						<th class="col-sm">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for ( profile of Profiles; track profile.profileID; let index = $index){
+					<tr>
+						<td>{{ (index + 1) }}</td>
+						<td class="text-start">{{ profile.profileName }}</td>
+						<td class="text-start">{{ profile.profileDescription }}</td>
+						<td>
+							<button class="int-iconBtn" (click)="EditRow(profile)"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteRow(profile)"><i class="icon-trash"></i></button>
+							<button class="int-iconBtn" (click)="viewDetail(profile)"><i class="icon-eye"></i></button>
+						</td>
+					</tr>
+					}
+				</tbody>
+			</table>
+
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize"
+				[collectionSize]="Profiles.length" [(page)]="Page" (pageChange)="RefreshList()" />
+		</div>
 	</div>
 </div>
+
+<table id="TableExport" style="display: none"></table>

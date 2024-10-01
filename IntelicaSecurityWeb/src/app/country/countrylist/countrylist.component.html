@@ -2,34 +2,9 @@
 	<div class="row">
 		<div class="col-md-10">
 			<label class="label-form-enazul text-primary-title mt-1">List of Country</label>
-			<!-- <input
-				name="realmCode"
-				class="form-control form-control-sm"
-				type="text"
-				maxlength="100"
-				[(ngModel)]="CountryCode"
-				(keyup.enter)="Search()"
-				autofocus
-			/> -->
 		</div>
-		<!-- <div class="col-md-5">
-			<label class="label-form-enazul text-primary mt-1">Country name</label>
-			<input
-				name="realmCode"
-				class="form-control form-control-sm"
-				type="text"
-				maxlength="100"
-				[(ngModel)]="CountryName"
-				(keyup.enter)="Search()"
-			/>
-		</div> -->
 
 		<div class="col-md-2 div-center-right">
-			<!-- <button class="btn btn-primary" (click)="Search()">
-				Search
-				<i class="icon-save-white"></i>
-			</button> -->
-
 			<div class="d-flex d-flex p-2">
 				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
 					<action name="Filters">
@@ -42,7 +17,8 @@
 												<div class="numOrder"><span>1</span></div>
 												<label for="countryCode"><span>Country code</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="countryCode" [(ngModel)]="CountryCode" />
+											<input type="text" class="txtBoxStyle" name="countryCode"
+												[(ngModel)]="CountryCode" />
 										</div>
 									</div>
 									<div class="inputRowGap cold-md-12">
@@ -51,7 +27,8 @@
 												<div class="numOrder"><span>2</span></div>
 												<label for="countryName"><span>Country name</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="countryName" [(ngModel)]="CountryName" />
+											<input type="text" class="txtBoxStyle" name="countryName"
+												[(ngModel)]="CountryName" />
 										</div>
 									</div>
 								</div>
@@ -77,22 +54,6 @@
 </div>
 
 <div class="card card-header card-header-stretch cold-md-12 mt-3">
-	<!-- <div class="card mb-4 mt-4">
-		<ul class="nav">
-			<button type="button" class="btn-toolbar" (click)="Add()">
-				<a class="nav-link text-toolbar">
-					<i class="icon-add"></i>
-					Add
-				</a>
-			</button>
-			<button type="button" class="btn-toolbar" (click)="Export()">
-				<a class="nav-link text-toolbar">
-					<i class="icon-export"></i>
-					Export
-				</a>
-			</button>
-		</ul>
-	</div> -->
 	<div class="card mb-10">
 		<div class="pt-4">
 			<table class="int-table">
@@ -111,13 +72,16 @@
 						<th scope="row">
 							<div class="row">
 								<div class="col-lg-4 col-md-12 pl-10">
-									<button class="int-iconBtn" (click)="EditRow(Country)"><i class="icon-edit"></i></button>
+									<button class="int-iconBtn" (click)="EditRow(Country)"><i
+											class="icon-edit"></i></button>
 								</div>
 								<div class="col-lg-4 col-md-12">
-									<button class="int-iconBtn" (click)="DeleteRow(Country)"><i class="icon-trash"></i></button>
+									<button class="int-iconBtn" (click)="DeleteRow(Country)"><i
+											class="icon-trash"></i></button>
 								</div>
 								<div class="col-lg-4 col-md-12 pr-10">
-									<button class="int-iconBtn" (click)="ViewDetail(Country)"><i class="icon-eye"></i></button>
+									<button class="int-iconBtn" (click)="ViewDetail(Country)"><i
+											class="icon-eye"></i></button>
 								</div>
 							</div>
 						</th>
@@ -126,13 +90,8 @@
 				</tbody>
 			</table>
 
-			<ngb-pagination
-				class="d-flex justify-content-center"
-				[pageSize]="PageSize"
-				[collectionSize]="Countries.length"
-				[(page)]="Page"
-				(pageChange)="RefreshList()"
-			/>
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize"
+				[collectionSize]="Countries.length" [(page)]="Page" (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>

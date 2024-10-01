@@ -35,6 +35,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 
 	profileByID: ProfileSimpleResponses = {} as ProfileSimpleResponses;
 	profileTemp: Profile = new Profile();
+	Read: boolean = false;
 
 	ngOnInit(): void {
 		this.ngActivatedRoute.queryParams.subscribe((parameters) => {
@@ -105,8 +106,8 @@ export class ProfilemaintenanceComponent implements OnInit {
 					}
 				});
 			},
-			error: (error) => {},
-			complete: () => {}
+			error: (error) => { },
+			complete: () => { }
 		});
 	}
 
@@ -116,7 +117,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 	}
 
 	@HostListener('window:keydown.alt.s', ['$event'])
-	save() {
+	Submit() {
 		this.currentProfile.profileID = this.swEdit ? this.profileId : Guid.EMPTY;
 		this.currentProfile.profileName = this.profileTemp.profileName;
 		this.currentProfile.profileDescription = this.profileTemp.profileDescription;
@@ -155,8 +156,8 @@ export class ProfilemaintenanceComponent implements OnInit {
 								this.sweetAlertService.messageTextBox('Process successfully completed.');
 							}
 						},
-						error: (error) => {},
-						complete: () => {}
+						error: (error) => { },
+						complete: () => { }
 					});
 				} else {
 					this.profileService.Update(this.currentProfile).subscribe((response) => {
@@ -191,5 +192,11 @@ export class ProfilemaintenanceComponent implements OnInit {
 		} else {
 			this.getAll();
 		}
+	}
+	Clean() {
+		this.profileTemp = new Profile();
+	}
+	Back() {
+		this.router.navigate(['security/profile/list']);
 	}
 }

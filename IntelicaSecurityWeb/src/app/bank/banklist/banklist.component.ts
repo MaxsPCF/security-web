@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { Component, OnInit, inject } from "@angular/core";
+import { Component, OnInit, ViewChild, inject } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { BankSimpleResponse } from "../dto/bankResponses";
@@ -10,25 +10,31 @@ import { HtmlToExcel } from "../../common/HtmlToExcel";
 import CommonFeatureFlagService from "../../common/services/featureFlagCommon.service";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { ConfigService } from "../../common/services/config.service";
+import { ActionDirective, ActionsMenuComponent } from "intelica-components-ui";
 @Component({
 	selector: "security-banklist",
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule],
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective],
 	templateUrl: "./banklist.component.html",
 })
 export class BanklistComponent implements OnInit {
-	BankCode: string = "";
-	BankName: string = "";
-	Page: number = 1;
-	PageSize: number = 15;
-	Banks: BankSimpleResponse[] = [];
-	BanksFilter: BankSimpleResponse[] = [];
-	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
 	private readonly connection: HubConnection;
 	private readonly ConfigService = inject(ConfigService);
 	private readonly bankService = inject(BankService);
 	private readonly router = inject(Router);
 	readonly featureFlagService = inject(CommonFeatureFlagService);
+	@ViewChild('actionsMenu') actionsMenu!: ActionsMenuComponent;
+
+	BankCode: string = "";
+	BankName: string = "";
+	BankNameComercial: string = '';
+	Page: number = 1;
+	PageSize: number = 15;
+	Banks: BankSimpleResponse[] = [];
+	BanksFilter: BankSimpleResponse[] = [];
+	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
+	backBlueClass = false;
+
 	constructor() {
 		this.connection = new HubConnectionBuilder().withUrl(`${this.ConfigService.environment?.hubPath}/featureflag`).build();
 		this.connection.on("Refresh", () => this.featureFlagService.Refresh());
@@ -42,10 +48,10 @@ export class BanklistComponent implements OnInit {
 			})
 			.catch(error => {
 				return console.error(error);
-			}).then( ()=>{
+			}).then(() => {
 				this.connection.invoke("Connect", "Bank");
 			});
-			//
+		//
 		this.Search();
 	}
 	Search(): void {
@@ -93,5 +99,21 @@ export class BanklistComponent implements OnInit {
 	}
 	RefreshList(): void {
 		this.BanksFilter = this.Banks.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
+	}
+	applyFilter() {
+		this.actionsMenu.closeAll();
+		this.Search();
+	}
+	ClerSearch() {
+		this.BankCode = '';
+		this.BankName = '';
+		this.BankNameComercial = '';
+	}
+	exportFilter() {
+		this.actionsMenu.closeAll();
+		this.Export();
+	}
+	showBackBlue(value: boolean): void {
+		this.backBlueClass = value;
 	}
 }

@@ -18,6 +18,8 @@ import { ActionDirective, ActionsMenuComponent } from 'intelica-components-ui';
 })
 export class CountrylistComponent implements OnInit {
 	@ViewChild('actionsMenu') actionsMenu!: ActionsMenuComponent;
+	private readonly CountryService = inject(CountryService);
+	private readonly router = inject(Router);
 
 	ngOnInit(): void {
 		this.Search();
@@ -26,15 +28,12 @@ export class CountrylistComponent implements OnInit {
 	CountryName: string = '';
 	Countries: CountrySimpleResponse[] = [];
 	CountriesFilter: CountrySimpleResponse[] = [];
-
 	Page: number = 1;
 	PageSize: number = 10;
 	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
-	private readonly CountryService = inject(CountryService);
-	private readonly router = inject(Router);
 	backBlueClass = false;
 
-	Home() {}
+	Home() { }
 	Search() {
 		this.CountryService.GetByFilter(this.CountryCode, this.CountryName).subscribe((response) => {
 			this.Countries = response;
@@ -79,11 +78,9 @@ export class CountrylistComponent implements OnInit {
 			}
 		});
 	}
-
 	RefreshList(): void {
 		this.CountriesFilter = this.Countries.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
 	}
-
 	applyFilter() {
 		this.actionsMenu.closeAll();
 		this.Search();
