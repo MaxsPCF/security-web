@@ -19,18 +19,18 @@
 
 <mat-card appearance="outlined">
 	<mat-card-header>
-		<mat-card-title> Business User</mat-card-title>
+		<mat-card-title data-security="Businessuser"> Business User</mat-card-title>
 	</mat-card-header>
 	<mat-card-content>
 		<mat-stepper #stepper>
 			<mat-step [stepControl]="firstFormGroup" errorMessage="fields requireds.">
 				<form [formGroup]="firstFormGroup">
-					<ng-template matStepLabel>Information user</ng-template>
+					<ng-template matStepLabel><mat-label data-security="InformationUser"></mat-label></ng-template>
 					<ng-template matStepContent>
 						<div class="row mt-2">
 							<div class="col-md-4 col-sm-12">
 								<mat-form-field appearance="outline" style="width: 100%">
-									<mat-label>Profile</mat-label>
+									<mat-label data-security="Profile">Profile</mat-label>
 									<mat-select formControlName="profileID" (selectionChange)="loadPageProfile()">
 										@for ( item of profileList; track item.profileID; let index = $index){
 										<mat-option [value]="item.profileID">{{item.profileName}}</mat-option>
@@ -40,13 +40,13 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<mat-form-field appearance="outline" style="width: 100%">
-									<mat-label>Name</mat-label>
+									<mat-label  data-security="Name">Name</mat-label>
 									<input matInput placeholder="Name" formControlName="businessUserName" />
 								</mat-form-field>
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<mat-form-field appearance="outline" style="width: 100%">
-									<mat-label>password</mat-label>
+									<mat-label  data-security="Password">password</mat-label>
 									<input matInput [type]="hide() ? 'password' : 'text'" formControlName="businessUserPassword" />
 									<button mat-icon-button matSuffix (click)="clickEventPwd($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide()">
 										<mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -66,35 +66,35 @@
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<mat-form-field appearance="outline" style="width: 100%">
-									<mat-label>FirstName</mat-label>
+									<mat-label  data-security="FirstName">FirstName</mat-label>
 									<input matInput placeholder="FirstName" formControlName="businessUserFirstName" />
 								</mat-form-field>
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<mat-form-field appearance="outline" style="width: 100%">
-									<mat-label>LastName</mat-label>
+									<mat-label data-security="LastName">LastName</mat-label>
 									<input matInput placeholder="LastName" formControlName="businessUserLastName" />
 								</mat-form-field>
 							</div>
 							<div class="col-md-4 col-sm-12">
 								<mat-form-field appearance="outline" style="width: 100%">
-									<mat-label>Email</mat-label>
+									<mat-label data-security="Email">Email</mat-label>
 									<input matInput placeholder="Email" formControlName="businessUserEmail" />
 								</mat-form-field>
 							</div>
 						</div>
 						<div>
-							<button mat-raised-button matStepperNext>Next</button>
+							<button mat-raised-button matStepperNext  data-security="Next">Next</button>
 						</div>
 					</ng-template>
 				</form>
 			</mat-step>
 			<mat-step>
-				<ng-template matStepLabel>Information page</ng-template>
+				<ng-template matStepLabel><mat-label data-security="InformationPage"></mat-label></ng-template>
 				<div class="row mt-2">
 					<div class="col-lg-12">
 						<mat-form-field appearance="outline">
-							<mat-label>Filter</mat-label>
+							<mat-label  data-security="Filter">Filter</mat-label>
 							<input matInput (keyup)="applyFilterPages($event)" placeholder="input search" #inputSearchPage />
 						</mat-form-field>
 
@@ -106,22 +106,22 @@
 								</ng-container>
 
 								<ng-container matColumnDef="pageName">
-									<th mat-header-cell *matHeaderCellDef mat-sort-header>Page name</th>
+									<th mat-header-cell *matHeaderCellDef mat-sort-header data-security="PageName">Page name</th>
 									<td mat-cell *matCellDef="let row">{{row.pageName}}</td>
 								</ng-container>
 
 								<ng-container matColumnDef="businessUserCanCreate">
-									<th mat-header-cell *matHeaderCellDef>Create</th>
+									<th mat-header-cell *matHeaderCellDef  data-security="Create">Create</th>
 									<td mat-cell *matCellDef="let row"><mat-checkbox [(ngModel)]="row.businessUserCanCreate" [color]="'primary'"></mat-checkbox></td>
 								</ng-container>
 
 								<ng-container matColumnDef="businessUserCanUpdate">
-									<th mat-header-cell *matHeaderCellDef>Update</th>
+									<th mat-header-cell *matHeaderCellDef  data-security="Update">Update</th>
 									<td mat-cell *matCellDef="let row"><mat-checkbox [(ngModel)]="row.businessUserCanUpdate" [color]="'primary'"></mat-checkbox></td>
 								</ng-container>
 
 								<ng-container matColumnDef="businessUserCanDelete">
-									<th mat-header-cell *matHeaderCellDef>Delete</th>
+									<th mat-header-cell *matHeaderCellDef  data-security="Delete">Delete</th>
 									<td mat-cell *matCellDef="let row"><mat-checkbox [(ngModel)]="row.businessUserCanDelete" [color]="'primary'"></mat-checkbox></td>
 								</ng-container>
 
@@ -134,7 +134,7 @@
 											[color]="'primary'"
 										>
 										</mat-checkbox>
-										All
+										<mat-label data-security="All"></mat-label>
 									</th>
 									<td mat-cell *matCellDef="let row" style="text-align: center">
 										<mat-checkbox
@@ -165,17 +165,17 @@
 					</div>
 				</div>
 				<div class="mt-5">
-					<button mat-raised-button matStepperPrevious>Back</button>&nbsp;
-					<button mat-raised-button matStepperNext>Next</button>
+					<button mat-raised-button matStepperPrevious data-security="Back">Back</button>&nbsp;
+					<button mat-raised-button matStepperNext data-security="Next">Next</button>
 				</div>
 			</mat-step>
 			<mat-step>
-				<ng-template matStepLabel>Information bank</ng-template>
+				<ng-template matStepLabel><mat-label data-security="InformationBank"></mat-label></ng-template>
 				<ng-template matStepContent>
 					<div class="row mb-3">
 						<div class="col-lg-12">
-							<mat-form-field appearance="outline">
-								<mat-label>Filter</mat-label>
+							<mat-form-field appearance="outline">								
+								<mat-label  data-security="Filter">Filter</mat-label>
 								<input matInput (keyup)="applyFilterBanks($event)" placeholder="input search" #inputBanks />
 							</mat-form-field>
 
@@ -187,7 +187,7 @@
 									</ng-container>
 
 									<ng-container matColumnDef="bankName">
-										<th mat-header-cell *matHeaderCellDef mat-sort-header>Bank name</th>
+										<th mat-header-cell *matHeaderCellDef mat-sort-header  data-security="BankName">Bank name</th>
 										<td mat-cell *matCellDef="let row">{{row.bankName}}</td>
 									</ng-container>
 
@@ -200,7 +200,7 @@
 												[color]="'primary'"
 											>
 											</mat-checkbox>
-											All
+											<mat-label data-security="All"></mat-label>
 										</th>
 										<td mat-cell *matCellDef="let row" style="text-align: center">
 											<mat-checkbox
@@ -231,18 +231,18 @@
 						</div>
 					</div>
 					<div>
-						<button mat-raised-button matStepperPrevious>Back</button>&nbsp;
-						<button mat-raised-button matStepperNext>Next</button>
+						<button mat-raised-button matStepperPrevious  data-security="Back">Back</button>&nbsp;
+						<button mat-raised-button matStepperNext  data-security="Next">Next</button>
 					</div>
 				</ng-template>
 			</mat-step>
 			<mat-step>
-				<ng-template matStepLabel>Information bank group</ng-template>
+				<ng-template matStepLabel><mat-label data-security="InformationBankGroup"></mat-label></ng-template>
 				<ng-template matStepContent>
 					<div class="row mb-3">
 						<div class="col-lg-12">
 							<mat-form-field appearance="outline">
-								<mat-label>Filter</mat-label>
+								<mat-label  data-security="Filter">Filter</mat-label>
 								<input matInput (keyup)="applyFilterBankGroups($event)" placeholder="input search" #inputBankGroups />
 							</mat-form-field>
 
@@ -254,7 +254,7 @@
 									</ng-container>
 
 									<ng-container matColumnDef="bankGroupName">
-										<th mat-header-cell *matHeaderCellDef mat-sort-header>Bank group name</th>
+										<th mat-header-cell *matHeaderCellDef mat-sort-header  data-security="BankGroupName">Bank group name</th>
 										<td mat-cell *matCellDef="let row">{{row.bankGroupName}}</td>
 									</ng-container>
 
@@ -267,7 +267,7 @@
 												[color]="'primary'"
 											>
 											</mat-checkbox>
-											All
+											<mat-label data-security="All"></mat-label>
 										</th>
 										<td mat-cell *matCellDef="let row" style="text-align: center">
 											<mat-checkbox
@@ -298,8 +298,8 @@
 						</div>
 					</div>
 					<div>
-						<button mat-raised-button matStepperPrevious>Back</button>&nbsp;
-						<button mat-raised-button (click)="stepper.reset()">Reset</button>
+						<button mat-raised-button matStepperPrevious data-security="Back">Back</button>&nbsp;
+						<button mat-raised-button (click)="stepper.reset()" data-security="Reset">Reset</button>
 					</div>
 				</ng-template>
 			</mat-step>

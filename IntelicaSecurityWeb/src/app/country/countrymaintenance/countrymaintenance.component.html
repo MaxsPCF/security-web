@@ -5,20 +5,20 @@
 				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
 					<a class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
+						<label data-security="Save"></label>
 					</a>
 				</button>
 				<div class="d-flex">
 					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
 						<a class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
+							<label data-security="Clean"></label>
 						</a>
 					</button>
 					<button type="button" class="btn-toolbar" (click)="Back()">
 						<a class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
+							<label data-security="Return"></label>
 						</a>
 					</button>
 				</div>
@@ -29,7 +29,7 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Country code</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="CountryCode">Country code</label>
 							<input
 								name="countryCode"
 								class="form-control form-control-sm"
@@ -41,7 +41,7 @@
 							/>
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Country Name</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="CountryName">Country Name</label>
 							<input
 								name="countryName"
 								class="form-control form-control-sm"

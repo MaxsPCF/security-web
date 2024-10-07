@@ -5,20 +5,20 @@
 				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
 					<a class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
+						<label data-security="Save"></label>  
 					</a>
 				</button>
 				<div class="d-flex">
 					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
 						<a class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
+							<label data-security="Clean"></label>  
 						</a>
 					</button>
 					<button type="button" class="btn-toolbar" (click)="Back()">
 						<a class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
+							<label data-security="Return"></label>  
 						</a>
 					</button>
 				</div>
@@ -29,7 +29,7 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm Group ID</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="RealmGroupID">Realm Group ID</label>
 							<input
 								name="RealmGroupID"
 								class="form-control form-control-sm"
@@ -41,7 +41,7 @@
 							/>
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm</label>
+							<label class="label-form-enazul text-primary mt-1"  data-security="Realm">Realm</label>
 							<ng-select
 								name="realmID"
 								[items]="realms"
@@ -66,7 +66,7 @@
 							></ng-select>
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Group Name</label>
+							<label class="label-form-enazul text-primary mt-1"  data-security="GroupName">Group Name</label>
 							<input
 								name="realmgroupName"
 								class="form-control form-control-sm"

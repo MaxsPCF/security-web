@@ -5,20 +5,20 @@
 				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
 					<a class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
+						<label data-security="Save"></label>
 					</a>
 				</button>
 				<div class="d-flex">
 					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
 						<a class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
+							<label data-security="Clean"></label>
 						</a>
 					</button>
 					<button type="button" class="btn-toolbar" (click)="Back()">
 						<a class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
+							<label data-security="Return"></label>
 						</a>
 					</button>
 				</div>
@@ -29,7 +29,7 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Client Id</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="ClientID">Client Id</label>
 							<input
 								name="clientId"
 								class="form-control form-control-sm"
@@ -41,7 +41,7 @@
 							/>
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="Realm">Realm</label>
 							<ng-select
 								name="realmID"
 								[items]="realms"
@@ -54,11 +54,11 @@
 							</ng-select>
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Client Name</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="ClientName">Client Name</label>
 							<input name="clientName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Client.clientName" required />
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Client Description</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="ClientDescription">Client Description</label>
 							<textarea
 								name="clientDescription"
 								class="form-control"
@@ -69,11 +69,11 @@
 							></textarea>
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Client Root URL</label>
+							<label class="label-form-enazul text-primary mt-1"  data-security="ClientRoot">Client Root URL</label>
 							<input name="clientRootUrl" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Client.clientRootUrl" />
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Client Valid redirect URIs</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="ClientValidRedirect">Client Valid redirect URIs</label>
 							<input
 								name="clientRedirectUrl"
 								class="form-control form-control-sm"
@@ -83,7 +83,7 @@
 							/>
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Client Web origins</label>
+							<label class="label-form-enazul text-primary mt-1"  data-security="ClientWebOrigins">Client Web origins</label>
 							<input
 								name="clientWebOrigin"
 								class="form-control form-control-sm"

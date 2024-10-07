@@ -3,7 +3,7 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-4">
-					<label class="label-form-enazul text-primary mt-1">Realm name</label>
+					<label class="label-form-enazul text-primary mt-1" data-security="RealmName">Realm name</label>
 					<input
 						name="RealmName"
 						class="form-control form-control-sm"
@@ -15,7 +15,7 @@
 				</div>
 				<div class="col-md-2 div-center-right" (click)="Search()">
 					<button class="btn btn-primary">
-						Search
+						<label data-security="Search"></label>
 						<i class="icon-save-white"></i>
 					</button>
 				</div>
@@ -28,13 +28,13 @@
 				<button type="button" class="btn-toolbar" (click)="Add()">
 					<a class="nav-link text-toolbar">
 						<i class="icon-add"></i>
-						Add
+						<label data-security="Add"></label>
 					</a>
 				</button>
 				<button type="button" class="btn-toolbar" (click)="Export()">
 					<a class="nav-link text-toolbar">
 						<i class="icon-export"></i>
-						Export
+						<label data-security="Export"></label>
 					</a>
 				</button>
 			</ul>
@@ -45,8 +45,8 @@
 					<thead>
 						<tr>
 							<th scope="col" style="width: 35%">Realm ID</th>
-							<th scope="col" style="width: 45%">Realm Name</th>
-							<th scope="col" style="width: 15%">Actions</th>
+							<th scope="col" style="width: 45%"  data-security="RealmName"></th>
+							<th scope="col" style="width: 15%"  data-security="Actions"></th>
 						</tr>
 					</thead>
 					<tbody>

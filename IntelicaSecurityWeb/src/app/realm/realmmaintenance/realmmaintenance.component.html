@@ -5,20 +5,20 @@
 				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
 					<a class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
+						<label data-security="Save"></label>
 					</a>
 				</button>
 				<div class="d-flex">
 					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
 						<a class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
+							<label data-security="Clean"></label>
 						</a>
 					</button>
 					<button type="button" class="btn-toolbar" (click)="Back()">
 						<a class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
+							<label data-security="Return"></label>
 						</a>
 					</button>
 				</div>
@@ -29,11 +29,11 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="Realm"></label>
 							<input name="realmID" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Realm.realmID" disabled />
 						</div>
 						<div class="col-md-6 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Realm Name</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="RealmName"></label>
 							<input
 								name="realmName"
 								class="form-control form-control-sm"

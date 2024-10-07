@@ -12,7 +12,6 @@ import { ActionDirective, ActionsMenuComponent } from 'intelica-components-ui';
 @Component({
 	selector: 'security-countrylist',
 	standalone: true,
-
 	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective],
 	templateUrl: './countrylist.component.html'
 })
