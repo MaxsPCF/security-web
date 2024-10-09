@@ -10,6 +10,7 @@ import { provideAnimationsAsync } from "@angular/platform-browser/animations/asy
 import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from "@angular/common/http";
 import { ErrorInterceptor } from "./app/common/error.interceptor";
 import "@angular/localize/init";
+import { RefreshTokenInterceptor } from "./app/common/refreshToken.interceptor";
 enableProdMode();
 const lifecycles = singleSpaAngular({
 	bootstrapFunction: singleSpaProps => {
@@ -27,7 +28,7 @@ const lifecycles = singleSpaAngular({
 				provideRouter(routes, withComponentInputBinding()),
 				provideClientHydration(),
 				provideAnimationsAsync(),
-				provideHttpClient(withFetch(), withInterceptors([ErrorInterceptor]), withInterceptorsFromDi()),
+				provideHttpClient(withFetch(), withInterceptors([RefreshTokenInterceptor ,ErrorInterceptor ]), withInterceptorsFromDi()),
 			],
 		};
 		return bootstrapApplication(AppComponent, options);

@@ -1,5 +1,8 @@
 {
 	"securityPath": "http://localhost:5180",
 	"hubPath": "http://localhost:5149/hubs",
-	"configurationPath": "http://localhost:5181"
+	"configurationPath": "http://localhost:5181",
+	"authenticationWeb":"http://localhost:4205",
+	"authenticationPath":"http://localhost:5182",
+	"clientID":"InControl"
 }

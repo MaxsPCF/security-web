@@ -5,7 +5,7 @@ import { catchError, finalize, throwError } from "rxjs";
 import { SpinnerService } from "./spinner/spinner.service";
 import { getCookie } from "typescript-cookie";
 export const ErrorInterceptor: HttpInterceptorFn = (req, next) => {
-	const spinner = inject(SpinnerService);
+	const spinner = inject(SpinnerService);	
 	spinner.show();
 	const HeaderSettings: { [name: string]: string | string[] } = {};
 	if (!req.url.includes("assets/environment.json")) {

@@ -5,6 +5,7 @@ import { filter, fromEvent, map } from "rxjs";
 import CustomFeatureFlagService from "./common/services/featureFlagCommon.service";
 import { TermService } from "./common/services/term.service";
 import { getCookie } from "typescript-cookie";
+import { assetUrl } from "../single-spa/asset-url";
 @Component({
 	selector: "app-security",
 	standalone: true,
@@ -17,10 +18,11 @@ export class AppComponent implements OnInit {
 	pageEvent = fromEvent(window, "CallEventChangePage");
 	MenuUserID: string = "";
 	PageRoot: string = "";
+	LoadingLogo: string = assetUrl("loading_intelica.gif");
 	private router = inject(Router);
 	private TermService = inject(TermService);
 	readonly featureFlagService = inject(CustomFeatureFlagService);
-	async ngOnInit() {
+	constructor() {
 		this.router.events
 			.pipe(
 				filter(event => event instanceof NavigationEnd),
@@ -34,14 +36,16 @@ export class AppComponent implements OnInit {
 			)
 			.subscribe((pageInformation: PageInformation) => {
 				if (pageInformation.pageTitle) this.Title = pageInformation.pageTitle;
-				if (pageInformation.pageRoot) {
+				if (pageInformation.pageRoot) {					
 					this.PageRoot = pageInformation.pageRoot;
 					this.featureFlagService.Initialize(pageInformation.pageRoot);
 				}
-				this.ChangeLanguage();
 				this.CallEventChangePage(pageInformation.pageTitle, "Security");
 			});
-		await this.CallbackChangeLanguage();
+		this.CallbackChangeLanguage();
+	}
+	async ngOnInit() {
+		await this.ChangeLanguage();
 	}
 	CallEventChangePage(title: string, client: string) {
 		let event = new CustomEvent("eventChangePage", {
