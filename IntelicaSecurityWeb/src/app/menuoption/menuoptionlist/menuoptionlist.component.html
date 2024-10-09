@@ -1,64 +1,3 @@
-<<<<<<< HEAD
-<div class="row mb-3">
-	<div class="col">
-		<label class="form-label" data-security="Parent">Parent</label>
-		<ng-select [items]="listMenuParent" bindLabel="menuOptionName" bindValue="menuOptionID" [(ngModel)]="menuOptionModel.menuOptionParentID"></ng-select>
-	</div>
-	<div class="col">
-		<label class="form-label" data-security="Name"></label>
-		<input type="text" class="form-control form-control-sm" placeholder="Name" [(ngModel)]="menuOptionModel.menuOptionName" />
-	</div>
-	<div class="col">
-		<button type="button" class="btn btn-primary" (click)="Search()">
-			<i class="icon-search-white"></i>
-			<label data-security="Search"></label>
-		</button>
-		&nbsp;
-		<button type="button" class="btn btn-primary" (click)="Add()">
-			<i class="icon-add-white"></i>
-			<label data-security="Add"></label>
-		</button>
-	</div>
-</div>
-<div class="row">
-	<div class="col-lg-12">
-		<table class="int-table">
-			<thead>
-				<tr>
-					<th style="width: 10%">N°</th>
-					<th style="width: 20%">Menu ID</th>
-					<th style="width: 20%" data-security="ParentName"></th>
-					<th data-security="MenuName"></th>
-					<th style="width: 10%" data-security="NroOrder"></th>
-					<th style="width: 10%" data-security="Actions"></th>
-				</tr>
-			</thead>
-			<tbody>
-				@for ( option of listMenuOption; track option.menuOptionID; let index = $index){
-				<tr>
-					<td>{{ (index + 1) }}</td>
-					<td>{{ option.menuOptionID }}</td>
-					<td>{{ option.menuOptionParentName }}</td>
-					<td class="text-start">
-						{{ option.menuOptionName }}
-						<div>
-							<ol>
-								@for ( page of option.menuOptionPages; track page.pageID){
-								<li>{{ page.pageName}}</li>
-								}
-							</ol>
-						</div>
-					</td>
-					<td>{{ option.menuOptionOrder }}</td>
-					<td>
-						<button class="int-iconBtn" (click)="EditMenuOption(option)"><i class="icon-edit"></i></button>
-						<button class="int-iconBtn" (click)="DeleteMenuOption(option)"><i class="icon-trash"></i></button>
-					</td>
-				</tr>
-				}
-			</tbody>
-		</table>
-=======
 <div class="card-body int-content-body">
 	<div class="row">
 		<div class="col-md-10">
@@ -78,11 +17,9 @@
 												<div class="numOrder"><span>1</span></div>
 												<label for="parent"><span>Parent</span></label>
 											</div>
-											<select class="txtBoxStyle" id="dynamicSelect"
-												[(ngModel)]="menuOptionModel.menuOptionParentID">
+											<select class="txtBoxStyle" id="dynamicSelect" [(ngModel)]="menuOptionModel.menuOptionParentID">
 												@for (item of listMenuParent; track $index) {
-												<option [value]="item.menuOptionName">{{
-													item.menuOptionName }}</option>
+												<option [value]="item.menuOptionName">{{ item.menuOptionName }}</option>
 												}
 											</select>
 										</div>
@@ -93,8 +30,7 @@
 												<div class="numOrder"><span>2</span></div>
 												<label for="menuOptionName"><span>Menu Option Name</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="menuOptionName"
-												[(ngModel)]="menuOptionModel.menuOptionName" />
+											<input type="text" class="txtBoxStyle" name="menuOptionName" [(ngModel)]="menuOptionModel.menuOptionName" />
 										</div>
 									</div>
 								</div>
@@ -104,7 +40,7 @@
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
 									<span>Apply</span>
 								</button>
-								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
 									<span>Clear</span>
 								</button>
 							</div>
@@ -136,7 +72,7 @@
 				<tbody>
 					@for ( option of MenuOptionsFilter; track option.menuOptionID; let index = $index){
 					<tr>
-						<td>{{ (index + 1) }}</td>
+						<td>{{ index + 1 }}</td>
 						<td>{{ option.menuOptionID }}</td>
 						<td>{{ option.menuOptionParentName }}</td>
 						<td class="text-start">
@@ -144,25 +80,21 @@
 							<div>
 								<ol>
 									@for ( page of option.menuOptionPages; track page.pageID){
-									<li>{{ page.pageName}}</li>
+									<li>{{ page.pageName }}</li>
 									}
 								</ol>
 							</div>
 						</td>
 						<td>{{ option.menuOptionOrder }}</td>
 						<td>
-							<button class="int-iconBtn" (click)="EditMenuOption(option)"><i
-									class="icon-edit"></i></button>
-							<button class="int-iconBtn" (click)="DeleteMenuOption(option)"><i
-									class="icon-trash"></i></button>
+							<button class="int-iconBtn" (click)="EditMenuOption(option)"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteMenuOption(option)"><i class="icon-trash"></i></button>
 						</td>
 					</tr>
 					}
 				</tbody>
 			</table>
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize"
-				[collectionSize]="MenuOptions.length" [(page)]="Page" (pageChange)="RefreshList()" />
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="MenuOptions.length" [(page)]="Page" (pageChange)="RefreshList()" />
 		</div>
->>>>>>> f07bb4ea18c04a195f5ba915dff30faffad8a386
 	</div>
 </div>

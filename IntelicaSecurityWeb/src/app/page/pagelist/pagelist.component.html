@@ -1,60 +1,3 @@
-<<<<<<< HEAD
-<div class="card card-header card-header-stretch cold-md-12 mt-2">
-	<div class="card mb-2 mt-2">
-		<ul class="nav">
-			<button type="button" class="btn-toolbar" (click)="GetAll()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					<label data-security="Search"></label>
-				</a>
-			</button>
-			<button type="button" class="btn-toolbar" (click)="Add()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					<label data-security="Add"></label>
-				</a>
-			</button>
-			<button type="button" class="btn-toolbar" (click)="Export()">
-				<a class="nav-link text-toolbar">
-					<span>
-						<svg width="20" height="17" viewBox="0 0 14 14" fill="none">
-							<path
-								d="M11.6667 1H2.33333C1.59695 1 1 1.59695 1 2.33333V11.6667C1 12.403 1.59695 13 2.33333 13H11.6667C12.403 13 13 12.403 13 11.6667V2.33333C13 1.59695 12.403 1 11.6667 1Z"
-								stroke="#38E8C6"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-							<path d="M1 5H13" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-							<path d="M5 13V5" stroke="#38E8C6" stroke-linecap="round" stroke-linejoin="round" />
-						</svg>
-					</span>
-					<label data-security="Export"></label>
-				</a>
-			</button>
-		</ul>
-=======
 <div class="card-body int-content-body">
 	<div class="row">
 		<div class="col-md-10">
@@ -62,40 +5,32 @@
 		</div>
 
 		<div class="col-md-2 div-center-right">
-			<div class="d-flex d-flex p-2">
+			<div class="d-flex d-flex">
 				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
 					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
 					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
 				</intelica-actions-menu>
 			</div>
 		</div>
->>>>>>> f07bb4ea18c04a195f5ba915dff30faffad8a386
 	</div>
 </div>
 
-<div class="card card-header card-header-stretch cold-md-12 mt-3">
+<div class="card card-header card-header-stretch cold-md-12">
 	<div class="card mb-10">
 		<div class="pt-4">
 			<table class="int-table">
 				<thead>
 					<tr>
-<<<<<<< HEAD
 						<th style="width: 5%">N°</th>
 						<th data-security="PageName"></th>
 						<th data-security="PageUrl"></th>
 						<th style="width: 5%" data-security="Actions"></th>
-=======
-						<th scope="col">N°</th>
-						<th scope="col">Page name</th>
-						<th scope="col">Page url</th>
-						<th scope="col">Actions</th>
->>>>>>> f07bb4ea18c04a195f5ba915dff30faffad8a386
 					</tr>
 				</thead>
 				<tbody>
 					@for ( page of PagesFilter; track page.pageId; let index = $index){
 					<tr>
-						<td>{{ (index + 1) }}</td>
+						<td>{{ index + 1 }}</td>
 						<td class="text-start">{{ page.pageName }}</td>
 						<td class="text-start">{{ page.pageUrl }}</td>
 						<td>
@@ -107,8 +42,7 @@
 				</tbody>
 			</table>
 
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Pages.length"
-				[(page)]="Page" (pageChange)="RefreshList()" />
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Pages.length" [(page)]="Page" (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>
