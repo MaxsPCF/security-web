@@ -19,23 +19,12 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { ViewDetailsPagesComponent } from "../modals/view-details-pages/view-details-pages.component";
+import { ActionDirective, ActionsMenuComponent } from "intelica-components-ui";
 
 @Component({
 	selector: "security-businessuserlist",
 	standalone: true,
-	imports: [
-		// NgSelectModule,
-		FormsModule,
-		// NgbPagination,
-		MatButtonModule,
-		MatTooltipModule,
-		MatIconModule,
-		MatInputModule,
-		MatSelectModule,
-		MatTableModule,
-		MatSortModule,
-		MatPaginatorModule,
-	],
+	imports: [FormsModule, MatButtonModule, MatTooltipModule, MatIconModule, MatInputModule, MatSelectModule, MatTableModule, MatSortModule, MatPaginatorModule, ActionsMenuComponent, ActionDirective],
 	templateUrl: "./businessuserlist.component.html",
 	styleUrl: "./businessuserlist.component.css",
 })
@@ -49,6 +38,7 @@ export class BusinessuserlistComponent {
 	ProfileID: string | any = null;
 	BusinessUserName: string = "";
 	BusinessUserEmail: string = "";
+	backBlueClass: boolean = false;
 
 	profiles: ProfileSimpleResponses[] = [];
 	BusinessUsers: BusinessUserSimpleResponse[] = [];
@@ -58,6 +48,7 @@ export class BusinessuserlistComponent {
 	PageSize: number = 10;
 	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
 
+	@ViewChild("actionsMenu") actionsMenu!: ActionsMenuComponent;
 	@ViewChild("matPaginatorUsers") paginatorUsers: any = MatPaginator;
 	@ViewChild("sortUsers") sortUsers = new MatSort();
 
@@ -76,8 +67,6 @@ export class BusinessuserlistComponent {
 	Search() {
 		this.businessUserService.GetByFilter(this.ProfileID, this.BusinessUserName, this.BusinessUserEmail).subscribe(response => {
 			this.BusinessUsers = response;
-			// this.Page = 1;
-			// this.RefreshList();
 
 			this.dataSourceUsers = new MatTableDataSource(this.BusinessUsers);
 			this.dataSourceUsers.paginator = this.paginatorUsers;
@@ -118,7 +107,18 @@ export class BusinessuserlistComponent {
 		modal.componentInstance.businessUserID = row.businessUserID;
 	}
 
-	// RefreshList(): void {
-	// 	this.BusinessUserFilter = this.BusinessUsers.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
-	// }
+	showBackBlue(value: boolean): void {
+		this.backBlueClass = value;
+	}
+
+	applyFilter() {
+		this.actionsMenu.closeAll();
+		this.Search();
+	}
+
+	ClerSearch() {
+		this.ProfileID = null;
+		this.BusinessUserName = "";
+		this.BusinessUserEmail = "";
+	}
 }
