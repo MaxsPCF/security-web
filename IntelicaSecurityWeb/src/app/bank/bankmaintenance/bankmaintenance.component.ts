@@ -1,20 +1,22 @@
-import Swal from 'sweetalert2';
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { Bank } from '../bank';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BankService } from '../bank.service';
-import { CountrySimpleResponse } from '../../country/dto/countryResponses';
-import { CountryService } from '../../country/country.service';
+import Swal from "sweetalert2";
+import { Component, HostListener, OnInit, ViewChild, inject } from "@angular/core";
+import { FormsModule, NgForm, ReactiveFormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { Bank } from "../bank";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BankService } from "../bank.service";
+import { CountrySimpleResponse } from "../../country/dto/countryResponses";
+import { CountryService } from "../../country/country.service";
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+
 @Component({
-	selector: 'security-bankmaintenance',
+	selector: "security-bankmaintenance",
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule],
-	templateUrl: './bankmaintenance.component.html'
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbTooltipModule],
+	templateUrl: "./bankmaintenance.component.html",
 })
 export class BankmaintenanceComponent implements OnInit {
-	bankid: string = '';	
+	bankid: string = "";
 	Read: boolean = false;
 	Countries: CountrySimpleResponse[] = [];
 	Bank: Bank = new Bank();
@@ -22,42 +24,53 @@ export class BankmaintenanceComponent implements OnInit {
 	private readonly countryService = inject(CountryService);
 	private readonly router = inject(Router);
 	private activatedRoute = inject(ActivatedRoute);
-	@ViewChild('bankForm', { read: NgForm }) bankForm: any;
+	@ViewChild("bankForm", { read: NgForm }) bankForm: any;
+
 	ngOnInit(): void {
-		this.countryService.GetByAll().subscribe((response1) => {
+		this.countryService.GetByAll().subscribe(response1 => {
 			this.Countries = response1;
-			this.bankid = this.activatedRoute.snapshot.params['id'];
-			this.Read = this.activatedRoute.snapshot.params['read'];
+			this.bankid = this.activatedRoute.snapshot.params["id"];
+			this.Read = this.activatedRoute.snapshot.params["read"];
 			if (this.bankid != undefined && this.bankid != null) {
-				this.bankService.Find(this.bankid).subscribe((response) => {
+				this.bankService.Find(this.bankid).subscribe(response => {
 					this.Bank = response;
 				});
 			}
 		});
 	}
+
+	@HostListener("window:keydown.alt.r", ["$event"])
 	Back() {
-		this.router.navigate(['security/bank/list']);
+		this.router.navigate(["security/bank/list"]);
 	}
+
+	@HostListener("window:keydown.alt.s", ["$event"])
 	Submit() {
 		if (!this.bankForm.valid) {
-			Swal.fire('Informaci�n', 'Complete los campos necesarios', 'error');
+			Swal.fire("Information", "Complete the required fields.", "error");
 			return;
 		}
 		if (this.bankid != undefined && this.bankid != null) {
-			this.bankService.Update(this.Bank).subscribe((response) => {
-				Swal.fire('Informaci�n', `Banco con codigo <br/> <b> ${response.bankID}</b>  <br/> ha sido actualizado correctamente`, 'success');
+			this.bankService.Update(this.Bank).subscribe(response => {
+				Swal.fire("Information", `Bank with code <br/> <b> ${response.bankID}</b>  <br/> has been successfully updated`, "success");
 				this.Back();
 				this.Clean();
 			});
 		} else {
-			this.bankService.Create(this.Bank).subscribe((response) => {
-				Swal.fire('Informaci�n', `Banco con codigo <br/> <b> ${response.bankID}</b>  <br/> ha sido registrada correctamente`, 'success');
+			this.bankService.Create(this.Bank).subscribe(response => {
+				Swal.fire("Information", `Bank with code <br/> <b> ${response.bankID}</b>  <br/> has been successfully registered`, "success");
 				this.Back();
 				this.Clean();
 			});
 		}
 	}
+
+	@HostListener("window:keydown.alt.c", ["$event"])
 	Clean(): void {
-		this.Bank = new Bank();
+		if (this.bankid != undefined && this.bankid != null) {
+			this.bankService.Find(this.bankid).subscribe(response => {
+				this.Bank = response;
+			});
+		} else this.Bank = new Bank();
 	}
 }

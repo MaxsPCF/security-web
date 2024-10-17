@@ -8,11 +8,12 @@ import { Router } from '@angular/router';
 import { HtmlToExcel } from '../../common/HtmlToExcel';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActionDirective, ActionsMenuComponent } from 'intelica-components-ui';
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
 	selector: 'security-countrylist',
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective],
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective, NgbTooltipModule],
 	templateUrl: './countrylist.component.html'
 })
 export class CountrylistComponent implements OnInit {
@@ -65,12 +66,12 @@ export class CountrylistComponent implements OnInit {
 		Swal.fire({
 			title: 'Esta seguro quen desea eliminar este registro?',
 			showDenyButton: true,
-			confirmButtonText: 'S�',
+			confirmButtonText: 'Sí',
 			denyButtonText: 'No'
 		}).then((result) => {
 			if (result.isConfirmed) {
 				this.CountryService.Delete(row.countryID).subscribe((response2) => {
-					Swal.fire('Informaci�n', `Banco con codigo <br/> <b> ${row.countryID}</b>  <br/> ha sido eliminado correctamente`, 'success');
+					Swal.fire('Información', `Banco con codigo <br/> <b> ${row.countryID}</b>  <br/> ha sido eliminado correctamente`, 'success');
 					this.Search();
 				});
 			} else if (result.isDenied) {

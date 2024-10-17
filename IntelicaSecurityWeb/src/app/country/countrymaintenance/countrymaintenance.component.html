@@ -1,25 +1,22 @@
-<form #countryForm="ngForm">
+<form #countryForm="ngForm" autocomplete="off">
 	<div class="container">
 		<div class="card mt-3">
 			<ul class="nav justify-content-between">
-				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
-					<a class="nav-link text-toolbar">
+				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read" placement="top" ngbTooltip="alt + s">
+					<span class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						<label data-security="Save"></label>
-					</a>
+					</span>
 				</button>
 				<div class="d-flex">
-					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read" placement="top" ngbTooltip="alt + c">
+						<span class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							<label data-security="Clean"></label>
-						</a>
+						</span>
 					</button>
-					<button type="button" class="btn-toolbar" (click)="Back()">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Back()" placement="top" ngbTooltip="alt + r">
+						<span class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							<label data-security="Return"></label>
-						</a>
+						</span>
 					</button>
 				</div>
 			</ul>
@@ -29,27 +26,12 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1" data-security="CountryCode">Country code</label>
-							<input
-								name="countryCode"
-								class="form-control form-control-sm"
-								type="text"
-								maxlength="100"
-								[(ngModel)]="Country.countryID"
-								[disabled]="IsEdit"
-								[required]="true"
-							/>
+							<label class="label-form-enazul text-primary mt-1" data-security="CountryCode">Country code</label> (*)
+							<input name="countryCode" class="form-control form-control-sm" type="text" maxlength="2" [(ngModel)]="Country.countryID" [disabled]="IsEdit" [required]="true" />
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1" data-security="CountryName">Country Name</label>
-							<input
-								name="countryName"
-								class="form-control form-control-sm"
-								type="text"
-								maxlength="100"
-								[(ngModel)]="Country.countryName"
-								[required]="true"
-							/>
+							<label class="label-form-enazul text-primary mt-1" data-security="CountryName">Country Name</label> (*)
+							<input name="countryName" class="form-control form-control-sm" type="text" maxlength="50" [(ngModel)]="Country.countryName" [required]="true" />
 						</div>
 					</div>
 				</div>

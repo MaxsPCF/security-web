@@ -10,10 +10,12 @@ import { ViewDetailsProfileComponent } from '../modals/view-details-profile/view
 import { ActionDirective, ActionsMenuComponent } from 'intelica-components-ui';
 import { HtmlToExcel } from '../../common/HtmlToExcel';
 import Swal from 'sweetalert2';
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+
 @Component({
 	selector: 'security-profilelist',
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective],
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbPaginationModule, ActionsMenuComponent, ActionDirective, NgbTooltipModule],
 	templateUrl: './profilelist.component.html',
 	styleUrl: './profilelist.component.css'
 })
@@ -80,7 +82,6 @@ export class ProfilelistComponent implements OnInit {
 		this.HtmlToExcel.ExportTOExcel('TableExport', body, `ProfileList`, 'Profile list', 'xlsx');
 	}
 	viewDetail(row: ProfileSimpleResponses) {
-		console.log('row', row);
 		const modal = this.modalService.open(ViewDetailsProfileComponent, { size: 'md' });
 		modal.componentInstance.listpage = row.profilePages;
 	}

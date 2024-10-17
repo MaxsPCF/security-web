@@ -47,7 +47,7 @@ export const routes: Routes = [
 					{ path: 'list', component: BanklistComponent, data: { title: 'Bank list', pageRoot: 'Bank' } },
 					{ path: 'maintenance', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - New', pageRoot: 'Bank' } },
 					{ path: 'maintenance/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - Edit', pageRoot: 'Bank' } },
-					{ path: 'maintenance/:edit/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - View', pageRoot: 'Bank' } }
+					{ path: 'maintenance/:read/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - View', pageRoot: 'Bank' } }
 				]
 			},
 			{
@@ -56,7 +56,7 @@ export const routes: Routes = [
 					{ path: 'list', component: CountrylistComponent, data: { title: 'Countries', pageRoot: 'Country' } },
 					{ path: 'maintenance', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - New' , pageRoot: 'Country'} },
 					{ path: 'maintenance/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - Edit', pageRoot: 'Country' } },
-					{ path: 'maintenance/:edit/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - View' , pageRoot: 'Country'} }
+					{ path: 'maintenance/:read/:id', component: CountrymaintenanceComponent, data: { title: 'Country maintenance - View' , pageRoot: 'Country'} }
 				]
 			},
 			{
@@ -88,7 +88,7 @@ export const routes: Routes = [
 					{ path: 'maintenance', component: BusinessusermaintenanceComponent, data: { title: 'Business User maintenance - New', pageRoot: 'Businessuser'} },
 					{ path: 'maintenance/:id', component: BusinessusermaintenanceComponent, data: { title: 'Business User maintenance - Edit', pageRoot: 'Businessuser' } }
 				]
-			},						
+			},
 			{
 				path: 'realmsession',
 				children: [{ path: 'list', component: RealmsessionlistComponent }]
@@ -99,7 +99,7 @@ export const routes: Routes = [
 					{ path: 'list', component: MenuoptionlistComponent, data: { title: 'Menu Option list', pageRoot: 'menuoption' } },
 					{ path: 'maintenance', component: MenuoptionmaintenanceComponent, data: { title: 'Menu Option maintenance - New', pageRoot: 'menuoption' } }
 				]
-			}		
+			}
 		]
 	},
 	{ path: '**', component: EmptyRouteComponent }

@@ -1,15 +1,16 @@
-import { Component, OnInit, inject } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { Component, HostListener, OnInit, ViewChild, inject } from "@angular/core";
+import { FormsModule, NgForm, ReactiveFormsModule } from "@angular/forms";
 import { ActivatedRoute, Params, Router } from "@angular/router";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { PageCommand } from "../dto/pageRequests";
 import { SweetAlertService } from "../../common/services/sweet-alert.service";
 import { PageService } from "../page.service";
+import { NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
 	selector: "security-pagemaintenance",
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule],
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbTooltipModule],
 	templateUrl: "./pagemaintenance.component.html",
 	styleUrl: "./pagemaintenance.component.css",
 })
@@ -24,6 +25,8 @@ export class PagemaintenanceComponent implements OnInit {
 	pageId: string = "";
 	swEdit: Boolean = false;
 	Read: Boolean = false;
+
+	@ViewChild("pageForm", { read: NgForm }) pageForm: any;
 
 	ngOnInit(): void {
 		this.ngActivatedRoute.queryParams.subscribe(parameters => {
@@ -42,16 +45,24 @@ export class PagemaintenanceComponent implements OnInit {
 			this.page.pageID = page.pageId;
 			this.page.pageName = page.pageName;
 			this.page.pageUrl = page.pageUrl;
+			this.page.pageIcon = page.pageIcon;
+			this.page.pageRoot = page.pageRoot;
+			this.page.pageShowMenu = page.pageShowMenu;
 		});
 	}
 
-	Home() { }
-
+	@HostListener("window:keydown.alt.r", ["$event"])
 	Back() {
 		this.router.navigate(["security/page/list"]);
 	}
 
+	@HostListener("window:keydown.alt.s", ["$event"])
 	Submit() {
+		if (!this.pageForm.valid) {
+			this.sweetAlertService.messageTextBox("Complete the required fields.");
+			return;
+		}
+
 		const swError = this.validateCreate(this.page);
 		if (swError) {
 			this.sweetAlertService.messageTextBox("Please complete all mandatory fields or correct wrong values to continue.");
@@ -67,8 +78,8 @@ export class PagemaintenanceComponent implements OnInit {
 								this.sweetAlertService.messageTextBox("Process successfully completed.");
 							}
 						},
-						error: error => { },
-						complete: () => { },
+						error: error => {},
+						complete: () => {},
 					});
 				} else {
 					this.pageService.Update(this.page).subscribe(response => {
@@ -87,11 +98,18 @@ export class PagemaintenanceComponent implements OnInit {
 		if (this.swEdit) {
 			if (parameter.pageID?.trim() === "") swValidate = true;
 		}
-		if (parameter.pageName?.trim() === "") swValidate = true;
-		if (parameter.pageUrl?.trim() === "") swValidate = true;
+		if (parameter.pageName?.trim() === "") {
+			this.page.pageName = "";
+			swValidate = true;
+		}
+		if (parameter.pageUrl?.trim() === "") this.page.pageUrl = "";
+		if (parameter.pageIcon?.trim() === "") this.page.pageIcon = "";
+		if (parameter.pageRoot?.trim() === "") this.page.pageRoot = "";
 
 		return swValidate;
 	}
+
+	@HostListener("window:keydown.alt.c", ["$event"])
 	Clean() {
 		this.page = new PageCommand();
 	}

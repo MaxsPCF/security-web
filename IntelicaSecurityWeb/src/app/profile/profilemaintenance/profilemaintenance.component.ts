@@ -1,23 +1,24 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { SweetAlertService } from '../../common/services/sweet-alert.service';
-import { ProfileService } from '../profile.service';
-import { ProfileCommand, ProfilePageCommand } from '../dto/profileRequests';
-import { PageService } from '../../page/page.service';
-import { PageSimpleResponse } from '../../page/dto/pageResponses';
-import { Profile } from '../dto/pageProfile';
-import { forkJoin } from 'rxjs';
-import { ProfileSimpleResponses } from '../dto/profileResponses';
-import { Guid } from 'guid-typescript';
+import { Component, HostListener, OnInit, ViewChild, inject } from "@angular/core";
+import { FormsModule, NgForm, ReactiveFormsModule } from "@angular/forms";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { SweetAlertService } from "../../common/services/sweet-alert.service";
+import { ProfileService } from "../profile.service";
+import { ProfileCommand, ProfilePageCommand } from "../dto/profileRequests";
+import { PageService } from "../../page/page.service";
+import { PageSimpleResponse } from "../../page/dto/pageResponses";
+import { PageProfile, Profile } from "../dto/pageProfile";
+import { forkJoin } from "rxjs";
+import { ProfileSimpleResponses } from "../dto/profileResponses";
+import { Guid } from "guid-typescript";
+import { NgbPaginationModule, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
-	selector: 'security-profilemaintenance',
+	selector: "security-profilemaintenance",
 	standalone: true,
-	imports: [FormsModule, ReactiveFormsModule, NgSelectModule],
-	templateUrl: './profilemaintenance.component.html',
-	styleUrl: './profilemaintenance.component.css'
+	imports: [FormsModule, ReactiveFormsModule, NgSelectModule, NgbTooltipModule, NgbPaginationModule],
+	templateUrl: "./profilemaintenance.component.html",
+	styleUrl: "./profilemaintenance.component.css",
 })
 export class ProfilemaintenanceComponent implements OnInit {
 	private readonly router = inject(Router);
@@ -28,20 +29,25 @@ export class ProfilemaintenanceComponent implements OnInit {
 
 	currentProfile: ProfileCommand = new ProfileCommand();
 	parameters: Params | undefined = undefined;
-	profileId: string = '';
+	profileId: string = "";
 	swEdit: Boolean = false;
 
 	pageListAll: PageSimpleResponse[] = [];
+	PageProfileList: PageProfile[] = [];
 
 	profileByID: ProfileSimpleResponses = {} as ProfileSimpleResponses;
 	profileTemp: Profile = new Profile();
 	Read: boolean = false;
+	Page: number = 1;
+	PageSize: number = 10;
+
+	@ViewChild("profileForm", { read: NgForm }) profileForm: any;
 
 	ngOnInit(): void {
-		this.ngActivatedRoute.queryParams.subscribe((parameters) => {
+		this.ngActivatedRoute.queryParams.subscribe(parameters => {
 			this.parameters = parameters;
-			this.profileId = this.parameters['profileID'];
-			if (this.profileId !== '' && this.profileId !== undefined) {
+			this.profileId = this.parameters["profileID"];
+			if (this.profileId !== "" && this.profileId !== undefined) {
 				this.swEdit = true;
 				this.getProfile();
 			} else {
@@ -51,30 +57,33 @@ export class ProfilemaintenanceComponent implements OnInit {
 	}
 
 	getAll() {
-		this.pageService.GetAll().subscribe((response) => {
+		this.pageService.GetAll().subscribe(response => {
 			this.pageListAll = response;
 			this.profileTemp.profilePages = [];
 
-			this.pageListAll.forEach((itemPage) => {
+			this.pageListAll.forEach(itemPage => {
 				this.profileTemp.profilePages.push({
 					pageId: itemPage.pageId,
 					pageName: itemPage.pageName,
 					profilePageCanUpdate: true,
 					profilePageCanCreate: true,
 					profilePageCanDelete: true,
-					isSelect: false
+					isSelect: false,
 				});
 			});
+
+			this.Page = 1;
+			this.RefreshList();
 		});
 	}
 
 	getProfile() {
 		const getAllServicesSF = forkJoin({
 			pageAll: this.pageService.GetAll(),
-			profile: this.profileService.GetById(this.profileId)
+			profile: this.profileService.GetById(this.profileId),
 		});
 		getAllServicesSF.subscribe({
-			next: (response) => {
+			next: response => {
 				this.pageListAll = response.pageAll;
 				this.profileByID = response.profile;
 
@@ -83,8 +92,8 @@ export class ProfilemaintenanceComponent implements OnInit {
 				this.profileTemp.profileDescription = this.profileByID.profileDescription;
 				this.profileTemp.profilePages = [];
 
-				this.pageListAll.forEach((itemPage) => {
-					let _page = this.profileByID.profilePages.find((f) => f.pageID === itemPage.pageId);
+				this.pageListAll.forEach(itemPage => {
+					let _page = this.profileByID.profilePages.find(f => f.pageID === itemPage.pageId);
 					if (_page !== undefined) {
 						this.profileTemp.profilePages.push({
 							pageId: itemPage.pageId,
@@ -92,7 +101,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 							profilePageCanUpdate: _page.profilePageCanUpdate,
 							profilePageCanCreate: _page.profilePageCanCreate,
 							profilePageCanDelete: _page.profilePageCanDelete,
-							isSelect: true
+							isSelect: true,
 						});
 					} else {
 						this.profileTemp.profilePages.push({
@@ -101,34 +110,42 @@ export class ProfilemaintenanceComponent implements OnInit {
 							profilePageCanUpdate: true,
 							profilePageCanCreate: true,
 							profilePageCanDelete: true,
-							isSelect: false
+							isSelect: false,
 						});
 					}
 				});
+
+				this.Page = 1;
+				this.RefreshList();
 			},
-			error: (error) => { },
-			complete: () => { }
+			error: error => {},
+			complete: () => {},
 		});
 	}
 
-	@HostListener('window:keydown.alt.r', ['$event'])
-	back() {
-		this.router.navigate(['security/profile/list']);
+	@HostListener("window:keydown.alt.r", ["$event"])
+	Back() {
+		this.router.navigate(["security/profile/list"]);
 	}
 
-	@HostListener('window:keydown.alt.s', ['$event'])
+	@HostListener("window:keydown.alt.s", ["$event"])
 	Submit() {
+		if (!this.profileForm.valid) {
+			this.sweetAlertService.messageTextBox("Complete the required fields.");
+			return;
+		}
+
 		this.currentProfile.profileID = this.swEdit ? this.profileId : Guid.EMPTY;
 		this.currentProfile.profileName = this.profileTemp.profileName;
 		this.currentProfile.profileDescription = this.profileTemp.profileDescription;
 		this.currentProfile.profilePages = [];
-		this.profileTemp.profilePages.forEach((itemPage) => {
+		this.profileTemp.profilePages.forEach(itemPage => {
 			if (itemPage.isSelect) {
 				let rowSelect: ProfilePageCommand = new ProfilePageCommand();
 				rowSelect.profileID = this.currentProfile.profileID;
 				rowSelect.pageID = itemPage.pageId;
 				if (this.swEdit && this.profileByID.profilePages?.length > 0) {
-					let _page = this.profileByID.profilePages.find((f) => f.pageID === itemPage.pageId);
+					let _page = this.profileByID.profilePages.find(f => f.pageID === itemPage.pageId);
 					if (_page !== undefined) rowSelect.profilePageID = _page.profilePageID;
 				}
 				rowSelect.profilePageCanCreate = itemPage.profilePageCanCreate;
@@ -140,31 +157,31 @@ export class ProfilemaintenanceComponent implements OnInit {
 
 		const swError = this.validateCreate(this.currentProfile);
 		if (swError) {
-			this.sweetAlertService.messageTextBox('Please complete all mandatory fields or correct wrong values to continue.');
+			this.sweetAlertService.messageTextBox("Please complete all mandatory fields or correct wrong values to continue.");
 			return;
 		}
 
 		// console.log('this.currentProfile', this.currentProfile);
-		this.sweetAlertService.confirmBox('Are you sure you want to save the changes?', 'Yes', 'No').then((response) => {
+		this.sweetAlertService.confirmBox("Are you sure you want to save the changes?", "Yes", "No").then(response => {
 			if (response.isConfirmed) {
 				if (!this.swEdit) {
 					this.profileService.Create(this.currentProfile).subscribe({
-						next: (response) => {
-							if (response.profileID !== '') {
+						next: response => {
+							if (response.profileID !== "") {
 								this.profileId = response.profileID;
 								this.getProfile();
-								this.sweetAlertService.messageTextBox('Process successfully completed.');
+								this.sweetAlertService.messageTextBox("Process successfully completed.");
 							}
 						},
-						error: (error) => { },
-						complete: () => { }
+						error: error => {},
+						complete: () => {},
 					});
 				} else {
-					this.profileService.Update(this.currentProfile).subscribe((response) => {
-						if (response.profileID !== '') {
+					this.profileService.Update(this.currentProfile).subscribe(response => {
+						if (response.profileID !== "") {
 							this.profileId = response.profileID;
 							this.getProfile();
-							this.sweetAlertService.messageTextBox('Process successfully completed.');
+							this.sweetAlertService.messageTextBox("Process successfully completed.");
 						}
 					});
 				}
@@ -176,27 +193,29 @@ export class ProfilemaintenanceComponent implements OnInit {
 		let parameter = param;
 		let swValidate: boolean = false;
 		if (this.swEdit) {
-			if (parameter.profileID?.trim() === '') swValidate = true;
+			if (parameter.profileID?.trim() === "") swValidate = true;
 		}
-		if (parameter.profileName?.trim() === '') swValidate = true;
+		if (parameter.profileName?.trim() === "") {
+			this.profileTemp.profileName = "";
+			swValidate = true;
+		}
 		if (parameter.profilePages.length === 0) swValidate = true;
 
 		return swValidate;
 	}
 
-	cleanFrmProfile() {
+  @HostListener("window:keydown.alt.c", ["$event"])
+	Clean() {
 		this.profileTemp = new Profile();
-		if (this.profileId !== '' && this.profileId !== undefined) {
+		if (this.profileId !== "" && this.profileId !== undefined) {
 			this.swEdit = true;
 			this.getProfile();
 		} else {
 			this.getAll();
 		}
 	}
-	Clean() {
-		this.profileTemp = new Profile();
-	}
-	Back() {
-		this.router.navigate(['security/profile/list']);
+
+	RefreshList() {
+		this.PageProfileList = this.profileTemp.profilePages.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
 	}
 }

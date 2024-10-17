@@ -2,7 +2,7 @@
 <div class="card-body int-content-body">
 	<div class="row">
 		<div class="col-md-10">
-			<label class="label-form-enazul text-primary-title mt-1">List of Bank</label>
+			<label class="label-form-enazul text-primary-title">List of Bank</label>
 		</div>
 
 		<div class="col-md-2 div-center-right">
@@ -18,8 +18,7 @@
 												<div class="numOrder"><span>1</span></div>
 												<label for="bankCode"><span>Bank code</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="bankCode"
-												[(ngModel)]="BankCode" />
+											<input type="text" class="txtBoxStyle" name="bankCode" [(ngModel)]="BankCode" autocomplete="off" (keyup.enter)="applyFilter()"/>
 										</div>
 									</div>
 									<div class="inputRowGap cold-md-12">
@@ -28,8 +27,7 @@
 												<div class="numOrder"><span>2</span></div>
 												<label for="bankName"><span>Bank name</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="bankName"
-												[(ngModel)]="BankName" />
+											<input type="text" class="txtBoxStyle" name="bankName" [(ngModel)]="BankName" autocomplete="off" (keyup.enter)="applyFilter()"/>
 										</div>
 									</div>
 									<div class="inputRowGap cold-md-12">
@@ -38,8 +36,7 @@
 												<div class="numOrder"><span>2</span></div>
 												<label for="bankNameComercial"><span>Bank name comercial</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="bankNameComercial"
-												[(ngModel)]="BankNameComercial" />
+											<input type="text" class="txtBoxStyle" name="bankNameComercial" [(ngModel)]="BankNameComercial" autocomplete="off" (keyup.enter)="applyFilter()"/>
 										</div>
 									</div>
 								</div>
@@ -49,14 +46,14 @@
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
 									<span>Apply</span>
 								</button>
-								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
 									<span>Clear</span>
 								</button>
 							</div>
 						</ng-template>
 					</action>
 
-					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Add Bank" (onClick)="Add()" [stopPropagation]="true"></action>
 					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
 				</intelica-actions-menu>
 			</div>
@@ -101,40 +98,31 @@
 			<table class="int-table">
 				<thead>
 					<tr>
-						<th scope="col">Bank Name</th>
-						<th scope="col">Country</th>
-						<th scope="col">Contact Name</th>
-						<th scope="col">Actions</th>
+						<th>Bank Name</th>
+						<th style="width: 10%">Country</th>
+						<th>Contact Name</th>
+						<th style="width: 10%">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					@for ( bank of BanksFilter ; track bank.bankID){
 					<tr>
-						<td>{{ bank.bankName }}</td>
-						<td>{{ bank.countryID }}</td>
-						<td>{{ bank.contactName }}</td>
-						<th scope="row">
-							<div class="row">
-								<div class="col-lg-4 col-md-12 pl-10">
-									<button class="int-iconBtn" (click)="EditRow(bank)"><i
-											class="icon-edit"></i></button>
-								</div>
-								<div class="col-lg-4 col-md-12">
-									<button class="int-iconBtn" (click)="DeleteRow(bank)"><i
-											class="icon-trash"></i></button>
-								</div>
-								<div class="col-lg-4 col-md-12 pr-10">
-									<button class="int-iconBtn" (click)="ViewDetail(bank)"><i
-											class="icon-eye"></i></button>
-								</div>
-							</div>
-						</th>
+						<td class="text-start">{{ bank.bankName }}</td>
+						<td>
+							<span placement="top" [ngbTooltip]="bank.countryName">{{ bank.countryID }}</span>
+						</td>
+						<td class="text-start">{{ bank.contactName }}</td>
+						<td>
+							<button class="int-iconBtn" (click)="EditRow(bank)" placement="top" ngbTooltip="Edit"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteRow(bank)" placement="top" ngbTooltip="Delete"><i class="icon-trash"></i></button>
+							<button class="int-iconBtn" (click)="ViewDetail(bank)" placement="top" ngbTooltip="View"><i class="icon-eye"></i></button>
+						</td>
 					</tr>
 					}
 				</tbody>
 			</table>
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Banks.length"
-				[(page)]="Page" (pageChange)="RefreshList()" />
+			<br />
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Banks.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true"  (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>

@@ -1,25 +1,22 @@
-<form #bankForm="ngForm">
+<form #bankForm="ngForm" autocomplete="off">
 	<div class="container">
 		<div class="card mt-3">
 			<ul class="nav justify-content-between">
-				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
-					<a class="nav-link text-toolbar">
+				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read" placement="top" ngbTooltip="alt + s">
+					<span class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
-					</a>
+					</span>
 				</button>
 				<div class="d-flex">
-					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read" placement="top" ngbTooltip="alt + c">
+						<span class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
-						</a>
+						</span>
 					</button>
-					<button type="button" class="btn-toolbar" (click)="Back()">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Back()" placement="top" ngbTooltip="alt + r">
+						<span class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
-						</a>
+						</span>
 					</button>
 				</div>
 			</ul>
@@ -30,22 +27,17 @@
 					<div class="row mt-2">
 						<div class="col-md-4 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Bank code</label>
-							<input name="bankCode" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Bank.bankID" disabled />
+							<input name="bankCode" class="form-control form-control-sm" type="text" [(ngModel)]="Bank.bankID" disabled />
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Bank Name</label>
-							<input
-								name="bankName"
-								class="form-control form-control-sm"
-								type="text"
-								maxlength="100"
-								[(ngModel)]="Bank.bankName"
-								[required]="true"
-							/>
+							<label class="label-form-enazul text-primary mt-1">Bank Name (*)</label>
+							<input name="bankName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Bank.bankName" [required]="true" />
 						</div>
 						<div class="col-md-4 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Country</label>
 							<ng-select name="bankCountry" [items]="Countries" bindLabel="countryName" bindValue="countryID" [(ngModel)]="Bank.countryID">
+								<ng-template ng-label-tmp let-item="item">{{ item.countryID }} - {{ item.countryName }}</ng-template>
+								<ng-template ng-option-tmp let-item="item" let-index="index">{{ item.countryID }} - {{ item.countryName }}</ng-template>
 							</ng-select>
 						</div>
 						<div class="col-md-4 col-sm-12">
@@ -58,7 +50,7 @@
 						</div>
 						<div class="col-md-4 col-sm-12">
 							<label class="label-form-enazul text-primary mt-1">Contact Phone</label>
-							<input name="bankContacPhone" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Bank.contactPhone" />
+							<input name="bankContacPhone" class="form-control form-control-sm" type="text" maxlength="8" [(ngModel)]="Bank.contactPhone" />
 						</div>
 					</div>
 				</div>
