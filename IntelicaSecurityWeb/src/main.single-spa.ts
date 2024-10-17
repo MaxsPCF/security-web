@@ -28,7 +28,7 @@ const lifecycles = singleSpaAngular({
 				provideRouter(routes, withComponentInputBinding()),
 				provideClientHydration(),
 				provideAnimationsAsync(),
-				provideHttpClient(withFetch(), withInterceptors([RefreshTokenInterceptor ,ErrorInterceptor ]), withInterceptorsFromDi()),
+				provideHttpClient(withFetch(), withInterceptors([RefreshTokenInterceptor, ErrorInterceptor]), withInterceptorsFromDi()),
 			],
 		};
 		return bootstrapApplication(AppComponent, options);

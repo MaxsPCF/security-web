@@ -44,7 +44,10 @@
 									<th style="width: 15%">Create</th>
 									<th style="width: 15%">Update</th>
 									<th style="width: 15%">Delete</th>
-									<th style="width: 15%">All</th>
+									<th style="width: 15%">
+										<input type="checkbox" name="chkAllProfile" (change)="onSelectAllChange($event)" [indeterminate]="indeterminate" [checked]="checked" />
+										All
+									</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -55,7 +58,7 @@
 									<td><input type="checkbox" [name]="'chkCre' + index" [(ngModel)]="page.profilePageCanCreate" /></td>
 									<td><input type="checkbox" [name]="'chkUpd' + index" [(ngModel)]="page.profilePageCanUpdate" /></td>
 									<td><input type="checkbox" [name]="'chkDel' + index" [(ngModel)]="page.profilePageCanDelete" /></td>
-									<td><input type="checkbox" [name]="'chkSel' + index" [(ngModel)]="page.isSelect" /></td>
+									<td><input type="checkbox" [name]="'chkSel' + index" [(ngModel)]="page.isSelect" (change)="checkHeader()" /></td>
 								</tr>
 								}
 							</tbody>

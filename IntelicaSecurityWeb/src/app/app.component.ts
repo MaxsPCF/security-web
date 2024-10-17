@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
 			)
 			.subscribe((pageInformation: PageInformation) => {
 				if (pageInformation.pageTitle) this.Title = pageInformation.pageTitle;
-				if (pageInformation.pageRoot) {					
+				if (pageInformation.pageRoot) {
 					this.PageRoot = pageInformation.pageRoot;
 					this.featureFlagService.Initialize(pageInformation.pageRoot);
 				}

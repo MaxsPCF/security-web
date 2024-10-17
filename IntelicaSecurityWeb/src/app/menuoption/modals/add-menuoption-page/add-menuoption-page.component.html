@@ -13,17 +13,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				@for ( page of pageListAll; track page.pageId; let index = $index){
+				@for ( page of pageListFilter; track page.pageId; let index = $index){
 				<tr>
-					<td>{{ (index + 1) }}</td>
+					<td>{{ index + 1 }}</td>
 					<td class="text-start">{{ page.pageName }}</td>
 					<td>
-						<button class="int-iconBtn" (click)="AddPageMenuOption(page)"><i class="icon-add"></i></button>
+						<button class="int-iconBtn" (click)="AddPageMenuOption(page)" placement="top" ngbTooltip="Add"><i class="icon-add"></i></button>
 					</td>
 				</tr>
 				}
 			</tbody>
 		</table>
+		<br />
+		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="pageListAll.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
 	</div>
 	<div class="modalFooter"></div>
 </div>

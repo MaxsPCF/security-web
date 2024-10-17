@@ -41,6 +41,9 @@ export class ProfilemaintenanceComponent implements OnInit {
 	Page: number = 1;
 	PageSize: number = 10;
 
+	indeterminate: boolean = false;
+	checked: boolean = false;
+
 	@ViewChild("profileForm", { read: NgForm }) profileForm: any;
 
 	ngOnInit(): void {
@@ -74,6 +77,8 @@ export class ProfilemaintenanceComponent implements OnInit {
 
 			this.Page = 1;
 			this.RefreshList();
+
+			this.checkHeader();
 		});
 	}
 
@@ -119,7 +124,9 @@ export class ProfilemaintenanceComponent implements OnInit {
 				this.RefreshList();
 			},
 			error: error => {},
-			complete: () => {},
+			complete: () => {
+				this.checkHeader();
+			},
 		});
 	}
 
@@ -204,7 +211,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 		return swValidate;
 	}
 
-  @HostListener("window:keydown.alt.c", ["$event"])
+	@HostListener("window:keydown.alt.c", ["$event"])
 	Clean() {
 		this.profileTemp = new Profile();
 		if (this.profileId !== "" && this.profileId !== undefined) {
@@ -217,5 +224,30 @@ export class ProfilemaintenanceComponent implements OnInit {
 
 	RefreshList() {
 		this.PageProfileList = this.profileTemp.profilePages.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
+	}
+
+	onSelectAllChange(event: any) {
+		const checked = event.target.checked;
+		this.profileTemp.profilePages.forEach(item => (item.isSelect = checked));
+
+		this.checkHeader();
+	}
+
+	checkHeader() {
+		if ([...this.profileTemp.profilePages].filter(f => f.isSelect === false).length === this.profileTemp.profilePages.length) {
+			this.indeterminate = false;
+			this.checked = false;
+		}
+		if (
+			[...this.profileTemp.profilePages].filter(f => f.isSelect === true).length > 0 &&
+			[...this.profileTemp.profilePages].filter(f => f.isSelect === true).length < this.profileTemp.profilePages.length
+		) {
+			this.indeterminate = true;
+			this.checked = false;
+		}
+		if ([...this.profileTemp.profilePages].filter(f => f.isSelect === true).length === this.profileTemp.profilePages.length) {
+			this.indeterminate = false;
+			this.checked = true;
+		}
 	}
 }

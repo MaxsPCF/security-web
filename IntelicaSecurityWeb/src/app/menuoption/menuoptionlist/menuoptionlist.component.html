@@ -1,7 +1,7 @@
 <div class="card-body int-content-body">
 	<div class="row">
 		<div class="col-md-10">
-			<label class="label-form-enazul text-primary-title mt-1">List of Country</label>
+			<label class="label-form-enazul text-primary-title mt-1">List of Menu Option</label>
 		</div>
 
 		<div class="col-md-2 div-center-right">
@@ -28,9 +28,9 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>2</span></div>
-												<label for="menuOptionName"><span>Menu Option Name</span></label>
+												<label for="menuOptionName"><span>Option Name</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="menuOptionName" [(ngModel)]="menuOptionModel.menuOptionName" />
+											<input type="text" class="txtBoxStyle" name="menuOptionName" [(ngModel)]="menuOptionModel.menuOptionName" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>
 									</div>
 								</div>
@@ -47,7 +47,7 @@
 						</ng-template>
 					</action>
 
-					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Add Menu Option" (onClick)="Add()" [stopPropagation]="true"></action>
 					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
 				</intelica-actions-menu>
 			</div>
@@ -61,20 +61,20 @@
 			<table class="int-table">
 				<thead>
 					<tr>
-						<th scope="col">N°</th>
-						<th scope="col">Menu ID</th>
-						<th scope="col">Parent Name</th>
-						<th scope="col">Menu name</th>
-						<th scope="col">Nro order</th>
-						<th scope="col">Actions</th>
+						<th style="width: 5%">N°</th>
+						<th style="width: 20%">Menu ID</th>
+						<th>Parent Name</th>
+						<th>Menu name</th>
+						<th style="width: 10%">Nro order</th>
+						<th style="width: 10%">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					@for ( option of MenuOptionsFilter; track option.menuOptionID; let index = $index){
 					<tr>
 						<td>{{ index + 1 }}</td>
-						<td>{{ option.menuOptionID }}</td>
-						<td>{{ option.menuOptionParentName }}</td>
+						<td class="text-start">{{ option.menuOptionID }}</td>
+						<td class="text-start">{{ option.menuOptionParentName }}</td>
 						<td class="text-start">
 							{{ option.menuOptionName }}
 							<div>
@@ -87,14 +87,23 @@
 						</td>
 						<td>{{ option.menuOptionOrder }}</td>
 						<td>
-							<button class="int-iconBtn" (click)="EditMenuOption(option)"><i class="icon-edit"></i></button>
-							<button class="int-iconBtn" (click)="DeleteMenuOption(option)"><i class="icon-trash"></i></button>
+							<button class="int-iconBtn" (click)="EditMenuOption(option)" placement="top" ngbTooltip="Edit"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteMenuOption(option)" placement="top" ngbTooltip="Delete"><i class="icon-trash"></i></button>
 						</td>
 					</tr>
 					}
 				</tbody>
 			</table>
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="MenuOptions.length" [(page)]="Page" (pageChange)="RefreshList()" />
+			<br />
+			<ngb-pagination
+				class="d-flex justify-content-center"
+				[pageSize]="PageSize"
+				[collectionSize]="MenuOptions.length"
+				[(page)]="Page"
+				[maxSize]="5"
+				[boundaryLinks]="true"
+				(pageChange)="RefreshList()"
+			/>
 		</div>
 	</div>
 </div>

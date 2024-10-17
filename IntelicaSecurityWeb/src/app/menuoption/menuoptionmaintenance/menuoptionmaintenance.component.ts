@@ -1,22 +1,22 @@
-import { Component, HostListener, inject, OnInit, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { MenuOptionService } from '../menuoption.service';
-import { forkJoin } from 'rxjs';
-import { MenuOptionParentResponses, MenuOptionSimpleResponses } from '../dto/menuOptionResponses';
-import { MenuOptionCommands, MenuOptionPageCommands } from '../dto/menuOptionRequests';
-import { SweetAlertService } from '../../common/services/sweet-alert.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AddMenuoptionPageComponent } from '../modals/add-menuoption-page/add-menuoption-page.component';
-import { PageSimpleResponse } from '../../page/dto/pageResponses';
+import { Component, HostListener, inject, OnInit, ViewChild } from "@angular/core";
+import { FormsModule, NgForm } from "@angular/forms";
+import { ActivatedRoute, Params, Router } from "@angular/router";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { MenuOptionService } from "../menuoption.service";
+import { forkJoin } from "rxjs";
+import { MenuOptionParentResponses, MenuOptionSimpleResponses } from "../dto/menuOptionResponses";
+import { MenuOptionCommands, MenuOptionPageCommands } from "../dto/menuOptionRequests";
+import { SweetAlertService } from "../../common/services/sweet-alert.service";
+import { NgbModal, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
+import { AddMenuoptionPageComponent } from "../modals/add-menuoption-page/add-menuoption-page.component";
+import { PageSimpleResponse } from "../../page/dto/pageResponses";
 
 @Component({
-	selector: 'security-menuoptionmaintenance',
+	selector: "security-menuoptionmaintenance",
 	standalone: true,
-	imports: [NgSelectModule, FormsModule],
-	templateUrl: './menuoptionmaintenance.component.html',
-	styleUrl: './menuoptionmaintenance.component.css'
+	imports: [NgSelectModule, FormsModule, NgbTooltipModule],
+	templateUrl: "./menuoptionmaintenance.component.html",
+	styleUrl: "./menuoptionmaintenance.component.css",
 })
 export class MenuoptionmaintenanceComponent implements OnInit {
 	private readonly router = inject(Router);
@@ -25,23 +25,23 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 	private readonly modalService = inject(NgbModal);
 	private readonly ngActivatedRoute = inject(ActivatedRoute);
 
-	@ViewChild('MenuOptionForm', { read: NgForm }) MenuOptionForm: any;
+	@ViewChild("MenuOptionForm", { read: NgForm }) MenuOptionForm: any;
 
 	menuOptionCurrent: MenuOptionCommands = new MenuOptionCommands();
 	listMenuParent: MenuOptionParentResponses[] = [];
 	listPage: any[] = [];
 	swEdit: Boolean = false;
 	parameters: Params | undefined = undefined;
-	menuOptionID: string = '';
+	menuOptionID: string = "";
 	Read: boolean = false;
 
 	currentFilter: MenuOptionSimpleResponses = {} as MenuOptionSimpleResponses;
 
 	ngOnInit(): void {
-		this.ngActivatedRoute.queryParams.subscribe((parameters) => {
+		this.ngActivatedRoute.queryParams.subscribe(parameters => {
 			this.parameters = parameters;
-			this.menuOptionID = this.parameters['menuOptionID'];
-			if (this.menuOptionID !== '' && this.menuOptionID !== undefined) {
+			this.menuOptionID = this.parameters["menuOptionID"];
+			if (this.menuOptionID !== "" && this.menuOptionID !== undefined) {
 				this.swEdit = true;
 				this.getMenuOption();
 			} else {
@@ -51,48 +51,48 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 	}
 
 	getAll() {
-		this.menuOptionService.GetMenuOptionParentAll().subscribe((response) => {
+		this.menuOptionService.GetMenuOptionParentAll().subscribe(response => {
 			this.listMenuParent = response;
 		});
 	}
 
-	@HostListener('window:keydown.alt.r', ['$event'])
+	@HostListener("window:keydown.alt.r", ["$event"])
 	Back() {
-		this.router.navigate(['security/menuoption/list']);
+		this.router.navigate(["security/menuoption/list"]);
 	}
 
-	@HostListener('window:keydown.alt.s', ['$event'])
+	@HostListener("window:keydown.alt.s", ["$event"])
 	Submit() {
-		// if (!this.MenuOptionForm.valid) {		// 	// Swal.fire('Informacion', 'Complete los campos necesarios', 'error');
-		// 	return;
-		// }
-		// console.log('this.menuOptionCurrent', this.menuOptionCurrent);
-
-		const swError = this.validateCreate(this.menuOptionCurrent);
-		if (swError) {
-			this.sweetAlertService.messageTextBox('Please complete all mandatory fields or correct wrong values to continue.');
+		if (!this.MenuOptionForm.valid) {
+			this.sweetAlertService.messageTextBox("Complete the required fields.");
 			return;
 		}
 
-		this.sweetAlertService.confirmBox('Are you sure you want to save the changes?', 'Yes', 'No').then((response) => {
+		const swError = this.validateCreate(this.menuOptionCurrent);
+		if (swError) {
+			this.sweetAlertService.messageTextBox("Please complete all mandatory fields or correct wrong values to continue.");
+			return;
+		}
+
+		this.sweetAlertService.confirmBox("Are you sure you want to save the changes?", "Yes", "No").then(response => {
 			if (response.isConfirmed) {
 				if (!this.swEdit) {
 					this.menuOptionService.Create(this.menuOptionCurrent).subscribe({
-						next: (response) => {
-							if (response.menuOptionID !== '') {
-								this.sweetAlertService.messageTextBox('Process successfully completed.');
+						next: response => {
+							if (response.menuOptionID !== "") {
+								this.sweetAlertService.messageTextBox("Process successfully completed.");
 								this.menuOptionID = response.menuOptionID;
 								this.swEdit = true;
 								this.getMenuOption();
 							}
 						},
-						error: (error) => { },
-						complete: () => { }
+						error: error => {},
+						complete: () => {},
 					});
 				} else {
-					this.menuOptionService.Update(this.menuOptionCurrent).subscribe((response) => {
-						if (response.menuOptionID !== '') {
-							this.sweetAlertService.messageTextBox('Process successfully completed.');
+					this.menuOptionService.Update(this.menuOptionCurrent).subscribe(response => {
+						if (response.menuOptionID !== "") {
+							this.sweetAlertService.messageTextBox("Process successfully completed.");
 							this.menuOptionID = response.menuOptionID;
 							this.swEdit = true;
 							this.getMenuOption();
@@ -107,20 +107,26 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 		let parameter = param;
 		let swValidate: boolean = false;
 		if (this.swEdit) {
-			if (parameter.menuOptionID?.trim() === '') swValidate = true;
+			if (parameter.menuOptionID?.trim() === "") swValidate = true;
 		}
-		if (parameter.menuOptionName?.trim() === '') swValidate = true;
-		if (parameter.menuOptionDescription?.trim() === '') swValidate = true;
+		if (parameter.menuOptionName?.trim() === "") {
+			this.menuOptionCurrent.menuOptionName = "";
+			swValidate = true;
+		}
+		if (parameter.menuOptionDescription?.trim() === "") {
+			this.menuOptionCurrent.menuOptionDescription = "";
+			swValidate = true;
+		}
 
 		return swValidate;
 	}
 
 	addPageMenuOption() {
-		const modal = this.modalService.open(AddMenuoptionPageComponent, { size: 'md' });
+		const modal = this.modalService.open(AddMenuoptionPageComponent, { size: "md" });
 		modal.componentInstance.onAddPage.subscribe({
 			next: (newPage: PageSimpleResponse) => {
 				let swPageExists: boolean = false;
-				this.menuOptionCurrent.menuOptionPages.forEach((page) => {
+				this.menuOptionCurrent.menuOptionPages.forEach(page => {
 					if (page.pageID === newPage.pageId) {
 						swPageExists = true;
 						return;
@@ -128,7 +134,7 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 				});
 
 				if (swPageExists) {
-					this.sweetAlertService.messageTextBox('Page exists in list.');
+					this.sweetAlertService.messageTextBox("Page exists in list.");
 					return;
 				} else {
 					let _page: MenuOptionPageCommands = new MenuOptionPageCommands();
@@ -137,17 +143,17 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 
 					this.menuOptionCurrent.menuOptionPages.push(_page);
 				}
-			}
+			},
 		});
 	}
 
 	getMenuOption() {
 		const getAllServicesSF = forkJoin({
 			parentAll: this.menuOptionService.GetMenuOptionParentAll(),
-			menuOption: this.menuOptionService.GetById(this.menuOptionID)
+			menuOption: this.menuOptionService.GetById(this.menuOptionID),
 		});
 		getAllServicesSF.subscribe({
-			next: (response) => {
+			next: response => {
 				this.listMenuParent = response.parentAll;
 				this.currentFilter = response.menuOption;
 
@@ -161,7 +167,7 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 				this.menuOptionCurrent.menuOptionShow = this.currentFilter.menuOptionShow;
 				this.menuOptionCurrent.menuOptionPages = [];
 
-				this.currentFilter.menuOptionPages.forEach((itemPage) => {
+				this.currentFilter.menuOptionPages.forEach(itemPage => {
 					let _page: MenuOptionPageCommands = new MenuOptionPageCommands();
 					_page.menuOptionPageID = itemPage.menuOptionPageID;
 					_page.menuOptionID = itemPage.menuOptionID;
@@ -171,8 +177,8 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 					this.menuOptionCurrent.menuOptionPages.push(_page);
 				});
 			},
-			error: (error) => { },
-			complete: () => { }
+			error: error => {},
+			complete: () => {},
 		});
 	}
 
@@ -180,13 +186,13 @@ export class MenuoptionmaintenanceComponent implements OnInit {
 		this.menuOptionCurrent.menuOptionPages.splice(index, 1);
 	}
 
-	cleanFrmMenuOption() {
-		if (this.menuOptionID !== '' && this.menuOptionID !== undefined) {
+	@HostListener("window:keydown.alt.c", ["$event"])
+	Clean() {
+		if (this.menuOptionID !== "" && this.menuOptionID !== undefined) {
 			this.swEdit = true;
 			this.getMenuOption();
 		} else {
 			this.getAll();
 		}
 	}
-	Clean() { }
 }

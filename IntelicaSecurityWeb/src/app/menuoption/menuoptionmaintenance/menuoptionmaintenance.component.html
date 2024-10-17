@@ -1,25 +1,22 @@
-<form #MenuOptionForm="ngForm">
+<form #MenuOptionForm="ngForm" autocomplete="off">
 	<div class="container">
 		<div class="card mt-3">
 			<ul class="nav justify-content-between">
-				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
-					<a class="nav-link text-toolbar">
+				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read" placement="top" ngbTooltip="alt + s">
+					<span class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
-					</a>
+					</span>
 				</button>
 				<div class="d-flex">
-					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read" placement="top" ngbTooltip="alt + c">
+						<span class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
-						</a>
+						</span>
 					</button>
-					<button type="button" class="btn-toolbar" (click)="Back()">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Back()" placement="top" ngbTooltip="alt + r">
+						<span class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
-						</a>
+						</span>
 					</button>
 				</div>
 			</ul>
@@ -37,57 +34,52 @@
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Menu ID</label>
 								<div class="col-8">
-									<input type="text" class="form-control form-control-sm" placeholder="Menu ID"
-										name="menuOptionID" [readOnly]="true"
-										[(ngModel)]="menuOptionCurrent.menuOptionID" />
+									<input type="text" class="form-control form-control-sm" placeholder="Menu ID" name="menuOptionID" [readOnly]="true" [(ngModel)]="menuOptionCurrent.menuOptionID" />
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Parent</label>
 								<div class="col-8">
-									<ng-select [items]="listMenuParent" bindLabel="menuOptionName"
-										bindValue="menuOptionID" name="menuOptionParentID"
-										[(ngModel)]="menuOptionCurrent.menuOptionParentID">
-									</ng-select>
+									<ng-select [items]="listMenuParent" bindLabel="menuOptionName" bindValue="menuOptionID" name="menuOptionParentID" [(ngModel)]="menuOptionCurrent.menuOptionParentID"></ng-select>
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Name</label>
 								<div class="col-8">
-									<input type="text" class="form-control form-control-sm" placeholder="Name"
-										name="menuOptionName" [maxlength]="60"
-										[(ngModel)]="menuOptionCurrent.menuOptionName" />
+									<input type="text" class="form-control form-control-sm" placeholder="Name" name="menuOptionName" [maxlength]="60" [(ngModel)]="menuOptionCurrent.menuOptionName" required />
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Description</label>
 								<div class="col-8">
-									<input type="text" class="form-control form-control-sm" placeholder="Description"
-										name="menuOptionDescription" [maxlength]="200"
-										[(ngModel)]="menuOptionCurrent.menuOptionDescription" />
+									<input
+										type="text"
+										class="form-control form-control-sm"
+										placeholder="Description"
+										name="menuOptionDescription"
+										[maxlength]="200"
+										[(ngModel)]="menuOptionCurrent.menuOptionDescription"
+										required
+									/>
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Order</label>
 								<div class="col-8">
-									<input type="number" class="form-control form-control-sm" placeholder="Order"
-										name="menuOptionOrder" [(ngModel)]="menuOptionCurrent.menuOptionOrder" />
+									<input type="number" class="form-control form-control-sm" placeholder="Order" name="menuOptionOrder" [(ngModel)]="menuOptionCurrent.menuOptionOrder" required />
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Icon</label>
 								<div class="col-8">
-									<input type="text" class="form-control form-control-sm" placeholder="Icon"
-										name="menuOptionIcon" [maxlength]="50"
-										[(ngModel)]="menuOptionCurrent.menuOptionIcon" />
+									<input type="text" class="form-control form-control-sm" placeholder="Icon" name="menuOptionIcon" [maxlength]="50" [(ngModel)]="menuOptionCurrent.menuOptionIcon" />
 								</div>
 							</div>
 							<div class="mb-3 row">
 								<label class="col-4 col-form-label label-form-enazul text-primary">Show</label>
 								<div class="col-8">
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" value="0" name="menuOptionShow"
-											[(ngModel)]="menuOptionCurrent.menuOptionShow" />
+										<input class="form-check-input" type="checkbox" value="0" name="menuOptionShow" [(ngModel)]="menuOptionCurrent.menuOptionShow" />
 									</div>
 								</div>
 							</div>
@@ -101,8 +93,7 @@
 								<b>List Page</b>
 							</div>
 							<div class="d-flex" style="align-items: center">
-								<button type="button" class="btn-toolbar" (click)="addPageMenuOption()"><i
-										class="icon-add"></i></button>
+								<button type="button" class="btn-toolbar" (click)="addPageMenuOption()" placement="top" ngbTooltip="Add page"><i class="icon-add"></i></button>
 							</div>
 						</div>
 						<div class="card-body">
@@ -116,18 +107,15 @@
 									</tr>
 								</thead>
 								<tbody>
-									@for ( page of menuOptionCurrent.menuOptionPages ; track page.pageID; let index =
-									$index){
+									@for ( page of menuOptionCurrent.menuOptionPages ; track page.pageID; let index = $index){
 									<tr>
-										<td>{{ (index + 1) }}</td>
-										<td class="text-start">{{page.pageName}}</td>
+										<td>{{ index + 1 }}</td>
+										<td class="text-start">{{ page.pageName }}</td>
 										<td>
-											<input type="text" class="form-control form-control-sm" placeholder="Order"
-												[name]="'ord' + index" [(ngModel)]="page.menuOptionPageOrder" />
+											<input type="text" class="form-control form-control-sm" placeholder="Order" [name]="'ord' + index" [(ngModel)]="page.menuOptionPageOrder" />
 										</td>
 										<td>
-											<button class="int-iconBtn" (click)="deleteItemPage(index)"><i
-													class="icon-trash"></i></button>
+											<button class="int-iconBtn" (click)="deleteItemPage(index)" placement="top" ngbTooltip="Delete"><i class="icon-trash"></i></button>
 										</td>
 									</tr>
 									}
@@ -135,7 +123,6 @@
 							</table>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>
