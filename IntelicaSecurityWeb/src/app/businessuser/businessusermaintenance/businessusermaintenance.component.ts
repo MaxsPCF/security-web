@@ -247,13 +247,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.BusinessUserByID = response.userByID;
 
 				this.currentBusinessUser.businessUserID = this.BusinessUserByID.businessUserID;
-				// this.currentBusinessUser.profileID = this.BusinessUserByID.profileID;
-				// this.currentBusinessUser.businessUserName = this.BusinessUserByID.businessUserName;
-				// this.currentBusinessUser.businessUserFirstName = this.BusinessUserByID.businessUserFirstName;
-				// this.currentBusinessUser.businessUserLastName = this.BusinessUserByID.businessUserLastName;
-				// this.currentBusinessUser.businessUserEmail = this.BusinessUserByID.businessUserEmail;
-				// this.currentBusinessUser.businessUserPassword = this.BusinessUserByID.businessUserPassword;
-
 				this.firstFormGroup.controls["profileID"].setValue(this.BusinessUserByID.profileID);
 				this.firstFormGroup.controls["businessUserName"].setValue(this.BusinessUserByID.businessUserName);
 				this.firstFormGroup.controls["businessUserFirstName"].setValue(this.BusinessUserByID.businessUserFirstName);
@@ -277,18 +270,21 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.currentProfileByID = responseProfile;
 				this.pageListUser = [];
 				this.pageListUserSelect = [];
-				this.currentProfileByID.profilePages.forEach(itemPage => {
-					let _page = this.BusinessUserByID.businessUserPages !== undefined ? this.BusinessUserByID.businessUserPages.find(f => f.pageID === itemPage.pageID) : undefined;
-					let _item: BusinessUserPage = new BusinessUserPage();
-					_item.businessUserPageID = _page !== undefined ? _page.businessUserPageID : Guid.EMPTY;
-					_item.pageID = itemPage.pageID;
-					_item.pageName = itemPage.pageName;
-					_item.businessUserCanUpdate = _page !== undefined ? _page.businessUserCanUpdate : true;
-					_item.businessUserCanCreate = _page !== undefined ? _page.businessUserCanCreate : true;
-					_item.businessUserCanDelete = _page !== undefined ? _page.businessUserCanDelete : true;
-					this.pageListUser.push(_item);
-					if (_page !== undefined) this.pageListUserSelect.push(_item);
-				});
+				if (this.currentProfileByID.profilePages !== undefined) {
+					this.currentProfileByID.profilePages.forEach(itemPage => {
+						let _page = this.BusinessUserByID.businessUserPages !== undefined ? this.BusinessUserByID.businessUserPages.find(f => f.pageID === itemPage.pageID) : undefined;
+						let _item: BusinessUserPage = new BusinessUserPage();
+						_item.businessUserPageID = _page !== undefined ? _page.businessUserPageID : Guid.EMPTY;
+						_item.pageID = itemPage.pageID;
+						_item.pageName = itemPage.pageName;
+						_item.businessUserCanUpdate = _page !== undefined ? _page.businessUserCanUpdate : true;
+						_item.businessUserCanCreate = _page !== undefined ? _page.businessUserCanCreate : true;
+						_item.businessUserCanDelete = _page !== undefined ? _page.businessUserCanDelete : true;
+						this.pageListUser.push(_item);
+						if (_page !== undefined) this.pageListUserSelect.push(_item);
+					});
+				}
+
 				this.dataSourcePages = new MatTableDataSource(this.pageListUser);
 				this.selectionPages.select(...this.pageListUserSelect);
 
@@ -364,7 +360,7 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			businessUserFirstName: new FormControl("", [Validators.required, Validators.maxLength(50)]),
 			businessUserLastName: new FormControl("", [Validators.required, Validators.maxLength(50)]),
 			businessUserEmail: new FormControl("", [Validators.required, Validators.pattern(this.emailPattern)]),
-			businessUserPassword: new FormControl("", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]),
+			businessUserPassword: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
 			// Validators.pattern(this.passwordPattern)
 		});
 	}
@@ -376,6 +372,7 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	@HostListener("window:keydown.alt.s", ["$event"])
 	Save() {
 		if (this.firstFormGroup.invalid) {
+			this.sweetAlertService.messageTextBox("Complete the required fields.");
 			return;
 		}
 
@@ -423,6 +420,12 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			});
 		}
 
+		const swError = this.validateFormField(this.currentBusinessUser);
+		if (swError) {
+			this.sweetAlertService.messageTextBox("Please complete all mandatory fields or correct wrong values to continue.");
+			return;
+		}
+
 		console.log("this.currentBusinessUser", this.currentBusinessUser);
 
 		this.sweetAlertService.confirmBox("Are you sure you want to save the changes?", "Yes", "No").then(response => {
@@ -449,5 +452,35 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				}
 			}
 		});
+	}
+
+	validateFormField(param: BusinessUserRequest): boolean {
+		let parameter = param;
+		let swValidate: boolean = false;
+		if (this.businessUserID != undefined && this.businessUserID != null && this.businessUserID != "") {
+			if (parameter.businessUserID?.trim() === "") swValidate = true;
+		}
+		if (parameter.businessUserName?.trim() === "") {
+			this.firstFormGroup.controls["businessUserName"].setValue("");
+			swValidate = true;
+		}
+		if (parameter.businessUserFirstName?.trim() === "") {
+			this.firstFormGroup.controls["businessUserFirstName"].setValue("");
+			swValidate = true;
+		}
+		if (parameter.businessUserLastName?.trim() === "") {
+			this.firstFormGroup.controls["businessUserLastName"].setValue("");
+			swValidate = true;
+		}
+		if (parameter.businessUserEmail?.trim() === "") {
+			this.firstFormGroup.controls["businessUserEmail"].setValue("");
+			swValidate = true;
+		}
+		if (parameter.businessUserPassword?.trim() === "") {
+			this.firstFormGroup.controls["businessUserPassword"].setValue("");
+			swValidate = true;
+		}
+
+		return swValidate;
 	}
 }

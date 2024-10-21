@@ -4,6 +4,23 @@
 </div>
 <div class="modalContentBorder">
 	<div class="modalContent">
+		<div class="mb-3 row">
+			<label class="col-2 col-form-label label-form-enazul text-primary">Search</label>
+			<div class="col-6">
+				<input
+					type="text"
+					class="form-control form-control-sm"
+					placeholder="search"
+					name="menuOptionName"
+					[maxlength]="60"
+					[(ngModel)]="textSearch"
+					autocomplete="off"
+					(keyup.enter)="Search()"
+					placement="top"
+					ngbTooltip="search with the enter key"
+				/>
+			</div>
+		</div>
 		<table class="int-table">
 			<thead>
 				<tr>
@@ -25,7 +42,7 @@
 			</tbody>
 		</table>
 		<br />
-		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="pageListAll.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
+		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="PageLength" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
 	</div>
 	<div class="modalFooter"></div>
 </div>

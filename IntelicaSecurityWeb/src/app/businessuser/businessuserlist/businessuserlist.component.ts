@@ -1,12 +1,10 @@
-import { Component, HostListener, inject, ViewChild } from "@angular/core";
+import { Component, inject, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
-// import { NgSelectModule } from '@ng-select/ng-select';
 import { BusinessUserSimpleResponse } from "../dto/businessUserResponses";
 import { ProfileService } from "../../profile/profile.service";
 import { ProfileSimpleResponses } from "../../profile/dto/profileResponses";
 import { BusinessuserService } from "../businessuser.service";
-// import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { HtmlToExcel } from "../../common/HtmlToExcel";
 import { SweetAlertService } from "../../common/services/sweet-alert.service";
 import { MatSelectModule } from "@angular/material/select";
@@ -63,7 +61,6 @@ export class BusinessuserlistComponent {
 		this.Search();
 	}
 
-	@HostListener("window:keydown.alt.s", ["$event"])
 	Search() {
 		this.businessUserService.GetByFilter(this.ProfileID, this.BusinessUserName, this.BusinessUserEmail).subscribe(response => {
 			this.BusinessUsers = response;
@@ -74,13 +71,11 @@ export class BusinessuserlistComponent {
 		});
 	}
 
-	@HostListener("window:keydown.alt.a", ["$event"])
 	Add() {
 		this.router.navigate(["security/businessuser/maintenance"]);
 	}
 
-	@HostListener("window:keydown.alt.q", ["$event"])
-	Export() {}
+	// Export() {}
 
 	EditRow(row: BusinessUserSimpleResponse) {
 		this.router.navigate(["security/businessuser/maintenance", row.businessUserID]);
@@ -102,8 +97,7 @@ export class BusinessuserlistComponent {
 	}
 
 	viewDetailPage(row: BusinessUserSimpleResponse) {
-		console.log("row.businessUserID", row.businessUserID);
-		const modal = this.modalService.open(ViewDetailsPagesComponent, { size: "xl", backdrop: false });
+		const modal = this.modalService.open(ViewDetailsPagesComponent, { size: "xl", backdrop: "static" });
 		modal.componentInstance.businessUserID = row.businessUserID;
 	}
 
