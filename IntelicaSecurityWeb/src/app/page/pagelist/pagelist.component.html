@@ -5,9 +5,9 @@
 		</div>
 
 		<div class="col-md-2 div-center-right">
-			<div class="d-flex d-flex p-2">
+			<div class="d-flex d-flex">
 				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
-					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Add Page" (onClick)="Add()" [stopPropagation]="true"></action>
 					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
 				</intelica-actions-menu>
 			</div>
@@ -15,35 +15,38 @@
 	</div>
 </div>
 
-<div class="card card-header card-header-stretch cold-md-12 mt-3">
+<div class="card card-header card-header-stretch cold-md-12">
 	<div class="card mb-10">
 		<div class="pt-4">
 			<table class="int-table">
 				<thead>
 					<tr>
-						<th scope="col">N°</th>
-						<th scope="col">Page name</th>
-						<th scope="col">Page url</th>
-						<th scope="col">Actions</th>
+						<th style="width: 5%">N°</th>
+						<th style="width: 25%" data-security="PageName"></th>
+						<th data-security="PageUrl"></th>
+						<th style="width: 15%" data-security="PageIcon"></th>
+						<th style="width: 15%" data-security="PageRoot"></th>
+						<th style="width: 5%" data-security="Actions"></th>
 					</tr>
 				</thead>
 				<tbody>
 					@for ( page of PagesFilter; track page.pageId; let index = $index){
 					<tr>
-						<td>{{ (index + 1) }}</td>
+						<td>{{ index + 1 }}</td>
 						<td class="text-start">{{ page.pageName }}</td>
 						<td class="text-start">{{ page.pageUrl }}</td>
+						<td>{{ page.pageIcon }}</td>
+						<td>{{ page.pageRoot }}</td>
 						<td>
-							<button class="int-iconBtn" (click)="EditRow(page)"><i class="icon-edit"></i></button>
-							<button class="int-iconBtn" (click)="DeleteRow(page)"><i class="icon-trash"></i></button>
+							<button class="int-iconBtn" (click)="EditRow(page)" placement="top" ngbTooltip="Edit"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteRow(page)" placement="top" ngbTooltip="Delete"><i class="icon-trash"></i></button>
 						</td>
 					</tr>
 					}
 				</tbody>
 			</table>
-
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Pages.length"
-				[(page)]="Page" (pageChange)="RefreshList()" />
+			<br />
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Pages.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>

@@ -3,11 +3,11 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-4">
-					<label class="label-form-enazul text-primary mt-1">Realm</label>
+					<label class="label-form-enazul text-primary mt-1" data-security="Realm"></label>
 					<ng-select name="realmID" [items]="realms" bindLabel="realmName" bindValue="realmID" [(ngModel)]="RealmID"> </ng-select>
 				</div>
 				<div class="col-md-4">
-					<label class="label-form-enazul text-primary mt-1">Group id</label>
+					<label class="label-form-enazul text-primary mt-1" data-security="GroupId"></label>
 					<input
 						name="RealmRoleID"
 						class="form-control form-control-sm"
@@ -18,7 +18,7 @@
 					/>
 				</div>
 				<div class="col-md-4">
-					<label class="label-form-enazul text-primary mt-1">Role name</label>
+					<label class="label-form-enazul text-primary mt-1" data-security="RoleName"></label>
 					<input
 						name="RealmRoleName"
 						class="form-control form-control-sm"
@@ -30,7 +30,7 @@
 				</div>
 				<div class="col-md-2 div-center-right" (click)="Search()">
 					<button class="btn btn-primary">
-						Search
+						<label data-security="Search"></label>
 						<i class="icon-save-white"></i>
 					</button>
 				</div>
@@ -43,13 +43,13 @@
 				<button type="button" class="btn-toolbar" (click)="Add()">
 					<a class="nav-link text-toolbar">
 						<i class="icon-add"></i>
-						Add
+						<label data-security="Add"></label>
 					</a>
 				</button>
 				<button type="button" class="btn-toolbar" (click)="Export()">
 					<a class="nav-link text-toolbar">
 						<i class="icon-export"></i>
-						Export
+						<label data-security="Export"></label>
 					</a>
 				</button>
 			</ul>
@@ -59,11 +59,11 @@
 				<table class="int-table">
 					<thead>
 						<tr>
-							<th scope="col" style="width: 30%">Realm Role ID</th>
-							<th scope="col" style="width: 20%">Realm Name</th>
-							<th scope="col" style="width: 20%">Realm Role Name</th>
-							<th scope="col" style="width: 20%">Realm Role Description</th>
-							<th scope="col" style="width: 15%">Actions</th>
+							<th scope="col" style="width: 30%" data-security="RealmRole"></th>
+							<th scope="col" style="width: 20%" data-security="RealmName"></th>
+							<th scope="col" style="width: 20%" data-security="RealmRoleName"></th>
+							<th scope="col" style="width: 20%" data-security="RealmRoleDescription"></th>
+							<th scope="col" style="width: 15%" data-security="Actions"></th>
 						</tr>
 					</thead>
 					<tbody>

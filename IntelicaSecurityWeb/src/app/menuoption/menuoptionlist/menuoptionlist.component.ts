@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
 import { forkJoin } from "rxjs";
-import { NgbPagination } from "@ng-bootstrap/ng-bootstrap";
+import { NgbPagination, NgbTooltipModule } from "@ng-bootstrap/ng-bootstrap";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { MenuOptionService } from "../menuoption.service";
 import { MenuOptionParentResponses, MenuOptionSimpleResponses } from "../dto/menuOptionResponses";
@@ -13,7 +13,7 @@ import { HtmlToExcel } from "../../common/HtmlToExcel";
 @Component({
 	selector: "security-menuoptionlist",
 	standalone: true,
-	imports: [NgSelectModule, FormsModule, NgbPagination, ActionsMenuComponent, ActionDirective],
+	imports: [NgSelectModule, FormsModule, NgbPagination, ActionsMenuComponent, ActionDirective, NgbTooltipModule],
 	templateUrl: "./menuoptionlist.component.html",
 	styleUrl: "./menuoptionlist.component.css",
 })
@@ -21,7 +21,7 @@ export class MenuoptionlistComponent implements OnInit {
 	private readonly router = inject(Router);
 	private readonly menuOptionService = inject(MenuOptionService);
 	private readonly sweetAlertService = inject(SweetAlertService);
-	@ViewChild('actionsMenu') actionsMenu!: ActionsMenuComponent;
+	@ViewChild("actionsMenu") actionsMenu!: ActionsMenuComponent;
 
 	listMenuOption: MenuOptionSimpleResponses[] = [];
 	listMenuParent: MenuOptionParentResponses[] = [];
@@ -48,8 +48,8 @@ export class MenuoptionlistComponent implements OnInit {
 				this.listMenuParent = response.parentAll;
 				this.listMenuOption = response.menuAll;
 			},
-			error: error => { },
-			complete: () => { },
+			error: error => {},
+			complete: () => {},
 		});
 	}
 	Add() {
@@ -77,13 +77,13 @@ export class MenuoptionlistComponent implements OnInit {
 							this.GetAll();
 						}
 					},
-					error: error => { },
-					complete: () => { },
+					error: error => {},
+					complete: () => {},
 				});
 			}
 		});
 	}
-	Export() { }
+	Export() {}
 	RefreshList(): void {
 		this.MenuOptionsFilter = this.MenuOptions.slice((this.Page - 1) * this.PageSize, this.Page * this.PageSize);
 	}

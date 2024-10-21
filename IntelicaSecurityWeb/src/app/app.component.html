@@ -1,8 +1,16 @@
 <div class="post d-flex flex-column-fluid" id="kt_post">
 	<div id="kt_content_container" class="container-xxl">
-		<!-- @if (IsLoggedIn()){ -->
+		<!-- <router-outlet /> -->
+		@if (featureFlagService.IsReady()){
 		<router-outlet />
-		<!-- } -->
+		}@else {
+		<div style="display: flex; align-items: center; justify-content: center">
+			<div style="height: 1000px; padding-top: 25rem">
+				<img [src]="LoadingLogo" />
+			</div>
+		</div>
+		}
 	</div>
 </div>
+
 <app-spinner />

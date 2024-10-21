@@ -8,8 +8,8 @@ export default class CommonFeatureFlagService {
 	IsReady = signal<boolean>(false);
 	constructor(private featureFlagDataService: FeatureFlagService) {}
 	Initialize(pageRoot: string): void {
+		this.pageRoot = pageRoot;
 		this.featureFlagDataService.GetByPageRoot(pageRoot).subscribe(response => {
-			this.pageRoot = pageRoot;
 			this.FeatureFlags = response;
 			this.IsReady.set(true);
 		});
@@ -18,7 +18,6 @@ export default class CommonFeatureFlagService {
 		return !(this.FeatureFlags.find(x => x.featureFlagName == featureFlagName) == null);
 	}
 	Refresh(): void {
-		console.log("Refresh");
 		this.Initialize(this.pageRoot);
 	}
 	GetPageRoot(): string {

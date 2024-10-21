@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import Swal, { SweetAlertOptions, SweetAlertResult } from "sweetalert2";
+import { assetUrl } from "../../../single-spa/asset-url";
 @Injectable({
 	providedIn: "root",
 })
@@ -14,18 +15,20 @@ export class SweetAlertService {
 		},
 		showCloseButton: true,
 		closeButtonHtml: '<i class="fa fa-times"></i>',
-		imageUrl: "./assets/images/intelica-2021.svg",
+		imageUrl: assetUrl("images/intelica-2021.svg"),
 		showCancelButton: false,
 		confirmButtonText: "Ok",
 		cancelButtonText: "",
 		html: "",
 	};
+
 	messageBox(message: string): Promise<SweetAlertResult<any>> {
 		let options = { ...this.options };
 		options.showCancelButton = false;
 		options.text = message;
 		return Swal.fire(options);
 	}
+
 	messageTextBox(message: string = "", swHtml: boolean = false) {
 		let options = this.options;
 		options.showCancelButton = false;
@@ -33,6 +36,7 @@ export class SweetAlertService {
 		else options.html = message;
 		Swal.fire(options);
 	}
+
 	confirmBox(message: string, confirmButtonText: string, cancelButtonText: string, title?: string, html?: string, popupClass?: string): Promise<SweetAlertResult<any>> {
 		let options = { ...this.options };
 		options.title = title ?? "";
@@ -48,6 +52,7 @@ export class SweetAlertService {
 		}
 		return Swal.fire(options);
 	}
+
 	messageHTMLBox(title: string, html: string, confirmButtonText: string): Promise<SweetAlertResult<any>> {
 		let options = { ...this.options };
 		options.showCancelButton = false;

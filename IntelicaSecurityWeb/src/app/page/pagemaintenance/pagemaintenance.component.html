@@ -1,25 +1,22 @@
-<form #pageForm="ngForm">
+<form #pageForm="ngForm" class="needs-validation" autocomplete="off">
 	<div class="container">
 		<div class="card mt-3">
 			<ul class="nav justify-content-between">
-				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read">
-					<a class="nav-link text-toolbar">
+				<button type="button" class="btn-toolbar" (click)="Submit()" [disabled]="Read" placement="top" ngbTooltip="alt + s">
+					<span class="nav-link text-toolbar">
 						<i class="icon-save"></i>
-						Save
-					</a>
+					</span>
 				</button>
 				<div class="d-flex">
-					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Clean()" [disabled]="Read" placement="top" ngbTooltip="alt + c">
+						<span class="nav-link text-toolbar">
 							<i class="icon-trash"></i>
-							Clean
-						</a>
+						</span>
 					</button>
-					<button type="button" class="btn-toolbar" (click)="Back()">
-						<a class="nav-link text-toolbar">
+					<button type="button" class="btn-toolbar" (click)="Back()" placement="top" ngbTooltip="alt + r">
+						<span class="nav-link text-toolbar">
 							<i class="icon-return"></i>
-							Return
-						</a>
+						</span>
 					</button>
 				</div>
 			</ul>
@@ -28,14 +25,30 @@
 			<div class="card-body">
 				<div class="row mt-2">
 					<div class="col-md-6 col-sm-12">
-						<label class="label-form-enazul text-primary mt-1">Page name</label>
-						<input name="pageName" class="form-control form-control-sm" type="text" maxlength="100"
-							[(ngModel)]="page.pageName" />
+						<label class="label-form-enazul text-primary mt-1">Page name (*)</label>
+						<input name="pageName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="page.pageName" required="" />
 					</div>
 					<div class="col-md-6 col-sm-12">
 						<label class="label-form-enazul text-primary mt-1">Page url</label>
-						<input name="pageUrl" class="form-control form-control-sm" type="text" maxlength="100"
-							[(ngModel)]="page.pageUrl" />
+						<input name="pageUrl" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="page.pageUrl" />
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-6 col-sm-12">
+						<label class="label-form-enazul text-primary mt-1">Page icon</label>
+						<input name="pageIcon" class="form-control form-control-sm" type="text" maxlength="50" [(ngModel)]="page.pageIcon" />
+					</div>
+					<div class="col-md-6 col-sm-12">
+						<label class="label-form-enazul text-primary mt-1">Page root</label>
+						<input name="pageRoot" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="page.pageRoot" />
+					</div>
+				</div>
+				<div class="row mt-2">
+					<div class="col-md-6 col-sm-12">
+						<label class="label-form-enazul text-primary mt-1">Show Menu</label>
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="1" name="pageShowMenu" [(ngModel)]="page.pageShowMenu" />
+						</div>
 					</div>
 				</div>
 			</div>

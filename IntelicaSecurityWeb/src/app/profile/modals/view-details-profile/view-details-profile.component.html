@@ -7,19 +7,21 @@
 		<table class="int-table">
 			<thead>
 				<tr>
-					<th style="width: 5%">N°</th>
+					<th style="width: 10%">N°</th>
 					<th>Page name</th>
 				</tr>
 			</thead>
 			<tbody>
-				@for ( page of listpage; track page.pageID; let index = $index){
+				@for ( page of pageListFilter; track page.pageID; let index = $index){
 				<tr>
-					<td>{{ (index + 1) }}</td>
+					<td>{{ index + 1 }}</td>
 					<td class="text-start">{{ page.pageName }}</td>
 				</tr>
 				}
 			</tbody>
 		</table>
+		<br />
+		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="listpage.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
 	</div>
 	<div class="modalFooter">
 		<!-- <div class="actionBtnArea">

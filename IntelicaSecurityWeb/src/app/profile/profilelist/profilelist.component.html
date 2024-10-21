@@ -17,8 +17,7 @@
 												<div class="numOrder"><span>1</span></div>
 												<label for="profileName"><span>Profile Name</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="profileName"
-												[(ngModel)]="nameProfile" />
+											<input type="text" class="txtBoxStyle" name="profileName" [(ngModel)]="nameProfile" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>
 									</div>
 									<div class="inputRowGap cold-md-12">
@@ -27,8 +26,7 @@
 												<div class="numOrder"><span>2</span></div>
 												<label for="profileDescription"><span>Profile Description</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="profileDescription"
-												[(ngModel)]="descriptionProfile" />
+											<input type="text" class="txtBoxStyle" name="profileDescription" [(ngModel)]="descriptionProfile" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>
 									</div>
 								</div>
@@ -38,14 +36,14 @@
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
 									<span>Apply</span>
 								</button>
-								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
 									<span>Clear</span>
 								</button>
 							</div>
 						</ng-template>
 					</action>
 
-					<action name="Add Record" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Add Profile" (onClick)="Add()" [stopPropagation]="true"></action>
 					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
 				</intelica-actions-menu>
 			</div>
@@ -53,36 +51,35 @@
 	</div>
 </div>
 
-<div class="card card-header card-header-stretch cold-md-12 mt-3">
+<div class="card card-header card-header-stretch cold-md-12">
 	<div class="card mb-10">
 		<div class="pt-4">
 			<table class="int-table">
 				<thead>
 					<tr>
-						<th scope="col">N°</th>
-						<th scope="col">Profile name</th>
-						<th scope="col">Profile description</th>
-						<th class="col-sm">Actions</th>
+						<th style="width: 5%">N°</th>
+						<th>Profile name</th>
+						<th>Profile description</th>
+						<th style="width: 10%">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
 					@for ( profile of Profiles; track profile.profileID; let index = $index){
 					<tr>
-						<td>{{ (index + 1) }}</td>
+						<td>{{ index + 1 }}</td>
 						<td class="text-start">{{ profile.profileName }}</td>
 						<td class="text-start">{{ profile.profileDescription }}</td>
 						<td>
-							<button class="int-iconBtn" (click)="EditRow(profile)"><i class="icon-edit"></i></button>
-							<button class="int-iconBtn" (click)="DeleteRow(profile)"><i class="icon-trash"></i></button>
-							<button class="int-iconBtn" (click)="viewDetail(profile)"><i class="icon-eye"></i></button>
+							<button class="int-iconBtn" (click)="EditRow(profile)" placement="top" ngbTooltip="Edit"><i class="icon-edit"></i></button>
+							<button class="int-iconBtn" (click)="DeleteRow(profile)" placement="top" ngbTooltip="Delete"><i class="icon-trash"></i></button>
+							<button class="int-iconBtn" (click)="viewDetail(profile)" placement="top" ngbTooltip="View"><i class="icon-eye"></i></button>
 						</td>
 					</tr>
 					}
 				</tbody>
 			</table>
-
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize"
-				[collectionSize]="Profiles.length" [(page)]="Page" (pageChange)="RefreshList()" />
+			<br />
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Profiles.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>
