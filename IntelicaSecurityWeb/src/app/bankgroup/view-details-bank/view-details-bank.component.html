@@ -1,0 +1,31 @@
+<div class="modalHeader">
+	<h2><span>Details bank</span></h2>
+	<button type="button" (click)="activeModal.close()" class="btn-close" aria-label="Close"></button>
+</div>
+<div class="modalContentBorder">
+	<div class="modalContent">
+		<table class="int-table">
+			<thead>
+				<tr>
+					<th style="width: 10%">N°</th>
+					<th>Bank name</th>
+				</tr>
+			</thead>
+			<tbody>
+				@for ( bank of bankListFilter; track bank.bankID; let index = $index){
+				<tr>
+					<td>{{ index + 1 }}</td>
+					<td class="text-start">{{ bank.bankName }}</td>
+				</tr>
+				}
+			</tbody>
+		</table>
+		<br />
+		<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="listbank.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
+	</div>
+	<div class="modalFooter">
+		<!-- <div class="actionBtnArea">
+			<button class="btn btn-secondary" (click)="activeModal.close();">Close</button>
+		</div> -->
+	</div>
+</div>

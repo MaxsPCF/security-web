@@ -27,7 +27,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">
-								<b>Menu Option</b>
+								<b data-security="MenuOption">Menu Option</b>
 							</div>
 						</div>
 						<div class="card-body">
@@ -38,19 +38,19 @@
 								</div>
 							</div> -->
 							<div class="mb-3 row">
-								<label class="col-4 col-form-label label-form-enazul text-primary">Parent</label>
+								<label class="col-4 col-form-label label-form-enazul text-primary" data-security="Parent">Parent</label>
 								<div class="col-8">
 									<ng-select [items]="listMenuParent" bindLabel="menuOptionName" bindValue="menuOptionID" name="menuOptionParentID" [(ngModel)]="menuOptionCurrent.menuOptionParentID"></ng-select>
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-4 col-form-label label-form-enazul text-primary">Name</label>
+								<label class="col-4 col-form-label label-form-enazul text-primary" data-security="Name">Name</label>
 								<div class="col-8">
 									<input type="text" class="form-control form-control-sm" placeholder="Name" name="menuOptionName" [maxlength]="60" [(ngModel)]="menuOptionCurrent.menuOptionName" required />
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-4 col-form-label label-form-enazul text-primary">Description</label>
+								<label class="col-4 col-form-label label-form-enazul text-primary"  data-security="Description">Description</label>
 								<div class="col-8">
 									<input
 										type="text"
@@ -64,19 +64,19 @@
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-4 col-form-label label-form-enazul text-primary">Order</label>
+								<label class="col-4 col-form-label label-form-enazul text-primary" data-security="Order">Order</label>
 								<div class="col-8">
 									<input type="number" class="form-control form-control-sm" placeholder="Order" name="menuOptionOrder" [(ngModel)]="menuOptionCurrent.menuOptionOrder" required />
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-4 col-form-label label-form-enazul text-primary">Icon</label>
+								<label class="col-4 col-form-label label-form-enazul text-primary" data-security="Icon">Icon</label>
 								<div class="col-8">
 									<input type="text" class="form-control form-control-sm" placeholder="Icon" name="menuOptionIcon" [maxlength]="50" [(ngModel)]="menuOptionCurrent.menuOptionIcon" />
 								</div>
 							</div>
 							<div class="mb-3 row">
-								<label class="col-4 col-form-label label-form-enazul text-primary">Show</label>
+								<label class="col-4 col-form-label label-form-enazul text-primary"  data-security="Show">Show</label>
 								<div class="col-8">
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" value="0" name="menuOptionShow" [(ngModel)]="menuOptionCurrent.menuOptionShow" />
@@ -123,6 +123,7 @@
 							</table>
 						</div>
 					</div>
+
 				</div>
 			</div>
 		</div>

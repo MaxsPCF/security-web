@@ -1,0 +1,145 @@
+<form #bankGroupForm="ngForm">
+  <div class="container">
+    <div class="card mt-3">
+      <ul class="nav justify-content-between">
+        <button
+          type="button"
+          class="btn-toolbar"
+          (click)="Submit()"
+          [disabled]="Read"
+        >
+          <a class="nav-link text-toolbar">
+            <i class="icon-save"></i>
+          </a>
+        </button>
+        <div class="d-flex">
+          <button
+            type="button"
+            class="btn-toolbar"
+            (click)="Clean()"
+            [disabled]="Read"
+          >
+            <a class="nav-link text-toolbar">
+              <i class="icon-trash"></i>
+            </a>
+          </button>
+          <button type="button" class="btn-toolbar" (click)="Back()">
+            <a class="nav-link text-toolbar">
+              <i class="icon-return"></i>
+            </a>
+          </button>
+        </div>
+      </ul>
+    </div>
+    <div class="card mt-3">
+      <div class="card-body">
+        <div class="row mb-3">
+          <div class="col-md-6 col-sm-12">
+            <label class="label-form-enazul text-primary mt-1"  data-security="BankGroupID"
+              >BankGroup ID</label
+            >
+            <input
+              name="bankGroupCode"
+              class="form-control form-control-sm"
+              type="text"
+              maxlength="100"
+              [(ngModel)]="BankGroup.bankGroupID"
+              disabled
+            />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label class="label-form-enazul text-primary mt-1" data-security="BankGroupName"
+              >BankGroup Name</label
+            >
+            <input
+              name="bankName"
+              class="form-control form-control-sm"
+              type="text"
+              maxlength="100"
+              [(ngModel)]="BankGroup.bankGroupName"
+              [required]="true"
+            />
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label class="label-form-enazul text-primary mt-1" data-security="BankGroupDatabase"
+              >Bank Group Database</label
+            >
+            <input
+              name="bankGroupDatabase"
+              class="form-control form-control-sm"
+              type="text"
+              maxlength="100"
+              [(ngModel)]="BankGroup.bankGroupDatabase"
+              [required]="true"
+            />
+          </div>
+        </div>
+        <div>
+          <label
+            class="label-form-enazul text-primary mt-1"
+            autocomplete="off"
+            for="bankFilter"
+			data-security="FilterBankName"
+            >Filter by Bank Name:
+          </label>
+          <input
+            class="form-control form-control-sm"
+            id="bankFilter"
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="RefreshList()"
+          />
+        </div>
+        <div class="row mt-2">
+          <div class="col-lg-12">
+            <table class="int-table">
+              <thead>
+                <tr>
+                  <th style="width: 5%">N°</th>
+                  <th><label data-security="BankName"></label></th>
+                  <th style="width: 15%">
+                    <input
+                      type="checkbox"
+                      name="chkAllBank"
+                      (change)="onSelectAllChange($event)"
+                      [indeterminate]="indeterminate"
+                      [checked]="allSelected"
+                    />
+                    <label  data-security="All">All</label>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for ( bank of BanksFilter; track bank.bankID; let index =
+                $index){
+                <tr>
+                  <td>{{ index + 1 }}</td>
+                  <td class="text-start">{{ bank.bankName }}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      [name]="'chkSel' + index"
+                      [checked]="checkboxes[bank.bankID]"
+                      (change)="
+                        checkboxes[bank.bankID] = !checkboxes[bank.bankID]
+                      "
+                    />
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            <br />
+            <ngb-pagination
+              class="d-flex justify-content-center"
+              [pageSize]="PageSize"
+              [collectionSize]="Banks.length"
+              [(page)]="Page"
+              (pageChange)="RefreshList()"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

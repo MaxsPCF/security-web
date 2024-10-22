@@ -1,7 +1,7 @@
 <div class="card-body int-content-body">
 	<div class="row">
 		<div class="col-md-10">
-			<label class="label-form-enazul text-primary-title mt-1">List of Profile</label>
+			<label class="label-form-enazul text-primary-title mt-1" data-security="ListProfile">List of Profile</label>
 		</div>
 
 		<div class="col-md-2 div-center-right">
@@ -15,7 +15,7 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>1</span></div>
-												<label for="profileName"><span>Profile Name</span></label>
+												<label for="profileName" data-security="ProfileName"><span>Profile Name</span></label>
 											</div>
 											<input type="text" class="txtBoxStyle" name="profileName" [(ngModel)]="nameProfile" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>
@@ -24,7 +24,7 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>2</span></div>
-												<label for="profileDescription"><span>Profile Description</span></label>
+												<label for="profileDescription" data-security="ProfileDescription"><span>Profile Description</span></label>
 											</div>
 											<input type="text" class="txtBoxStyle" name="profileDescription" [(ngModel)]="descriptionProfile" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>

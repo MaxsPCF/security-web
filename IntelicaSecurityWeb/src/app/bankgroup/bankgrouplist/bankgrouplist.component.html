@@ -1,0 +1,108 @@
+<div class="card-body int-content-body">
+	<div class="row">
+		<div class="col-md-10">
+			<label class="label-form-enazul text-primary-title mt-1" data-security="Title">List of BankGroup</label>
+		</div>
+
+		<div class="col-md-2 div-center-right">
+			<div class="d-flex d-flex p-2">
+				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
+					<action name="Filters">
+						<ng-template #template>
+							<div class="container overflow-hidden">
+								<div class="row gy-1 filtersAnalytics">
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>1</span></div>
+												<label for="bankCode"><span>BankGroup ID</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="bankCode" [(ngModel)]="BankGroupCode" />
+										</div>
+									</div>
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>2</span></div>
+												<label for="bankName"  data-security="BankGroupName"><span>BankGroup name</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="bankName" [(ngModel)]="BankGroupName" />
+										</div>
+									</div>
+									<div class="inputRowGap cold-md-12">
+										<div class="filtersRow ng-star-inserted">
+											<div class="idx-lbl">
+												<div class="numOrder"><span>3</span></div>
+												<label for="bankNameComercial"  data-security="BankGroupDatabase"><span>BankGroup DatabaseName</span></label>
+											</div>
+											<input type="text" class="txtBoxStyle" name="bankNameComercial" [(ngModel)]="BankGroupDatabase" />
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="actionButtons">
+								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
+									<span  data-security="Apply">Apply</span>
+								</button>
+								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch();">
+									<span  data-security="Clear">Clear</span>
+								</button>
+							</div>
+						</ng-template>
+					</action>
+
+					<action name="Add BankGroup" (onClick)="Add()" [stopPropagation]="true"></action>
+					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
+				</intelica-actions-menu>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="card card-header card-header-stretch cold-md-12 mt-3">
+	<div class="card mb-10">
+		<div class="pt-4">
+			<table class="int-table">
+				<thead>
+					<tr>
+						<th scope="col"  data-security="BankGroupID">BankGroup ID</th>
+						<th scope="col"  data-security="BankGroupName">BankGroup Name</th>
+						<th scope="col"  data-security="BankGroupDatabase">BankGroup Database</th>
+						<th scope="col"  data-security="Actions">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@for ( bank of BanksGroupFilter ; track bank.bankGroupID){
+					<tr>
+						<td>{{ bank.bankGroupID }}</td>
+						<td>{{ bank.bankGroupName }}</td>
+						<td>{{ bank.bankGroupDatabase }}</td>
+						<th scope="row">
+							<div class="row">
+								<div class="col-lg-4 col-md-12 pl-10">
+									<button class="int-iconBtn" (click)="EditRow(bank)"><i class="icon-edit"></i></button>
+								</div>
+								<div class="col-lg-4 col-md-12">
+									<button class="int-iconBtn" (click)="DeleteRow(bank)"><i class="icon-trash"></i></button>
+								</div>
+								<div class="col-lg-4 col-md-12 pr-10">
+									<button class="int-iconBtn" (click)="ViewDetail(bank)"><i class="icon-eye"></i></button>
+								</div>
+							</div>
+						</th>
+					</tr>
+					}
+				</tbody>
+			</table>
+			<ngb-pagination
+				class="d-flex justify-content-center"
+				[pageSize]="PageSize"
+				[collectionSize]="BanksGroup.length"
+				[(page)]="Page"
+				(pageChange)="RefreshList()"
+			/>
+		</div>
+	</div>
+</div>
+<table id="TableExport" style="display: none"></table>

@@ -20,6 +20,9 @@ import { BusinessusermaintenanceComponent } from './businessuser/businessusermai
 import { RealmsessionlistComponent } from './realmsession/realmsessionlist/realmsessionlist.component';
 import { MenuoptionlistComponent } from './menuoption/menuoptionlist/menuoptionlist.component';
 import { MenuoptionmaintenanceComponent } from './menuoption/menuoptionmaintenance/menuoptionmaintenance.component';
+import { BankgrouplistComponent } from './bankgroup/bankgrouplist/bankgrouplist.component';
+import { BankgroupmaintenanceComponent } from './bankgroup/bankgroupmaintenance/bankgroupmaintenance.component';
+
 export const routes: Routes = [
 	{
 		path: 'security',
@@ -48,6 +51,15 @@ export const routes: Routes = [
 					{ path: 'maintenance', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - New', pageRoot: 'Bank' } },
 					{ path: 'maintenance/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - Edit', pageRoot: 'Bank' } },
 					{ path: 'maintenance/:read/:id', component: BankmaintenanceComponent, data: { title: 'Bank maintenance - View', pageRoot: 'Bank' } }
+				]
+			},
+			{
+				path: 'bankgroup',
+				children: [
+					{ path: 'list', component: BankgrouplistComponent, data: { title: 'Bank Group list', pageRoot: 'bankgroup' } },
+					{ path: 'maintenance', component: BankgroupmaintenanceComponent, data: { title: 'Bank Group maintenance - New', pageRoot: 'bankgroup' } },
+					{ path: 'maintenance/:id', component: BankgroupmaintenanceComponent, data: { title: 'Bank Group maintenance - Edit', pageRoot: 'bankgroup' } },
+					{ path: 'maintenance/:edit/:id', component: BankgroupmaintenanceComponent, data: { title: 'Bank Group maintenance - View', pageRoot: 'bankgroup' } }
 				]
 			},
 			{

@@ -14,7 +14,7 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>1</span></div>
-												<label for="countryCode"><span>Country code</span></label>
+												<label for="countryCode" data-security="CountryCode"><span>Country code</span></label>
 											</div>
 											<input type="text" class="txtBoxStyle" name="countryCode" [(ngModel)]="CountryCode" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>
@@ -23,7 +23,7 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>2</span></div>
-												<label for="countryName"><span>Country name</span></label>
+												<label for="countryName"  data-security="CountryName"><span>Country name</span></label>
 											</div>
 											<input type="text" class="txtBoxStyle" name="countryName" [(ngModel)]="CountryName" (keyup.enter)="applyFilter()" autocomplete="off"/>
 										</div>
