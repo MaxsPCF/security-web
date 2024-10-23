@@ -90,7 +90,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title">
-								<b>List Page</b>
+								<label data-security="ListPage">List Page</label>
 							</div>
 							<div class="d-flex" style="align-items: center">
 								<button type="button" class="btn-toolbar" (click)="addPageMenuOption()" placement="top" ngbTooltip="Add page"><i class="icon-add"></i></button>
@@ -101,9 +101,9 @@
 								<thead>
 									<tr>
 										<th style="width: 10%">N°</th>
-										<th>Page</th>
-										<th style="width: 20%">Order</th>
-										<th style="width: 10%">Actions</th>
+										<th data-security="Page">Page</th>
+										<th style="width: 20%" data-security="Order">Order</th>
+										<th style="width: 10%" data-security="Actions">Actions</th>
 									</tr>
 								</thead>
 								<tbody>

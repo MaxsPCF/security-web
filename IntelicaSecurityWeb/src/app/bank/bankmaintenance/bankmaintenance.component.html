@@ -26,30 +26,30 @@
 				<div class="pt-4">
 					<div class="row mt-2">
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Bank code</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="BankCode">Bank code</label>
 							<input name="bankCode" class="form-control form-control-sm" type="text" [(ngModel)]="Bank.bankID" disabled />
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Bank Name (*)</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="BankName">Bank Name (*)</label>
 							<input name="bankName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Bank.bankName" [required]="true" />
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Country</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="Country">Country</label>
 							<ng-select name="bankCountry" [items]="Countries" bindLabel="countryName" bindValue="countryID" [(ngModel)]="Bank.countryID">
 								<ng-template ng-label-tmp let-item="item">{{ item.countryID }} - {{ item.countryName }}</ng-template>
 								<ng-template ng-option-tmp let-item="item" let-index="index">{{ item.countryID }} - {{ item.countryName }}</ng-template>
 							</ng-select>
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Database</label>
+							<label class="label-form-enazul text-primary mt-1"  data-security="Database">Database</label>
 							<input name="bankDatabase" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Bank.bankDatabase" />
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Contact Name</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="ContactName">Contact Name</label>
 							<input name="bankContacName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="Bank.contactName" />
 						</div>
 						<div class="col-md-4 col-sm-12">
-							<label class="label-form-enazul text-primary mt-1">Contact Phone</label>
+							<label class="label-form-enazul text-primary mt-1" data-security="ContactPhone">Contact Phone</label>
 							<input name="bankContacPhone" class="form-control form-control-sm" type="text" maxlength="8" [(ngModel)]="Bank.contactPhone" />
 						</div>
 					</div>

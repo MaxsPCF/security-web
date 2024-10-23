@@ -32,7 +32,7 @@ import { BankGroupDetailSimpleResponse } from '../dto/bankGroupResponses';
     NgbPaginationModule,
   ],
   templateUrl: './bankgroupmaintenance.component.html',
-  styleUrls: ['./bankgroupmaintenance.component.css'], // Corrige "styleUrl" a "styleUrls"
+  styleUrls: ['./bankgroupmaintenance.component.css'], 
 })
 export class BankgroupmaintenanceComponent implements OnInit {
   bankGroupid: string = '';

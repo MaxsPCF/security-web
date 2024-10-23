@@ -34,10 +34,10 @@
 
 							<div class="actionButtons">
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
-									<span>Apply</span>
+									<span data-security="Apply">Apply</span>
 								</button>
 								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
-									<span>Clear</span>
+									<span data-security="Clear">Clear</span>
 								</button>
 							</div>
 						</ng-template>
@@ -58,9 +58,9 @@
 				<thead>
 					<tr>
 						<th style="width: 5%">N°</th>
-						<th>Profile name</th>
-						<th>Profile description</th>
-						<th style="width: 10%">Actions</th>
+						<th data-security="ProfileName">Profile name</th>
+						<th data-security="ProfileDescription">Profile description</th>
+						<th style="width: 10%" data-security="Actions">Actions</th>
 					</tr>
 				</thead>
 				<tbody>

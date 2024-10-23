@@ -22,6 +22,7 @@ import { MenuoptionlistComponent } from './menuoption/menuoptionlist/menuoptionl
 import { MenuoptionmaintenanceComponent } from './menuoption/menuoptionmaintenance/menuoptionmaintenance.component';
 import { BankgrouplistComponent } from './bankgroup/bankgrouplist/bankgrouplist.component';
 import { BankgroupmaintenanceComponent } from './bankgroup/bankgroupmaintenance/bankgroupmaintenance.component';
+import { DemoComponent } from './demo/demo.component';
 
 export const routes: Routes = [
 	{
@@ -103,7 +104,7 @@ export const routes: Routes = [
 			},
 			{
 				path: 'realmsession',
-				children: [{ path: 'list', component: RealmsessionlistComponent }]
+				children: [{ path: 'list', component: RealmsessionlistComponent, data: { title: 'Realm Session list', pageRoot: 'RealmSession' } }]
 			},
 			{
 				path: 'menuoption',
@@ -111,7 +112,10 @@ export const routes: Routes = [
 					{ path: 'list', component: MenuoptionlistComponent, data: { title: 'Menu Option list', pageRoot: 'menuoption' } },
 					{ path: 'maintenance', component: MenuoptionmaintenanceComponent, data: { title: 'Menu Option maintenance - New', pageRoot: 'menuoption' } }
 				]
-			}
+			},
+			{ path: 'demo', component: DemoComponent, data: { title: 'Demo', pageRoot: 'term' } }
+
+			
 		]
 	},
 	{ path: '**', component: EmptyRouteComponent }

@@ -33,4 +33,14 @@ export class BankGroupService {
 	Update(bank: BankGroup): Observable<BankGroupCreateResponse> {
 		return this._http.put<BankGroupCreateResponse>(`${this._configService.environment?.securityPath}/BankGroup`, bank);
 	}
+	TestS3(valor: string): Observable<any> {
+		const requestBody = {
+		  fileBytes: valor // Convierte a un arreglo normal
+		};
+	  
+		return this._http.post<any>(
+		  `${this._configService.environment?.securityPath}/BankGroup/TestServiceS3`,
+		  requestBody 
+		);
+	  }
 }

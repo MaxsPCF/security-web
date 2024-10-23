@@ -1,7 +1,7 @@
 <div class="card-body int-content-body">
 	<div class="row mb-3">
 		<div class="col-md-10">
-			<label class="label-form-enazul text-primary-title mt-1">List of Users</label>
+			<label class="label-form-enazul text-primary-title mt-1" data-security="ListTitle">List of Users</label>
 		</div>
 
 		<div class="col-md-2 div-center-right">
@@ -38,10 +38,10 @@
 
 							<div class="actionButtons">
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
-									<span>Apply</span>
+									<span  data-security="Apply">Apply</span>
 								</button>
 								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
-									<span>Clear</span>
+									<span  data-security="Clear">Clear</span>
 								</button>
 							</div>
 						</ng-template>

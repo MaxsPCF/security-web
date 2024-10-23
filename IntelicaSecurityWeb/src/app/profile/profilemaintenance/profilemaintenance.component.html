@@ -25,11 +25,11 @@
 			<div class="card-body">
 				<div class="row mb-3">
 					<div class="col-md-6 col-sm-12">
-						<label class="label-form-enazul text-primary mt-1">Profile Name</label>
+						<label class="label-form-enazul text-primary mt-1"  data-security="ProfileName">Profile Name</label>
 						<input name="profileName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="profileTemp.profileName" required />
 					</div>
 					<div class="col-md-6 col-sm-12">
-						<label class="label-form-enazul text-primary mt-1">Profile Description</label>
+						<label class="label-form-enazul text-primary mt-1"  data-security="ProfileDescription">Profile Description</label>
 						<input name="profileDescription" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="profileTemp.profileDescription" required />
 					</div>
 				</div>
@@ -40,11 +40,11 @@
 							<thead>
 								<tr>
 									<th style="width: 5%">N°</th>
-									<th>Page name</th>
-									<th style="width: 15%">Create</th>
-									<th style="width: 15%">Update</th>
-									<th style="width: 15%">Delete</th>
-									<th style="width: 15%">
+									<th  data-security="ProfileName">Page name</th>
+									<th style="width: 15%"  data-security="Create">Create</th>
+									<th style="width: 15%"  data-security="Update">Update</th>
+									<th style="width: 15%"  data-security="Delete">Delete</th>
+									<th style="width: 15%"  data-security="All">
 										<input type="checkbox" name="chkAllProfile" (change)="onSelectAllChange($event)" [indeterminate]="indeterminate" [checked]="checked" />
 										All
 									</th>

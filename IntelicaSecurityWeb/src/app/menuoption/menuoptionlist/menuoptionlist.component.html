@@ -1,7 +1,7 @@
 <div class="card-body int-content-body">
 	<div class="row">
 		<div class="col-md-10">
-			<label class="label-form-enazul text-primary-title mt-1">List of Menu Option</label>
+			<label class="label-form-enazul text-primary-title mt-1" data-security="ListTitle">List of Menu Option</label>
 		</div>
 
 		<div class="col-md-2 div-center-right">
@@ -15,7 +15,7 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>1</span></div>
-												<label for="parent"><span>Parent</span></label>
+												<label for="parent"  data-security="Parent"><span>Parent</span></label>
 											</div>
 											<select class="txtBoxStyle" id="dynamicSelect" [(ngModel)]="menuOptionModel.menuOptionParentID">
 												@for (item of listMenuParent; track $index) {
@@ -28,7 +28,7 @@
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>2</span></div>
-												<label for="menuOptionName"><span>Option Name</span></label>
+												<label for="menuOptionName" data-security="OptionName"><span>Option Name</span></label>
 											</div>
 											<input type="text" class="txtBoxStyle" name="menuOptionName" [(ngModel)]="menuOptionModel.menuOptionName" (keyup.enter)="applyFilter()" autocomplete="off" />
 										</div>
@@ -38,10 +38,10 @@
 
 							<div class="actionButtons">
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
-									<span>Apply</span>
+									<span data-security="Apply">Apply</span>
 								</button>
 								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
-									<span>Clear</span>
+									<span data-security="Clear">Clear</span>
 								</button>
 							</div>
 						</ng-template>
@@ -62,11 +62,11 @@
 				<thead>
 					<tr>
 						<th style="width: 5%">N°</th>
-						<th style="width: 20%">Menu ID</th>
-						<th>Parent Name</th>
-						<th>Menu name</th>
-						<th style="width: 10%">Nro order</th>
-						<th style="width: 10%">Actions</th>
+						<th style="width: 20%" data-security="MenuID">Menu ID</th>
+						<th data-security="ParentName">Parent Name</th>
+						<th data-security="MenuName">Menu name</th>
+						<th style="width: 10%" data-security="NroOrder">Nro order</th>
+						<th style="width: 10%" data-security="Actions">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
