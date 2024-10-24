@@ -3,7 +3,6 @@
 		<div class="col-md-10">
 			<label class="label-form-enazul text-primary-title mt-1" data-security="ListProfile">List of Profile</label>
 		</div>
-
 		<div class="col-md-2 div-center-right">
 			<div class="d-flex d-flex p-2">
 				<intelica-actions-menu #actionsMenu (addClassWrapper)="showBackBlue($event)">
@@ -42,7 +41,6 @@
 							</div>
 						</ng-template>
 					</action>
-
 					<action name="Add Profile" (onClick)="Add()" [stopPropagation]="true"></action>
 					<action name="Export to Excel" (onClick)="exportFilter()" [stopPropagation]="true"></action>
 				</intelica-actions-menu>
@@ -50,7 +48,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="card card-header card-header-stretch cold-md-12">
 	<div class="card mb-10">
 		<div class="pt-4">
@@ -83,5 +80,4 @@
 		</div>
 	</div>
 </div>
-
 <table id="TableExport" style="display: none"></table>

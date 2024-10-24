@@ -28,7 +28,7 @@ export const RefreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
 		return from(httpClient.post<ValidateTokenResponse>(path, validateTokenQuery)).pipe(
 			switchMap((response: ValidateTokenResponse) => {
 				if (response.expired) window.location.href = authenticationLocation;
-				if (response.unauthorized) window.location.href = window.location.origin;
+				if (response.unauthorized)window.location.href = window.location.origin;
 				if (response.newToken != "") setCookie("token", response.newToken);
 				return next(_request);
 			})
