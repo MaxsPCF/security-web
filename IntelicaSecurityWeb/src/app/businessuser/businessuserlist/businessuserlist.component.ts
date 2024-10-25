@@ -46,12 +46,12 @@ export class BusinessuserlistComponent {
 	PageSize: number = 10;
 	HtmlToExcel: HtmlToExcel = new HtmlToExcel();
 
-	@ViewChild("actionsMenu") actionsMenu!: ActionsMenuComponent;
-	@ViewChild("matPaginatorUsers") paginatorUsers: any = MatPaginator;
-	@ViewChild("sortUsers") sortUsers = new MatSort();
-
-	displayedColumnsUsers: string[] = ["index", "profileName", "UserName", "FirstName", "LastName", "UserEmail", "Actions"];
+	displayedColumnsUsers: string[] = ["index", "profileName", "businessUserName", "businessUserFirstName", "businessUserLastName", "businessUserEmail", "actions"];
 	dataSourceUsers!: MatTableDataSource<BusinessUserSimpleResponse>;
+
+	@ViewChild("matPaginatorUsers") paginatorUsers!: MatPaginator;
+	@ViewChild("sortUsers") sortUsers!: MatSort;
+	@ViewChild("actionsMenu") actionsMenu!: ActionsMenuComponent;
 
 	ngOnInit() {
 		this.profileService.GetAll().subscribe(response => {
@@ -65,7 +65,7 @@ export class BusinessuserlistComponent {
 		this.businessUserService.GetByFilter(this.ProfileID, this.BusinessUserName, this.BusinessUserEmail).subscribe(response => {
 			this.BusinessUsers = response;
 
-			this.dataSourceUsers = new MatTableDataSource(this.BusinessUsers);
+			this.dataSourceUsers = new MatTableDataSource<BusinessUserSimpleResponse>(this.BusinessUsers);
 			this.dataSourceUsers.paginator = this.paginatorUsers;
 			this.dataSourceUsers.sort = this.sortUsers;
 		});
@@ -75,7 +75,17 @@ export class BusinessuserlistComponent {
 		this.router.navigate(["security/businessuser/maintenance"]);
 	}
 
-	// Export() {}
+	Export() {
+		if (this.BusinessUsers.length == 0) {
+			this.sweetAlertService.messageTextBox("There is no information to download.");
+			return;
+		}
+		let body: string = "<tr><th>Profile</th><th>Name</th><th>businessUserEmail</th></tr>";
+		this.BusinessUsers.forEach(row => {
+			body += `<tr><td>${row.profileName}</td><td>${row.businessUserName} ${row.businessUserFirstName} ${row.businessUserLastName}</td>td>${row.businessUserEmail}</td></tr>`;
+		});
+		this.HtmlToExcel.ExportTOExcel("TableExport", body, `UserList`, "User list", "xlsx");
+	}
 
 	EditRow(row: BusinessUserSimpleResponse) {
 		this.router.navigate(["security/businessuser/maintenance", row.businessUserID]);

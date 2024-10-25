@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit, ViewChild, inject, signal } from "@angular/core";
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ProfileSimpleResponses } from "../../profile/dto/profileResponses";
 import { ProfileService } from "../../profile/profile.service";
@@ -29,6 +29,7 @@ import { BusinessUserPageRequest } from "../dto/businessUserPage";
 import { BusinessUserBankRequest } from "../dto/businessUserBank";
 import { BusinessUserBankGroupRequest } from "../dto/businessUserBankGroup";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
+import CommonFeatureFlagService from "../../common/services/featureFlagCommon.service";
 
 @Component({
 	selector: "security-businessusermaintenance",
@@ -66,8 +67,8 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	private readonly router = inject(Router);
 	private readonly activatedRoute = inject(ActivatedRoute);
 	private readonly sweetAlertService = inject(SweetAlertService);
-
 	private readonly _formBuilder = inject(FormBuilder);
+	readonly featureFlagService = inject(CommonFeatureFlagService);
 
 	// @ViewChild('BusinessUserForm', { read: NgForm }) BusinessUserForm: any;
 
@@ -482,5 +483,48 @@ export class BusinessusermaintenanceComponent implements OnInit {
 		}
 
 		return swValidate;
+	}
+
+	imageName = signal("");
+	fileSize = signal(0);
+	imagePreview = signal("");
+	@ViewChild("fileInput") fileInput: ElementRef | undefined;
+	selectedFile: File | null = null;
+	uploadSuccess: boolean = false;
+	uploadError: boolean = false;
+
+	// Handler for file input change
+	onFileChange(event: any): void {
+		const file = event.target.files[0] as File | null;
+		this.uploadFile(file);
+	}
+
+	uploadFile(file: File | null): void {
+		if (file && file.type.startsWith("image/")) {
+			this.selectedFile = file;
+			this.fileSize.set(Math.round(file.size / 1024)); // Set file size in KB
+
+			const reader = new FileReader();
+			reader.onload = (e: any) => {
+				this.imagePreview.set(e.target?.result as string); // Set image preview URL
+
+				const base64String = btoa(new Uint8Array(e.target?.result).reduce((data, byte) => data + String.fromCharCode(byte), ""));
+			};
+			reader.readAsDataURL(file);
+
+			this.uploadSuccess = true;
+			this.uploadError = false;
+			this.imageName.set(file.name); // Set image name
+		} else {
+			this.uploadSuccess = false;
+			this.uploadError = true;
+		}
+	}
+
+	removeImage(): void {
+		this.selectedFile = null;
+		this.imageName.set("");
+		this.fileSize.set(0);
+		this.imagePreview.set("");
 	}
 }

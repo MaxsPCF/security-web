@@ -16,3 +16,20 @@
 	color: #ffffff !important;
 	background-color: #17375e !important;
 }
+
+#fileInput {
+	display: none;
+}
+
+.preview {
+	max-width: 200px;
+	vertical-align: middle;
+	height: auto;
+	margin-bottom: 0.5rem;
+	border-radius: 10px;
+}
+
+.delete-icon {
+	cursor: pointer;
+	color: red;
+}
