@@ -14,7 +14,6 @@ import { assetUrl } from "../single-spa/asset-url";
 })
 export class AppComponent  {
 	Title: string = "";
-
 	pageEvent = fromEvent(window, "CallEventChangePage");
 	MenuUserID: string = "";
 	PageRoot: string = "";

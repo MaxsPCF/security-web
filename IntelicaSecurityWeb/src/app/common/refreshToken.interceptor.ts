@@ -3,7 +3,7 @@ import { HttpInterceptorFn } from "@angular/common/http";
 import { inject } from "@angular/core";
 import { from, switchMap } from "rxjs";
 import { SpinnerService } from "./spinner/spinner.service";
-import { getCookie, setCookie } from "typescript-cookie";
+import { getCookie, setCookie, removeCookie } from "typescript-cookie";
 import { ConfigService } from "./services/config.service";
 import { ValidateTokenQuery, ValidateTokenResponse } from "./dto/authentication.dto";
 import CommonFeatureFlagService from "./services/featureFlagCommon.service";
@@ -27,7 +27,12 @@ export const RefreshTokenInterceptor: HttpInterceptorFn = (req, next) => {
 	if (!req.url.includes("ValidateToken") && !req.url.includes("assets/environment.json"))
 		return from(httpClient.post<ValidateTokenResponse>(path, validateTokenQuery)).pipe(
 			switchMap((response: ValidateTokenResponse) => {
-				if (response.expired) window.location.href = authenticationLocation;
+				if (response.expired) {
+					removeCookie("token");
+					removeCookie("refreshToken");
+					window.location.href = authenticationLocation;
+					return next(_request);
+				}
 				if (response.unauthorized)window.location.href = window.location.origin;
 				if (response.newToken != "") setCookie("token", response.newToken);
 				return next(_request);
