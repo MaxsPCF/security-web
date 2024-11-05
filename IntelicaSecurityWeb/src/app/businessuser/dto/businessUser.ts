@@ -1,7 +1,7 @@
-import { Guid } from 'guid-typescript';
-import { BusinessUserBankRequest } from './businessUserBank';
-import { BusinessUserBankGroupRequest } from './businessUserBankGroup';
-import { BusinessUserPageRequest } from './businessUserPage';
+import { Guid } from "guid-typescript";
+import { BusinessUserBankRequest } from "./businessUserBank";
+import { BusinessUserBankGroupRequest } from "./businessUserBankGroup";
+import { BusinessUserPageRequest } from "./businessUserPage";
 
 export class BusinessUserRequest {
 	businessUserID: string;
@@ -11,6 +11,7 @@ export class BusinessUserRequest {
 	businessUserLastName: string;
 	businessUserEmail: string;
 	businessUserPassword: string;
+	businessUserPhoto?: string | any;
 	businessUserPages: BusinessUserPageRequest[];
 	businessUserBanks: BusinessUserBankRequest[];
 	businessUserBankGroups: BusinessUserBankGroupRequest[];
@@ -18,11 +19,12 @@ export class BusinessUserRequest {
 	constructor() {
 		this.businessUserID = Guid.EMPTY;
 		this.profileID = null;
-		this.businessUserName = '';
-		this.businessUserFirstName = '';
-		this.businessUserLastName = '';
-		this.businessUserEmail = '';
-		this.businessUserPassword = '';
+		this.businessUserName = "";
+		this.businessUserFirstName = "";
+		this.businessUserLastName = "";
+		this.businessUserEmail = "";
+		this.businessUserPassword = "";
+		this.businessUserPhoto = null;
 		this.businessUserPages = [];
 		this.businessUserBanks = [];
 		this.businessUserBankGroups = [];

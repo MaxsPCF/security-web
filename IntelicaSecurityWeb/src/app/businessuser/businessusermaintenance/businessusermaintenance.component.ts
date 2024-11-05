@@ -12,8 +12,8 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatCheckboxModule } from "@angular/material/checkbox";
-import { BusinessUserBank, BusinessUserBankGroup, BusinessUserPage, BusinessUserSimpleResponses } from "../dto/businessUserResponses";
-import { forkJoin } from "rxjs";
+import { BusinessUserBank, BusinessUserBankGroup, BusinessUserPage, BusinessUserResponse } from "../dto/businessUserResponses";
+import { AsyncSubject, forkJoin, Observable } from "rxjs";
 import { BusinessUserRequest } from "../dto/businessUser";
 import { BankSimpleResponse } from "../../bank/dto/bankResponses";
 import { BankGroupSimpleResponse } from "../../bankgroup/dto/bankGroupResponses";
@@ -76,7 +76,7 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	Read: boolean = false;
 	isLoading: boolean = false;
 	isLinear: boolean = true;
-	BusinessUserByID: BusinessUserSimpleResponses = {} as BusinessUserSimpleResponses;
+	BusinessUserByID: BusinessUserResponse = {} as BusinessUserResponse;
 	currentBusinessUser: BusinessUserRequest = new BusinessUserRequest();
 	currentProfileByID: ProfileSimpleResponses = {} as ProfileSimpleResponses;
 
@@ -254,6 +254,9 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.firstFormGroup.controls["businessUserLastName"].setValue(this.BusinessUserByID.businessUserLastName);
 				this.firstFormGroup.controls["businessUserEmail"].setValue(this.BusinessUserByID.businessUserEmail);
 				this.firstFormGroup.controls["businessUserPassword"].setValue(this.BusinessUserByID.businessUserPassword);
+
+				this.imagePreview.set(("data:image/jpeg;base64," + this.BusinessUserByID.businessUserPhoto) as string);
+				this.imageName.set("");
 			},
 			error: error => {},
 			complete: () => {
@@ -486,45 +489,80 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	}
 
 	imageName = signal("");
-	fileSize = signal(0);
+	// fileSize = signal(0);
 	imagePreview = signal("");
 	@ViewChild("fileInput") fileInput: ElementRef | undefined;
-	selectedFile: File | null = null;
-	uploadSuccess: boolean = false;
-	uploadError: boolean = false;
 
-	// Handler for file input change
-	onFileChange(event: any): void {
-		const file = event.target.files[0] as File | null;
-		this.uploadFile(file);
+	// onFileChange(event: any): void {
+	// 	const file = event.target.files[0] as File | null;
+	// 	this.uploadFile(file);
+	// }
+
+	// uploadFile(file: File | null): void {
+	// 	if (file && file.type.startsWith("image/")) {
+	// 		const reader = new FileReader();
+	// 		reader.onload = (e: ProgressEvent<FileReader>) => {
+	// 			if (e.target && e.target.result) {
+	// 				this.imagePreview.set(e.target.result as string);
+	// 				const base64String = btoa(new Uint8Array(e.target.result as ArrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), ""));
+
+	// 				this.currentBusinessUser.businessUserPhoto = base64String;
+	// 				console.log("base64String", base64String);
+	// 			}
+	// 		};
+	// 		reader.readAsDataURL(file);
+	// 		this.imageName.set(file.name);
+	// 	}
+	// }
+
+	public onFileSelected(event: any) {
+		const files = event.target.files;
+		this.toFilesBase64(files, this.selectedFiles).subscribe((res: SelectedFiles[]) => {
+			this.selectedFiles = res;
+			this.imagePreview.set(this.selectedFiles[0].base64 as string);
+			this.imageName.set(this.selectedFiles[0].name);
+
+			if (this.selectedFiles[0].base64 !== undefined) {
+				const base64String = this.selectedFiles[0].base64.replace("data:", "").replace(/^.+,/, "");
+				this.currentBusinessUser.businessUserPhoto = base64String;
+			}
+		});
 	}
 
-	uploadFile(file: File | null): void {
-		if (file && file.type.startsWith("image/")) {
-			this.selectedFile = file;
-			this.fileSize.set(Math.round(file.size / 1024)); // Set file size in KB
+	public selectedFiles: SelectedFiles[] = [];
 
-			const reader = new FileReader();
-			reader.onload = (e: any) => {
-				this.imagePreview.set(e.target?.result as string); // Set image preview URL
-
-				const base64String = btoa(new Uint8Array(e.target?.result).reduce((data, byte) => data + String.fromCharCode(byte), ""));
-			};
-			reader.readAsDataURL(file);
-
-			this.uploadSuccess = true;
-			this.uploadError = false;
-			this.imageName.set(file.name); // Set image name
+	public toFilesBase64(files: File[], selectedFiles: SelectedFiles[]): Observable<SelectedFiles[]> {
+		const result = new AsyncSubject<SelectedFiles[]>();
+		if (files?.length) {
+			Object.keys(files)?.forEach(async (file, i) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(files[i]);
+				reader.onload = e => {
+					selectedFiles = selectedFiles?.filter(f => f?.name != files[i]?.name);
+					selectedFiles.push({ name: files[i]?.name, file: files[i], base64: reader?.result as string });
+					result.next(selectedFiles);
+					if (files?.length === i + 1) {
+						result.complete();
+					}
+				};
+			});
+			return result;
 		} else {
-			this.uploadSuccess = false;
-			this.uploadError = true;
+			result.next([]);
+			result.complete();
+			return result;
 		}
 	}
 
 	removeImage(): void {
-		this.selectedFile = null;
 		this.imageName.set("");
-		this.fileSize.set(0);
+		// this.fileSize.set(0);
 		this.imagePreview.set("");
 	}
+}
+
+export interface SelectedFiles {
+	name: string;
+	file: any;
+	base64?: string;
 }

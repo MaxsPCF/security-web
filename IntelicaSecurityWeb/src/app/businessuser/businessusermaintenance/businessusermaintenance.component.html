@@ -88,7 +88,7 @@
 								<mat-form-field appearance="outline" style="width: 80%">
 									<mat-label>Photo</mat-label>
 									<input matInput placeholder="Select image" readonly="true" [value]="imageName() ? imageName() : ''" />
-									<input type="file" id="fileInput" name="fileInput" accept=".jpg, .jpeg" (change)="onFileChange($event)" #fileInput />
+									<input type="file" id="fileInput" name="fileInput" accept=".jpg" (change)="onFileSelected($event)" #fileInput />
 								</mat-form-field>
 
 								<mat-icon (click)="fileInput.click()">upload</mat-icon>
