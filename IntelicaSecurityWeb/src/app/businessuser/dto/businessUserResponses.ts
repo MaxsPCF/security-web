@@ -1,7 +1,6 @@
 export interface BusinessUserSimpleResponses {
 	businessUserID: string;
 	profileID: string;
-	realmID: string;
 	businessUserName: string;
 	businessUserFirstName: string;
 	businessUserLastName: string;
@@ -15,7 +14,6 @@ export interface BusinessUserSimpleResponses {
 export interface BusinessUserResponse {
 	businessUserID: string;
 	profileID: string;
-	realmID: string;
 	businessUserName: string;
 	businessUserFirstName: string;
 	businessUserLastName: string;

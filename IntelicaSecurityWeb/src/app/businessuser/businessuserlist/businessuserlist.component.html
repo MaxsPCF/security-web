@@ -11,7 +11,7 @@
 						<ng-template #template>
 							<div class="container overflow-hidden">
 								<div class="row gy-1 filtersAnalytics">
-									<div class="col-md-12">
+									<div class="col-md-12 mt-3">
 										<mat-form-field appearance="outline" style="width: 100%">
 											<mat-label data-security="Profile">Profile</mat-label>
 											<mat-select [(ngModel)]="ProfileID">
@@ -21,13 +21,13 @@
 											</mat-select>
 										</mat-form-field>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12 mt-3">
 										<mat-form-field appearance="outline" style="width: 100%">
 											<mat-label data-security="UserName">User Name</mat-label>
 											<input matInput placeholder="Name" [(ngModel)]="BusinessUserName" (keyup.enter)="applyFilter()" />
 										</mat-form-field>
 									</div>
-									<div class="col-md-12">
+									<div class="col-md-12 mt-3">
 										<mat-form-field appearance="outline" style="width: 100%" class="mat-sm">
 											<mat-label data-security="Email">Email</mat-label>
 											<input matInput placeholder="Name" [(ngModel)]="BusinessUserEmail" (keyup.enter)="applyFilter()" />
@@ -37,10 +37,10 @@
 							</div>
 							<div class="actionButtons">
 								<button class="int-Btn int-priBtn btn-fixed applyAnalytics" (click)="applyFilter()">
-									<span  data-security="Apply">Apply</span>
+									<span data-security="Apply">Apply</span>
 								</button>
 								<button class="int-Btn int-secBtn btn-fixed cleanAnalytics" (click)="ClerSearch()">
-									<span  data-security="Clear">Clear</span>
+									<span data-security="Clear">Clear</span>
 								</button>
 							</div>
 						</ng-template>

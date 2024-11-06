@@ -255,8 +255,10 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.firstFormGroup.controls["businessUserEmail"].setValue(this.BusinessUserByID.businessUserEmail);
 				this.firstFormGroup.controls["businessUserPassword"].setValue(this.BusinessUserByID.businessUserPassword);
 
-				this.imagePreview.set(("data:image/jpeg;base64," + this.BusinessUserByID.businessUserPhoto) as string);
-				this.imageName.set("");
+				if (this.BusinessUserByID.businessUserPhoto !== "") {
+					this.imagePreview.set(("data:image/jpeg;base64," + this.BusinessUserByID.businessUserPhoto) as string);
+					this.imageName.set("");
+				}
 			},
 			error: error => {},
 			complete: () => {

@@ -80,7 +80,7 @@ export class BusinessuserlistComponent {
 			this.sweetAlertService.messageTextBox("There is no information to download.");
 			return;
 		}
-		let body: string = "<tr><th>Profile</th><th>Name</th><th>businessUserEmail</th></tr>";
+		let body: string = "<tr><th>Profile</th><th>Business User Name</th><th>Business User Email</th></tr>";
 		this.BusinessUsers.forEach(row => {
 			body += `<tr><td>${row.profileName}</td><td>${row.businessUserName} ${row.businessUserFirstName} ${row.businessUserLastName}</td>td>${row.businessUserEmail}</td></tr>`;
 		});
