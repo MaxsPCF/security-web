@@ -78,9 +78,9 @@ export const routes: Routes = [
 			{
 				path: "businessuser",
 				children: [
-					{ path: "list", canActivate: [TermGuard], component: BusinessuserlistComponent, data: { title: "Business User list", pageRoot: "Businessuser" } },
-					{ path: "maintenance",canActivate: [TermGuard],  component: BusinessusermaintenanceComponent,  data: { title: "Business User maintenance - New", pageRoot: "Businessuser" } },
-					{ path: "maintenance/:id",canActivate: [TermGuard],  component: BusinessusermaintenanceComponent, data: { title: "Business User maintenance - Edit", pageRoot: "Businessuser" } },
+					{ path: "list", canActivate: [TermGuard], component: BusinessuserlistComponent, data: { title: "Business User list", pageRoot: "BusinessUser" } },
+					{ path: "maintenance",canActivate: [TermGuard],  component: BusinessusermaintenanceComponent,  data: { title: "Business User maintenance - New", pageRoot: "BusinessUser" } },
+					{ path: "maintenance/:id",canActivate: [TermGuard],  component: BusinessusermaintenanceComponent, data: { title: "Business User maintenance - Edit", pageRoot: "BusinessUser" } },
 				],
 			},
 			{

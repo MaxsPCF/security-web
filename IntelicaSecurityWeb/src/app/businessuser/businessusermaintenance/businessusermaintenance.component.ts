@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, OnInit, ViewChild, inject, signal } from "@angular/core";
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { ProfileSimpleResponses } from "../../profile/dto/profileResponses";
 import { ProfileService } from "../../profile/profile.service";
 import { BusinessuserService } from "../businessuser.service";
@@ -30,7 +30,8 @@ import { BusinessUserBankRequest } from "../dto/businessUserBank";
 import { BusinessUserBankGroupRequest } from "../dto/businessUserBankGroup";
 import { STEPPER_GLOBAL_OPTIONS } from "@angular/cdk/stepper";
 import CommonFeatureFlagService from "../../common/services/featureFlagCommon.service";
-
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
+import { ConfigService } from "../../common/services/config.service";
 @Component({
 	selector: "security-businessusermaintenance",
 	standalone: true,
@@ -68,10 +69,9 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	private readonly activatedRoute = inject(ActivatedRoute);
 	private readonly sweetAlertService = inject(SweetAlertService);
 	private readonly _formBuilder = inject(FormBuilder);
+	private readonly connection: HubConnection;
+	private readonly ConfigService = inject(ConfigService);
 	readonly featureFlagService = inject(CommonFeatureFlagService);
-
-	// @ViewChild('BusinessUserForm', { read: NgForm }) BusinessUserForm: any;
-
 	businessUserID: string = "";
 	Read: boolean = false;
 	isLoading: boolean = false;
@@ -79,54 +79,58 @@ export class BusinessusermaintenanceComponent implements OnInit {
 	BusinessUserByID: BusinessUserResponse = {} as BusinessUserResponse;
 	currentBusinessUser: BusinessUserRequest = new BusinessUserRequest();
 	currentProfileByID: ProfileSimpleResponses = {} as ProfileSimpleResponses;
-
 	profileList: ProfileSimpleResponses[] = [];
 	bankList: BankSimpleResponse[] = [];
 	bankGroupList: BankGroupSimpleResponse[] = [];
-
+	selectedFiles: SelectedFiles[] = [];
 	pageListUser: BusinessUserPage[] = [];
 	pageListUserSelect: BusinessUserPage[] = [];
-
 	bankListUser: BusinessUserBank[] = [];
 	bankListUserSelect: BusinessUserBank[] = [];
-
 	bankGroupListUser: BusinessUserBankGroup[] = [];
 	bankGroupListUserSelect: BusinessUserBankGroup[] = [];
-
-	hide = signal(true);
-
-	@ViewChild("matPaginatorPages") paginatorPages!: MatPaginator;
-	@ViewChild("sortPages") sortPages!: MatSort;
-
 	displayedColumnsPages: string[] = ["index", "pageName", "businessUserCanCreate", "businessUserCanUpdate", "businessUserCanDelete", "select"];
 	dataSourcePages!: MatTableDataSource<BusinessUserPage>;
 	selectionPages = new SelectionModel<BusinessUserPage>(true, []);
-
 	displayedColumnsBanks: string[] = ["index", "bankName", "select"];
 	dataSourceBanks!: MatTableDataSource<BusinessUserBank>;
 	selectionBanks = new SelectionModel<BusinessUserBank>(true, []);
-
+	displayedColumnsBankGroups: string[] = ["index", "bankGroupName", "select"];
+	dataSourceBankGroups!: MatTableDataSource<BusinessUserBankGroup>;
+	selectionBankGroups = new SelectionModel<BusinessUserBankGroup>(true, []);
+	hide = signal(true);
+	@ViewChild("matPaginatorPages") paginatorPages!: MatPaginator;
+	@ViewChild("sortPages") sortPages!: MatSort;
 	@ViewChild("matPaginatorBanks") set matPaginatorBanks(paginator: MatPaginator) {
 		if (this.dataSourceBanks !== undefined) this.dataSourceBanks.paginator = paginator;
 	}
 	@ViewChild("sortBanks") set sortBanks(sort: MatSort) {
 		if (this.dataSourceBanks !== undefined) this.dataSourceBanks.sort = sort;
 	}
-
-	displayedColumnsBankGroups: string[] = ["index", "bankGroupName", "select"];
-	dataSourceBankGroups!: MatTableDataSource<BusinessUserBankGroup>;
-	selectionBankGroups = new SelectionModel<BusinessUserBankGroup>(true, []);
-
 	@ViewChild("matPaginatorBankGroups") set matPaginatorBankGroups(paginator: MatPaginator) {
 		if (this.dataSourceBankGroups !== undefined) this.dataSourceBankGroups.paginator = paginator;
 	}
 	@ViewChild("sortBankGroups") set sortBankGroups(sort: MatSort) {
 		if (this.dataSourceBankGroups !== undefined) this.dataSourceBankGroups.sort = sort;
 	}
-
+	constructor() {
+		this.connection = new HubConnectionBuilder().withUrl(`${this.ConfigService.environment?.hubPath}/featureflag`).withAutomaticReconnect().build();
+		this.connection.on("Refresh", () =>{
+			console.log("Method refresh send");
+			this.featureFlagService.Refresh();
+		} );
+		this.connection.on("Connect", message => console.log(message));
+		this.connection
+			.start()
+			.then(_ => {
+				this.connection.invoke("Connect", this.featureFlagService.GetPageRoot());
+			})
+			.catch(error => {
+				return console.error(error);
+			});
+	}
 	ngOnInit() {
 		this.onInitForm();
-
 		this.businessUserID = this.activatedRoute.snapshot.params["id"];
 		if (this.businessUserID != undefined && this.businessUserID != null) {
 			this.getBusinessUser();
@@ -134,12 +138,10 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.getAll();
 		}
 	}
-
 	clickEventPwd(event: MouseEvent) {
 		this.hide.set(!this.hide());
 		event.stopPropagation();
 	}
-
 	applyFilterPages(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
 		this.dataSourcePages.filter = filterValue.trim().toLowerCase();
@@ -148,7 +150,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.dataSourcePages.paginator.firstPage();
 		}
 	}
-
 	isAllSelectedPages() {
 		const numSelected = this.selectionPages.selected.length;
 		const numRows = this.dataSourcePages.data.length;
@@ -160,10 +161,8 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.selectionPages.clear();
 			return;
 		}
-
 		this.selectionPages.select(...this.dataSourcePages.data);
 	}
-
 	applyFilterBanks(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
 		this.dataSourceBanks.filter = filterValue.trim().toLowerCase();
@@ -172,46 +171,37 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.dataSourceBanks.paginator.firstPage();
 		}
 	}
-
 	isAllSelectedBanks() {
 		const numSelected = this.selectionBanks.selected.length;
 		const numRows = this.dataSourceBanks.data.length;
 		return numSelected === numRows;
 	}
-
 	toggleAllRowsBanks() {
 		if (this.isAllSelectedBanks()) {
 			this.selectionBanks.clear();
 			return;
 		}
-
 		this.selectionBanks.select(...this.dataSourceBanks.data);
 	}
-
 	applyFilterBankGroups(event: Event) {
 		const filterValue = (event.target as HTMLInputElement).value;
 		this.dataSourceBankGroups.filter = filterValue.trim().toLowerCase();
-
 		if (this.dataSourceBankGroups.paginator) {
 			this.dataSourceBankGroups.paginator.firstPage();
 		}
 	}
-
 	isAllSelectedBankGroups() {
 		const numSelected = this.selectionBankGroups.selected.length;
 		const numRows = this.dataSourceBankGroups.data.length;
 		return numSelected === numRows;
 	}
-
 	toggleAllRowsBankGroups() {
 		if (this.isAllSelectedBankGroups()) {
 			this.selectionBankGroups.clear();
 			return;
 		}
-
 		this.selectionBankGroups.select(...this.dataSourceBankGroups.data);
 	}
-
 	getAll() {
 		const getAllServicesBU = forkJoin({
 			bankAll: this.bankService.GetAll(),
@@ -232,7 +222,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			},
 		});
 	}
-
 	getBusinessUser() {
 		const getAllServicesBU = forkJoin({
 			bankAll: this.bankService.GetAll(),
@@ -268,7 +257,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			},
 		});
 	}
-
 	loadPageProfile() {
 		this.currentBusinessUser.profileID = this.firstFormGroup.controls["profileID"].value;
 		if (this.currentBusinessUser.profileID !== null) {
@@ -290,23 +278,18 @@ export class BusinessusermaintenanceComponent implements OnInit {
 						if (_page !== undefined) this.pageListUserSelect.push(_item);
 					});
 				}
-
 				this.dataSourcePages = new MatTableDataSource(this.pageListUser);
 				this.selectionPages.select(...this.pageListUserSelect);
-
 				this.dataSourcePages.paginator = this.paginatorPages;
 				this.dataSourcePages.sort = this.sortPages;
 			});
 		}
 	}
-
 	loadBankUser() {
 		this.bankListUser = [];
 		this.bankListUserSelect = [];
-
 		this.bankList.forEach(itembank => {
 			let _bank = this.BusinessUserByID.businessUserBanks !== undefined ? this.BusinessUserByID.businessUserBanks.find(f => f.bankID === itembank.bankID) : undefined;
-
 			let _item: BusinessUserBank = new BusinessUserBank();
 			_item.businessUserBankID = _bank !== undefined ? _bank.businessUserBankID : Guid.EMPTY;
 			_item.bankID = itembank.bankID;
@@ -314,18 +297,14 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.bankListUser.push(_item);
 			if (_bank !== undefined) this.bankListUserSelect.push(_item);
 		});
-
 		this.dataSourceBanks = new MatTableDataSource(this.bankListUser);
 		this.selectionBanks.select(...this.bankListUserSelect);
 	}
-
 	loadBankGroupUser() {
 		this.bankGroupListUser = [];
 		this.bankGroupListUserSelect = [];
-
 		this.bankGroupList.forEach(itembank => {
 			let _bankGroup = this.BusinessUserByID.businessUserBankGroups !== undefined ? this.BusinessUserByID.businessUserBankGroups.find(f => f.bankGroupID === itembank.bankGroupID) : undefined;
-
 			let _item: BusinessUserBankGroup = new BusinessUserBankGroup();
 			_item.businessUserBankGroupID = _bankGroup !== undefined ? _bankGroup.businessUserBankGroupID : Guid.EMPTY;
 			_item.bankGroupID = itembank.bankGroupID;
@@ -333,16 +312,13 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.bankGroupListUser.push(_item);
 			if (_bankGroup !== undefined) this.bankGroupListUserSelect.push(_item);
 		});
-
 		this.dataSourceBankGroups = new MatTableDataSource(this.bankGroupListUser);
 		this.selectionBankGroups.select(...this.bankGroupListUserSelect);
 	}
-
 	@HostListener("window:keydown.alt.r", ["$event"])
 	Back() {
 		this.router.navigate(["security/businessuser/list"]);
 	}
-
 	@HostListener("window:keydown.alt.c", ["$event"])
 	Clean(): void {
 		if (this.businessUserID != undefined && this.businessUserID != null) {
@@ -351,14 +327,12 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.currentBusinessUser = new BusinessUserRequest();
 		}
 	}
-
 	firstFormGroup!: FormGroup;
 	emailPattern: any = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i;
 	//Acepta letras, números y guiones. Mínimo 5 y máximo 20.
 	lettersPattern: any = /^[a-z0-9_-]{5,20}$/;
 	//Al menos debe contener una mayúscula, una minúscula, un número y un caracter especial. Mínimo 8.
 	passwordPattern: any = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/;
-
 	onInitForm() {
 		this.firstFormGroup = this._formBuilder.group({
 			profileID: new FormControl("", [Validators.required]),
@@ -367,32 +341,26 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			businessUserLastName: new FormControl("", [Validators.required, Validators.maxLength(50)]),
 			businessUserEmail: new FormControl("", [Validators.required, Validators.pattern(this.emailPattern)]),
 			businessUserPassword: new FormControl("", [Validators.required, Validators.minLength(4), Validators.maxLength(20)]),
-			// Validators.pattern(this.passwordPattern)
 		});
 	}
-
 	get frm1(): { [key: string]: AbstractControl } {
 		return this.firstFormGroup.controls;
 	}
-
 	@HostListener("window:keydown.alt.s", ["$event"])
 	Save() {
 		if (this.firstFormGroup.invalid) {
 			this.sweetAlertService.messageTextBox("Complete the required fields.");
 			return;
 		}
-
 		if (this.BusinessUserByID.businessUserID !== Guid.EMPTY) {
 			this.currentBusinessUser.businessUserID = this.BusinessUserByID.businessUserID;
 		}
-
 		this.currentBusinessUser.profileID = this.firstFormGroup.controls["profileID"].value;
 		this.currentBusinessUser.businessUserName = this.firstFormGroup.controls["businessUserName"].value;
 		this.currentBusinessUser.businessUserFirstName = this.firstFormGroup.controls["businessUserFirstName"].value;
 		this.currentBusinessUser.businessUserLastName = this.firstFormGroup.controls["businessUserLastName"].value;
 		this.currentBusinessUser.businessUserEmail = this.firstFormGroup.controls["businessUserEmail"].value;
 		this.currentBusinessUser.businessUserPassword = this.firstFormGroup.controls["businessUserPassword"].value;
-
 		if (!this.selectionPages.isEmpty()) {
 			this.currentBusinessUser.businessUserPages = [];
 			this.selectionPages.selected.forEach(itemPage => {
@@ -405,7 +373,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.currentBusinessUser.businessUserPages.push(_item);
 			});
 		}
-
 		if (!this.selectionBanks.isEmpty()) {
 			this.currentBusinessUser.businessUserBanks = [];
 			this.selectionBanks.selected.forEach(itemBank => {
@@ -415,7 +382,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.currentBusinessUser.businessUserBanks.push(_item);
 			});
 		}
-
 		if (!this.selectionBankGroups.isEmpty()) {
 			this.currentBusinessUser.businessUserBankGroups = [];
 			this.selectionBankGroups.selected.forEach(itemBakGroup => {
@@ -425,15 +391,11 @@ export class BusinessusermaintenanceComponent implements OnInit {
 				this.currentBusinessUser.businessUserBankGroups.push(_item);
 			});
 		}
-
 		const swError = this.validateFormField(this.currentBusinessUser);
 		if (swError) {
 			this.sweetAlertService.messageTextBox("Please complete all mandatory fields or correct wrong values to continue.");
 			return;
 		}
-
-		console.log("this.currentBusinessUser", this.currentBusinessUser);
-
 		this.sweetAlertService.confirmBox("Are you sure you want to save the changes?", "Yes", "No").then(response => {
 			if (response.isConfirmed) {
 				if (this.businessUserID != undefined && this.businessUserID != null && this.businessUserID != "") {
@@ -459,7 +421,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			}
 		});
 	}
-
 	validateFormField(param: BusinessUserRequest): boolean {
 		let parameter = param;
 		let swValidate: boolean = false;
@@ -486,37 +447,11 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			this.firstFormGroup.controls["businessUserPassword"].setValue("");
 			swValidate = true;
 		}
-
 		return swValidate;
 	}
-
 	imageName = signal("");
-	// fileSize = signal(0);
 	imagePreview = signal("");
 	@ViewChild("fileInput") fileInput: ElementRef | undefined;
-
-	// onFileChange(event: any): void {
-	// 	const file = event.target.files[0] as File | null;
-	// 	this.uploadFile(file);
-	// }
-
-	// uploadFile(file: File | null): void {
-	// 	if (file && file.type.startsWith("image/")) {
-	// 		const reader = new FileReader();
-	// 		reader.onload = (e: ProgressEvent<FileReader>) => {
-	// 			if (e.target && e.target.result) {
-	// 				this.imagePreview.set(e.target.result as string);
-	// 				const base64String = btoa(new Uint8Array(e.target.result as ArrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), ""));
-
-	// 				this.currentBusinessUser.businessUserPhoto = base64String;
-	// 				console.log("base64String", base64String);
-	// 			}
-	// 		};
-	// 		reader.readAsDataURL(file);
-	// 		this.imageName.set(file.name);
-	// 	}
-	// }
-
 	public onFileSelected(event: any) {
 		const files = event.target.files;
 		this.toFilesBase64(files, this.selectedFiles).subscribe((res: SelectedFiles[]) => {
@@ -530,9 +465,6 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			}
 		});
 	}
-
-	public selectedFiles: SelectedFiles[] = [];
-
 	public toFilesBase64(files: File[], selectedFiles: SelectedFiles[]): Observable<SelectedFiles[]> {
 		const result = new AsyncSubject<SelectedFiles[]>();
 		if (files?.length) {
@@ -555,14 +487,11 @@ export class BusinessusermaintenanceComponent implements OnInit {
 			return result;
 		}
 	}
-
 	removeImage(): void {
 		this.imageName.set("");
-		// this.fileSize.set(0);
 		this.imagePreview.set("");
 	}
 }
-
 export interface SelectedFiles {
 	name: string;
 	file: any;
