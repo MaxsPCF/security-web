@@ -25,11 +25,11 @@
 			<div class="card-body">
 				<div class="row mb-3">
 					<div class="col-md-6 col-sm-12">
-						<label class="label-form-enazul text-primary mt-1"  data-security="ProfileName">Profile Name</label>
+						<label class="label-form-enazul text-primary mt-1" data-security="ProfileName">Profile Name</label>
 						<input name="profileName" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="profileTemp.profileName" required />
 					</div>
 					<div class="col-md-6 col-sm-12">
-						<label class="label-form-enazul text-primary mt-1"  data-security="ProfileDescription">Profile Description</label>
+						<label class="label-form-enazul text-primary mt-1" data-security="ProfileDescription">Profile Description</label>
 						<input name="profileDescription" class="form-control form-control-sm" type="text" maxlength="100" [(ngModel)]="profileTemp.profileDescription" required />
 					</div>
 				</div>
@@ -40,13 +40,13 @@
 							<thead>
 								<tr>
 									<th style="width: 5%">N°</th>
-									<th  data-security="ProfileName">Page name</th>
-									<th style="width: 15%"  data-security="Create">Create</th>
-									<th style="width: 15%"  data-security="Update">Update</th>
-									<th style="width: 15%"  data-security="Delete">Delete</th>
-									<th style="width: 15%"  data-security="All">
+									<th data-security="ProfileName">Page name</th>
+									<th style="width: 15%" data-security="Create">Create</th>
+									<th style="width: 15%" data-security="Update">Update</th>
+									<th style="width: 15%" data-security="Delete">Delete</th>
+									<th style="width: 15%">
 										<input type="checkbox" name="chkAllProfile" (change)="onSelectAllChange($event)" [indeterminate]="indeterminate" [checked]="checked" />
-										All
+										<span data-security="All" class="all">All</span>
 									</th>
 								</tr>
 							</thead>

@@ -31,7 +31,7 @@ export class BanklistComponent implements OnInit {
 	BankName: string = "";
 	BankNameComercial: string = "";
 	Page: number = 1;
-	PageSize: number = 15;
+	PageSize: number = 10;
 	Banks: BankSimpleResponse[] = [];
 	BanksFilter: BankSimpleResponse[] = [];
 	HtmlToExcel: HtmlToExcel = new HtmlToExcel();

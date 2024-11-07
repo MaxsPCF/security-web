@@ -17,16 +17,16 @@
 												<div class="numOrder"><span>1</span></div>
 												<label for="bankCode" data-security="BankCode"><span>Bank code</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="bankCode" [(ngModel)]="BankCode" autocomplete="off" (keyup.enter)="applyFilter()"/>
+											<input type="text" class="txtBoxStyle" name="bankCode" [(ngModel)]="BankCode" autocomplete="off" (keyup.enter)="applyFilter()" />
 										</div>
 									</div>
 									<div class="inputRowGap cold-md-12">
 										<div class="filtersRow ng-star-inserted">
 											<div class="idx-lbl">
 												<div class="numOrder"><span>2</span></div>
-												<label for="bankName"  data-security="BankName"><span>Bank name</span></label>
+												<label for="bankName" data-security="BankName"><span>Bank name</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="bankName" [(ngModel)]="BankName" autocomplete="off" (keyup.enter)="applyFilter()"/>
+											<input type="text" class="txtBoxStyle" name="bankName" [(ngModel)]="BankName" autocomplete="off" (keyup.enter)="applyFilter()" />
 										</div>
 									</div>
 									<div class="inputRowGap cold-md-12">
@@ -35,7 +35,7 @@
 												<div class="numOrder"><span>2</span></div>
 												<label for="bankNameComercial" data-security="BankNameComercial"><span>Bank name comercial</span></label>
 											</div>
-											<input type="text" class="txtBoxStyle" name="bankNameComercial" [(ngModel)]="BankNameComercial" autocomplete="off" (keyup.enter)="applyFilter()"/>
+											<input type="text" class="txtBoxStyle" name="bankNameComercial" [(ngModel)]="BankNameComercial" autocomplete="off" (keyup.enter)="applyFilter()" />
 										</div>
 									</div>
 								</div>
@@ -65,6 +65,7 @@
 			<table class="int-table">
 				<thead>
 					<tr>
+						<th style="width: 5%">N°</th>
 						<th data-security="BankName">Bank Name</th>
 						<th style="width: 10%" data-security="Country">Country</th>
 						<th data-security="ContactName">Contact Name</th>
@@ -72,8 +73,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					@for ( bank of BanksFilter ; track bank.bankID){
+					@for ( bank of BanksFilter ; track bank.bankID; let index = $index){
 					<tr>
+						<td>{{ index + 1 }}</td>
 						<td class="text-start">{{ bank.bankName }}</td>
 						<td>
 							<span placement="top" [ngbTooltip]="bank.countryName">{{ bank.countryID }}</span>
@@ -89,7 +91,7 @@
 				</tbody>
 			</table>
 			<br />
-			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Banks.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true"  (pageChange)="RefreshList()" />
+			<ngb-pagination class="d-flex justify-content-center" [pageSize]="PageSize" [collectionSize]="Banks.length" [(page)]="Page" [maxSize]="5" [boundaryLinks]="true" (pageChange)="RefreshList()" />
 		</div>
 	</div>
 </div>

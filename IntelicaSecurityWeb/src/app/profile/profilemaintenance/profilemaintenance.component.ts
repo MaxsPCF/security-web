@@ -142,6 +142,11 @@ export class ProfilemaintenanceComponent implements OnInit {
 			return;
 		}
 
+		this.sweetAlertService.confirmBox("Do you want the changes to be updated for all users?", "Yes", "No").then(response => {
+			if (response.isConfirmed) {
+			}
+		});
+
 		this.currentProfile.profileID = this.swEdit ? this.profileId : Guid.EMPTY;
 		this.currentProfile.profileName = this.profileTemp.profileName;
 		this.currentProfile.profileDescription = this.profileTemp.profileDescription;
@@ -168,8 +173,11 @@ export class ProfilemaintenanceComponent implements OnInit {
 			return;
 		}
 
+		let msgConfirm: string = "Are you sure you want to save the changes?";
+		if (this.swEdit) msgConfirm = "The changes will be updated for all users who have the profile, you want to save the changes?";
+
 		// console.log('this.currentProfile', this.currentProfile);
-		this.sweetAlertService.confirmBox("Are you sure you want to save the changes?", "Yes", "No").then(response => {
+		this.sweetAlertService.confirmBox(msgConfirm, "Yes", "No").then(response => {
 			if (response.isConfirmed) {
 				if (!this.swEdit) {
 					this.profileService.Create(this.currentProfile).subscribe({
@@ -177,7 +185,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 							if (response.profileID !== "") {
 								this.profileId = response.profileID;
 								this.getProfile();
-								this.sweetAlertService.messageTextBox("Process successfully completed.");
+								this.sweetAlertService.messageTextBox("The process was successfully updated.");
 							}
 						},
 						error: error => {},
@@ -188,7 +196,7 @@ export class ProfilemaintenanceComponent implements OnInit {
 						if (response.profileID !== "") {
 							this.profileId = response.profileID;
 							this.getProfile();
-							this.sweetAlertService.messageTextBox("Process successfully completed.");
+							this.sweetAlertService.messageTextBox("The process was successfully saved.");
 						}
 					});
 				}
