@@ -19,6 +19,7 @@ import { BankgrouplistComponent } from "./bankgroup/bankgrouplist/bankgrouplist.
 import { BankgroupmaintenanceComponent } from "./bankgroup/bankgroupmaintenance/bankgroupmaintenance.component";
 import { DemoComponent } from "./demo/demo.component";
 import { TermGuard } from "./common/TernGuard";
+import { BankwordmapComponent } from "./bank/bankwordmap/bankwordmap.component";
 export const routes: Routes = [
 	{
 		path: "security",
@@ -39,15 +40,16 @@ export const routes: Routes = [
 					{ path: "maintenance",canActivate: [TermGuard], component: BankmaintenanceComponent, data: { title: "Bank maintenance - New", pageRoot: "Bank" } },
 					{ path: "maintenance/:id",canActivate: [TermGuard], component: BankmaintenanceComponent, data: { title: "Bank maintenance - Edit", pageRoot: "Bank" } },
 					{ path: "maintenance/:read/:id",canActivate: [TermGuard], component: BankmaintenanceComponent, data: { title: "Bank maintenance - View", pageRoot: "Bank" } },
+					{ path: "map", canActivate: [TermGuard],component: BankwordmapComponent, data: { title: "Bank map", pageRoot: "Bank" } },
 				],
 			},
 			{
-				path: "bankgroup",
+				path: "bankGroup",
 				children: [
-					{ path: "list",canActivate: [TermGuard], component: BankgrouplistComponent, data: { title: "Bank Group list", pageRoot: "bankgroup" } },
-					{ path: "maintenance", canActivate: [TermGuard],component: BankgroupmaintenanceComponent, data: { title: "Bank Group maintenance - New", pageRoot: "bankgroup" } },
-					{ path: "maintenance/:id",canActivate: [TermGuard], component: BankgroupmaintenanceComponent, data: { title: "Bank Group maintenance - Edit", pageRoot: "bankgroup" } },
-					{ path: "maintenance/:edit/:id",canActivate: [TermGuard], component: BankgroupmaintenanceComponent, data: { title: "Bank Group maintenance - View", pageRoot: "bankgroup" } },
+					{ path: "list",canActivate: [TermGuard], component: BankgrouplistComponent, data: { title: "Bank Group list", pageRoot: "bankGroup" } },
+					{ path: "maintenance", canActivate: [TermGuard],component: BankgroupmaintenanceComponent, data: { title: "Bank Group maintenance - New", pageRoot: "bankGroup" } },
+					{ path: "maintenance/:id",canActivate: [TermGuard], component: BankgroupmaintenanceComponent, data: { title: "Bank Group maintenance - Edit", pageRoot: "bankGroup" } },
+					{ path: "maintenance/:edit/:id",canActivate: [TermGuard], component: BankgroupmaintenanceComponent, data: { title: "Bank Group maintenance - View", pageRoot: "bankGroup" } },
 				],
 			},
 			{
