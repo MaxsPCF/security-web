@@ -1,3 +1,4 @@
+// prueba
 FROM node:22-alpine3.19 AS node
 WORKDIR /app
 COPY ./IntelicaSecurityWeb .
