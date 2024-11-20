@@ -14,17 +14,18 @@ jobs:
   strategy:
    matrix:
     os: [ubuntu-latest]
-    node-version: [20]
+    node-version: [18]
 
   steps:
    - name: Checkout the source code
-     uses: actions/checkout@v4
+     uses: actions/checkout@v3
 
    - name: Setup and Install
-     uses: actions/setup-node@v4
+     uses: actions/setup-node@v3
      with:
       node-version: ${{ matrix.node-version}}
       cache: "npm"
+      cache-dependency-path: ./IntelicaSecurityWeb/package-lock.json
 
    - name: Accede carpeta proyecto
      run: cd ./IntelicaSecurityWeb
