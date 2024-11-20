@@ -20,16 +20,24 @@ jobs:
    - name: Checkout the source code
      uses: actions/checkout@v4
 
-   - name: Clean global cache
-     run: npm cache clean --force
-
-   - name: Setup Node.js ("${{ matrix.node-version}}" Version)
-     uses: actions/setup-node@v4
+   - name: Setup and Install
+      # You may pin to the exact commit or the version.
+      # uses: zirkelc/setup-and-install@e3adcf875c60174b04e738c1b11dcabdd5adc893
+     uses: zirkelc/setup-and-install@v1
      with:
-      node-version: ${{ matrix.node-version}}, # <-- use "latest" for the most recent Node.js version
+        # Node.js version for setup-node
+      node-version: 22.1.0
+
+   #- name: Setup Node.js ("${{ matrix.node-version}}" Version)
+   #  uses: actions/setup-node@v4
+    # with:
+    #  node-version: ${{ matrix.node-version}}, # <-- use "latest" for the most recent Node.js version
 
    - name: Install dependencies
-     run: npm install
+     run: cd ./Intelica.Security.Web
+
+   - name: Install dependencies
+     run: npm install -f
 
    - name: Build
      run: npm run build
