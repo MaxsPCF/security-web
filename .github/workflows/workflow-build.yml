@@ -1,0 +1,35 @@
+name: workflow Angular
+
+on:
+ push:
+  branches: ["main"]
+ pull_request:
+  branches: ["main"]
+
+jobs:
+ build:
+  name: Build (${{ matrix.node-version}}, ${{ matrix.os }})
+  runs-on: ubuntu-latest ${{ matrix.os }}
+
+  strategy:
+   matrix:
+    os: [ubuntu-latest]
+    node-version: [18.19.1]
+
+  steps:
+   - name: Checkout the source code
+     uses: actions/checkout@v4
+
+   - name: Clean global cache
+     run: npm cache clean --force
+
+   - name: Setup Node.js ("${{ matrix.node-version}}" Version)
+     uses: actions/setup-node@v4
+     with:
+      node-version: ${{ matrix.node-version}}, # <-- use "latest" for the most recent Node.js version
+
+   - name: Install dependencies
+     run: npm install
+
+   - name: Build
+     run: npm run build
