@@ -29,9 +29,6 @@ jobs:
    - name: Accede carpeta proyecto
      run: cd ./IntelicaSecurityWeb
 
-   - name: Clean global cache
-     run: npm cache clean --force
-
    - name: Install dependencies
      run: npm install -f
 
