@@ -10,6 +10,9 @@ jobs:
  build:
   name: Build (${{ matrix.node-version}}, ${{ matrix.os }})
   runs-on: ${{ matrix.os }}
+  defaults:
+   run:
+    working-directory: ./IntelicaSecurityWeb/
 
   strategy:
    matrix:
@@ -25,6 +28,7 @@ jobs:
      with:
       node-version: ${{ matrix.node-version}}
       cache: "npm"
+      cache-dependency-path: "./IntelicaSecurityWeb/package-lock.json"
 
    - name: Clean Cache
      working-directory: ./IntelicaSecurityWeb
