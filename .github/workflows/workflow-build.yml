@@ -10,28 +10,40 @@ jobs:
  build:
   name: Build (${{ matrix.node-version}}, ${{ matrix.os }})
   runs-on: ${{ matrix.os }}
+  defaults:
+   run:
+    working-directory: ./IntelicaSecurityWeb/
 
   strategy:
    matrix:
     os: [ubuntu-latest]
-    node-version: [18]
+    node-version: ["18.x"]
 
   steps:
    - name: Checkout the source code
-     uses: actions/checkout@v3
+     uses: actions/checkout@v4
 
    - name: Setup and Install
-     uses: actions/setup-node@v3
+     uses: actions/setup-node@v4
      with:
       node-version: ${{ matrix.node-version}}
       cache: "npm"
-      cache-dependency-path: ${{github.workspace}}/IntelicaSecurityWeb/package-lock.json
+      cache-dependency-path: "./IntelicaSecurityWeb/package-lock.json"
 
-   - name: Accede carpeta proyecto
-     run: cd ./IntelicaSecurityWeb
+   - name: Clean Cache
+     working-directory: ./IntelicaSecurityWeb
+     run: |
+      npm cache clean --force
+
+   #  - name: Accede carpeta proyecto
+   #    run: cd ./IntelicaSecurityWeb
 
    - name: Install dependencies
-     run: npm install -f
+     working-directory: ./IntelicaSecurityWeb
+     run: |
+      npm install -f
 
    - name: Build
-     run: npm run build
+     working-directory: ./IntelicaSecurityWeb
+     run: |
+      npm run build
