@@ -61,4 +61,4 @@ jobs:
      uses: docker/build-push-action@v6
      with:
       push: true
-      tags: MaxsPCF/security-web:latest
+      tags: maxspcf/security-web:latest
